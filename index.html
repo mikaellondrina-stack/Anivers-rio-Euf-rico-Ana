@@ -170,6 +170,12 @@
             gap: 8px;
         }
 
+        .music-player:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #ff44cc;
+            border-color: #ff99ee;
+        }
+
         .music-player i {
             font-size: 1.2rem;
             color: #ff66dd;
@@ -715,10 +721,12 @@
 
     buildTabs();
 
-    // Música Euphoria
-    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/10/27/audio_5446f2f5f1.mp3?filename=euphoria-lofy-125109.mp3');
+    // ========== MÚSICA EUPHORIA - LINK DO GOOGLE DRIVE ==========
+    // Link direto do seu áudio no Google Drive
+    const audio = new Audio('https://docs.google.com/uc?export=open&id=1NYChnOzKcihGjSgnGRoLLtB59zarPOiz');
     audio.loop = true;
     audio.volume = 0.5;
+    
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
     
@@ -728,14 +736,19 @@
             musicBtn.innerHTML = '<i class="fas fa-play"></i><span>♫ EUPHORIA</span>';
             isPlaying = false;
         } else {
-            audio.play().catch(e => console.log("Autoplay bloqueado"));
+            audio.play().catch(e => {
+                console.log("Autoplay bloqueado pelo navegador:", e);
+                showToast("Clique novamente para tocar a música", false);
+            });
             musicBtn.innerHTML = '<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>';
             isPlaying = true;
         }
     });
     
     audio.addEventListener('ended', () => {
-        if(isPlaying) audio.play();
+        if(isPlaying) {
+            audio.play();
+        }
     });
 
     // Scroll suave

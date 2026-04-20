@@ -148,6 +148,7 @@
             transform: scale(1.02);
         }
 
+        /* Music Player Button */
         .music-player {
             position: fixed;
             top: 16px;
@@ -564,7 +565,7 @@
 <body>
 <div class="particle-bg"></div>
 
-<!-- Botão Player de Música Euphoria -->
+<!-- Botão Player de Música -->
 <div id="musicToggle" class="music-player">
     <i class="fas fa-play"></i>
     <span>♫ EUPHORIA</span>
@@ -874,9 +875,9 @@
 
     buildTabs();
 
-    // ========== MÚSICA DO ANIVERSÁRIO - SNDUP ==========
-    // Seu áudio do WhatsApp hospedado no SndUp (funciona para o período da festa)
-    const audio = new Audio('http://sndup.net/dwpvf');
+    // ========== MÚSICA - LINK DO FIREBASE STORAGE ==========
+    // Seu áudio do WhatsApp hospedado no Firebase Storage (link direto e definitivo)
+    const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop = true;
     audio.volume = 0.5;
     
@@ -890,9 +891,9 @@
             isPlaying = false;
         } else {
             audio.play().then(() => {
-                console.log("🎵 Música tocando!");
+                console.log("🎵 Sua música do WhatsApp tocando!");
             }).catch(e => {
-                console.log("Erro ao tocar:", e);
+                console.log("Erro:", e);
                 showToast("Clique novamente para tocar a música", false);
             });
             musicBtn.innerHTML = '<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>';

@@ -290,7 +290,7 @@
             }
         }
 
-        /* Informações Extras do Evento (Churrasco, Bebidas, Piscina) */
+        /* Informações Extras do Evento */
         .extra-info {
             display: flex;
             flex-wrap: wrap;
@@ -377,6 +377,36 @@
         input:focus, select:focus {
             border-color: #ff44e6;
             box-shadow: 0 0 12px #ff44e6;
+        }
+
+        /* Campos dinâmicos de acompanhantes */
+        .acompanhantes-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 68, 204, 0.08);
+            border-radius: 1rem;
+            border: 1px dashed #ff66cc;
+        }
+
+        .acompanhante-input {
+            margin-bottom: 0.8rem;
+        }
+
+        .acompanhante-input label {
+            font-size: 0.8rem;
+            color: #ffa0f0;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .acompanhante-input input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(30, 15, 50, 0.8);
+            border: 1px solid #ff77cc;
+            border-radius: 60px;
+            color: white;
+            font-size: 0.9rem;
         }
 
         .lista-confirmacoes {
@@ -683,7 +713,7 @@
         </div>
     </div>
 
-    <!-- INFORMAÇÕES EXTRAS: Churrasco, Bebidas, Piscina -->
+    <!-- INFORMAÇÕES EXTRAS -->
     <div class="extra-info">
         <div class="extra-card">
             <i class="fas fa-drumstick-bite"></i>
@@ -718,13 +748,22 @@
                 </div>
                 <div class="input-group">
                     <select id="quantidade">
-                        <option value="1">1 pessoa</option>
-                        <option value="2">2 pessoas</option>
-                        <option value="3">3 pessoas</option>
-                        <option value="4">4 pessoas</option>
-                        <option value="5">5+ pessoas</option>
+                        <option value="1">1 pessoa (só eu)</option>
+                        <option value="2">2 pessoas (eu + 1)</option>
+                        <option value="3">3 pessoas (eu + 2)</option>
+                        <option value="4">4 pessoas (eu + 3)</option>
+                        <option value="5">5 pessoas (eu + 4)</option>
                     </select>
                 </div>
+                
+                <!-- Container dinâmico para acompanhantes -->
+                <div id="acompanhantesContainer" class="acompanhantes-container" style="display: none;">
+                    <div style="font-size: 0.85rem; color: #ffa0f0; margin-bottom: 12px;">
+                        <i class="fas fa-users"></i> Informe o nome dos acompanhantes:
+                    </div>
+                    <div id="acompanhantesList"></div>
+                </div>
+                
                 <div style="text-align: center;">
                     <button type="submit" class="btn-neon"><i class="fas fa-check-circle"></i> Confirmar presença</button>
                 </div>
@@ -771,11 +810,40 @@
     const db = getFirestore(app);
     const confirmacoesRef = collection(db, "confirmacoes");
 
-    // ---- RSVP ----
+    // ---- RSVP com campos dinâmicos ----
     const form = document.getElementById('formConfirmacao');
     const nomeInput = document.getElementById('nome');
     const quantidadeSelect = document.getElementById('quantidade');
+    const acompanhantesContainer = document.getElementById('acompanhantesContainer');
+    const acompanhantesList = document.getElementById('acompanhantesList');
     const listaDiv = document.getElementById('listaConfirmados');
+
+    // Função para gerar campos de acompanhantes
+    function gerarCamposAcompanhantes(quantidade) {
+        const numAcompanhantes = parseInt(quantidade) - 1;
+        
+        if (numAcompanhantes <= 0) {
+            acompanhantesContainer.style.display = 'none';
+            return;
+        }
+        
+        acompanhantesContainer.style.display = 'block';
+        let html = '';
+        for (let i = 1; i <= numAcompanhantes; i++) {
+            html += `
+                <div class="acompanhante-input">
+                    <label><i class="fas fa-user-friends"></i> Acompanhante ${i}</label>
+                    <input type="text" name="acompanhante${i}" placeholder="Nome do acompanhante ${i}" class="acompanhante-nome">
+                </div>
+            `;
+        }
+        acompanhantesList.innerHTML = html;
+    }
+
+    // Evento para quando mudar a quantidade
+    quantidadeSelect.addEventListener('change', (e) => {
+        gerarCamposAcompanhantes(e.target.value);
+    });
 
     function showToast(message, isError = false) {
         const existingToast = document.querySelector('.toast-msg');
@@ -795,16 +863,38 @@
             showToast("Por favor, digite seu nome!", true);
             return;
         }
+        
         const quantidade = quantidadeSelect.value;
+        
+        // Coletar nomes dos acompanhantes
+        const acompanhantes = [];
+        const inputsAcompanhantes = document.querySelectorAll('.acompanhante-nome');
+        inputsAcompanhantes.forEach(input => {
+            if (input.value.trim()) {
+                acompanhantes.push(input.value.trim());
+            }
+        });
+        
         try {
             await addDoc(confirmacoesRef, {
                 nome: nome,
                 quantidade: quantidade,
+                acompanhantes: acompanhantes,
                 timestamp: serverTimestamp()
             });
-            showToast(`✨ Confirmado, ${nome}! ✨`);
+            
+            // Mostrar mensagem personalizada com nomes
+            let msg = `✨ Confirmado, ${nome}! ✨`;
+            if (acompanhantes.length > 0) {
+                msg += `\n👥 Acompanhantes: ${acompanhantes.join(', ')}`;
+            }
+            showToast(msg, false);
+            
             form.reset();
             nomeInput.value = '';
+            quantidadeSelect.value = '1';
+            acompanhantesContainer.style.display = 'none';
+            acompanhantesList.innerHTML = '';
         } catch (error) {
             console.error("Erro Firebase:", error);
             showToast("Erro ao confirmar. Tente novamente.", true);
@@ -822,7 +912,14 @@
             const data = doc.data();
             const nomeExibido = data.nome || "Anônimo";
             const qtd = data.quantidade || "1";
-            html += `<div class="confirm-item"><i class="fas fa-glitter" style="color:#ff88ee;"></i> <strong>${escapeHtml(nomeExibido)}</strong> - ${qtd} pessoa(s) confirmadas</div>`;
+            const acompanhantes = data.acompanhantes || [];
+            
+            let acompanhantesText = '';
+            if (acompanhantes.length > 0) {
+                acompanhantesText = ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${acompanhantes.join(', ')})</span>`;
+            }
+            
+            html += `<div class="confirm-item"><i class="fas fa-glitter" style="color:#ff88ee;"></i> <strong>${escapeHtml(nomeExibido)}</strong> - ${qtd} pessoa(s)${acompanhantesText}</div>`;
         });
         listaDiv.innerHTML = html;
     });
@@ -865,7 +962,7 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Personagens
+    // Personagens - Lista expandida com 10 opções
     const characters = [
         { id: "maddy", name: "MADDY PEREZ", ator: "Alexa Demie", 
           estilo: "🔥 Sexy, confiante, roupas justas, maquiagem marcante, delineado forte.",
@@ -875,10 +972,6 @@
           estilo: "💖 Romântico, feminino, tons pastéis, brilho delicado.",
           pinterest: "https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits",
           google: "https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },
-        { id: "kat", name: "KAT HERNANDEZ", ator: "Barbie Ferreira", 
-          estilo: "🖤 Dark, couro, ousado, dominante.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=kat%20hernandez%20euphoria%20outfits",
-          google: "https://www.google.com/search?q=kat+euphoria+outfits&tbm=isch" },
         { id: "jules", name: "JULES VAUGHN", ator: "Hunter Schafer", 
           estilo: "🌈 Artístico, colorido, criativo, maquiagem experimental.",
           pinterest: "https://www.pinterest.com/search/pins/?q=jules%20euphoria%20makeup",
@@ -890,7 +983,27 @@
         { id: "nate", name: "NATE JACOBS", ator: "Jacob Elordi", 
           estilo: "🧊 Simples, atlético, masculino, cores neutras.",
           pinterest: "https://www.pinterest.com/search/pins/?q=nate%20jacobs%20euphoria%20style",
-          google: "https://www.google.com/search?q=nate+jacobs+euphoria+outfits&tbm=isch" }
+          google: "https://www.google.com/search?q=nate+jacobs+euphoria+outfits&tbm=isch" },
+        { id: "fez", name: "FEZCO", ator: "Angus Cloud", 
+          estilo: "🌿 Estilo streetwear, descontraído, camisas largas, vibe tranquila e leal.",
+          pinterest: "https://www.pinterest.com/search/pins/?q=fezco%20euphoria%20style",
+          google: "https://www.google.com/search?q=fezco+euphoria+outfits&tbm=isch" },
+        { id: "lexi", name: "LEXI HOWARD", ator: "Maude Apatow", 
+          estilo: "📚 Estilo mais básico e intelectual, tons neutros, roupas confortáveis, observadora.",
+          pinterest: "https://www.pinterest.com/search/pins/?q=lexi%20howard%20euphoria%20style",
+          google: "https://www.google.com/search?q=lexi+euphoria+outfits&tbm=isch" },
+        { id: "kat", name: "KAT HERNANDEZ", ator: "Barbie Ferreira", 
+          estilo: "🖤 Dark, couro, ousado, dominante, cheia de atitude.",
+          pinterest: "https://www.pinterest.com/search/pins/?q=kat%20hernandez%20euphoria%20outfits",
+          google: "https://www.google.com/search?q=kat+euphoria+outfits&tbm=isch" },
+        { id: "cal", name: "CAL JACOBS", ator: "Eric Dane", 
+          estilo: "👔 Estilo sóbrio, camisas sociais, looks de pai rico, ar misterioso.",
+          pinterest: "https://www.pinterest.com/search/pins/?q=cal%20jacobs%20euphoria%20style",
+          google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" },
+        { id: "maddy2", name: "MADDY (DETALHADO)", ator: "Alexa Demie", 
+          estilo: "💎 Glitter nos olhos, croped, delineado dramático, poder e sensualidade.",
+          pinterest: "https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20makeup",
+          google: "https://www.google.com/search?q=maddy+perez+euphoria+makeup&tbm=isch" }
     ];
 
     const tabsContainer = document.getElementById('tabsContainer');
@@ -921,7 +1034,7 @@
         const html = `
             <div class="personagem-header">
                 <h3>${character.name}</h3>
-                <div class="ator">✨ interpretada por ${character.ator} ✨</div>
+                <div class="ator">✨ interpretada(o) por ${character.ator} ✨</div>
                 <div class="estilo-box">
                     <i class="fas fa-palette"></i> ${character.estilo}
                 </div>
@@ -951,7 +1064,7 @@
 
     buildTabs();
 
-    // ========== MÚSICA - LINK DO FIREBASE STORAGE ==========
+    // Música
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop = true;
     audio.volume = 0.5;
@@ -966,7 +1079,7 @@
             isPlaying = false;
         } else {
             audio.play().then(() => {
-                console.log("🎵 Sua música do WhatsApp tocando!");
+                console.log("🎵 Música tocando!");
             }).catch(e => {
                 console.log("Erro:", e);
                 showToast("Clique novamente para tocar a música", false);

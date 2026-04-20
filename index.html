@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Aniversário Eufórico | Ana Beatriz</title>
+    <!-- Fontes e Estilos Base -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #05020a;
+            font-family: 'Inter', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Efeito de partículas / fundo gradiente animado */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #0a0318, #010001);
+        }
+
+        .particle-bg::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: repeating-linear-gradient(45deg, rgba(255, 0, 212, 0.03) 0px, rgba(255, 0, 212, 0.03) 2px, transparent 2px, transparent 8px);
+            animation: shiftBg 20s linear infinite;
+        }
+
+        @keyframes shiftBg {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        /* Glow geral */
+        .glow-text {
+            text-shadow: 0 0 6px #ff44e6, 0 0 12px #a020f0, 0 0 20px #ff66cc;
+        }
+
+        section {
+            padding: 80px 24px;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(15, 5, 30, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 100, 200, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 0, 212, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.3s;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 0 25px rgba(255, 80, 200, 0.6);
+            transform: translateY(-4px);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .hero-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff66d0;
+            box-shadow: 0 0 40px rgba(255, 102, 204, 0.8), 0 0 0 8px rgba(255, 50, 150, 0.2);
+            transition: all 0.3s;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px #ff44cc, 0 0 0 4px rgba(255, 80, 200, 0.3);}
+            100% { box-shadow: 0 0 30px #ff66f0, 0 0 0 12px rgba(255, 100, 200, 0.2);}
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 20px 0 10px;
+            background: linear-gradient(135deg, #FFB7FF, #FF44CC, #AA6EF0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            font-weight: 300;
+            background: rgba(0,0,0,0.5);
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Botão Neon */
+        .btn-neon {
+            background: none;
+            border: 2px solid #ff55dd;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 8px #ff44cc;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-neon:hover {
+            background: #ff44cc;
+            color: #000;
+            box-shadow: 0 0 25px #ff44cc, 0 0 8px #ff99ee;
+            border-color: #ff99ee;
+            transform: scale(1.02);
+        }
+
+        /* Formulário RSVP */
+        .rsvp-form {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+            padding: 2rem;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(30, 15, 50, 0.8);
+            border: 1px solid #ff77cc;
+            border-radius: 60px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff44e6;
+            box-shadow: 0 0 12px #ff44e6;
+        }
+
+        /* Lista confirmações */
+        .lista-confirmacoes {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0 8px;
+        }
+
+        .confirm-item {
+            background: rgba(255, 200, 240, 0.08);
+            margin: 8px 0;
+            padding: 10px 18px;
+            border-radius: 40px;
+            border-left: 4px solid #ff66dd;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Abas personagens */
+        .personagens-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff55bb;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: #ffddfa;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: #ff44cc;
+            color: #11001c;
+            box-shadow: 0 0 16px #ff44cc;
+            border-color: white;
+        }
+
+        .personagem-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .personagem-content.active-tab {
+            display: block;
+        }
+
+        .personagem-desc {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gallery img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 28px;
+            border: 2px solid #ff66d0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            transition: transform 0.3s, filter 0.2s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+            box-shadow: 0 0 28px #ff66dd;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,68,200,0.3);
+            font-size: 0.8rem;
+        }
+
+        /* Scroll Suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* responsividade */
+        @media (max-width: 780px) {
+            .hero h1 { font-size: 2.5rem; }
+            section { padding: 50px 20px; }
+            .gallery img { width: 150px; height: 150px; }
+            .tab-btn { padding: 6px 16px; font-size: 0.8rem; }
+        }
+
+        /* Toaster */
+        .toast-msg {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff44ddcc;
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: fadeUp 0.2s ease;
+            border-left: 6px solid white;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; bottom: 0; }
+            to { opacity: 1; bottom: 25px; }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #110022;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff44cc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="particle-bg"></div>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <img class="hero-avatar" src="https://yawning-coffee-5jwxmjh0mv.edgeone.app/imagem_cortada_circular%20(11).png" alt="Ana Beatriz">
+    <h1>Ana Beatriz</h1>
+    <p>✦ Aniversário Eufórico ✦</p>
+    <div style="margin-top: 30px;">
+        <a href="#rsvp" class="btn-neon" style="text-decoration: none; display: inline-block;">✨ CONFIRMAR PRESENÇA ✨</a>
+    </div>
+</section>
+
+<!-- RSVP Section -->
+<section id="rsvp">
+    <div class="glass-card" style="padding: 30px 24px;">
+        <h2 style="font-size: 2rem; text-align: center; margin-bottom: 24px;"><i class="fas fa-star-of-life" style="color:#ff66dd;"></i> RSVP · Confirmação <i class="fas fa-heart" style="color:#ff44cc;"></i></h2>
+        <div class="rsvp-form">
+            <form id="formConfirmacao">
+                <div class="input-group">
+                    <input type="text" id="nome" placeholder="Seu nome *" required>
+                </div>
+                <div class="input-group">
+                    <select id="quantidade">
+                        <option value="1">1 pessoa</option>
+                        <option value="2">2 pessoas</option>
+                        <option value="3">3 pessoas</option>
+                        <option value="4">4 pessoas</option>
+                        <option value="5">5+ pessoas</option>
+                    </select>
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn-neon"><i class="fas fa-check-circle"></i> Confirmar presença</button>
+                </div>
+            </form>
+        </div>
+        <div style="margin-top: 20px;">
+            <h3><i class="fas fa-users"></i> Confirmados até agora ✨</h3>
+            <div id="listaConfirmados" class="lista-confirmacoes">
+                <div style="text-align:center; padding:20px;">Carregando convidados...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Personagens inspirações -->
+<section id="inspiracoes">
+    <h2 style="font-size: 2.5rem; text-align:center; margin-bottom: 20px;">✦ PERSONAGENS INSPIRAÇÃO ✦</h2>
+    <div class="personagens-tabs" id="tabsContainer">
+        <!-- gerado via JS, mas com fallback manual (já inserimos os botões) -->
+    </div>
+    <div id="personagemContentArea" class="glass-card" style="padding: 28px 20px; margin-top: 20px;">
+        <!-- conteúdo dinâmico das abas -->
+    </div>
+</section>
+
+<footer>
+    <p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p>
+    <p style="margin-top: 12px;"><i class="fas fa-camera"></i> glitter, drama e brilho infinito</p>
+</footer>
+
+<!-- Firebase SDKs -->
+<script type="module">
+    // Configuração do Firebase fornecida
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAgv65CANczS-6hdlEVaE4uPRvnXH9k1Sg",
+        authDomain: "anivers-60227.firebaseapp.com",
+        projectId: "anivers-60227",
+        storageBucket: "anivers-60227.firebasestorage.app",
+        messagingSenderId: "1062098075117",
+        appId: "1:1062098075117:web:4be4c466d4894a37e03be4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const confirmacoesRef = collection(db, "confirmacoes");
+
+    // ---- RSVP Form + Lista em tempo real ----
+    const form = document.getElementById('formConfirmacao');
+    const nomeInput = document.getElementById('nome');
+    const quantidadeSelect = document.getElementById('quantidade');
+    const listaDiv = document.getElementById('listaConfirmados');
+
+    // Função para exibir toast
+    function showToast(message, isError = false) {
+        const existingToast = document.querySelector('.toast-msg');
+        if(existingToast) existingToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.textContent = message;
+        if(isError) toast.style.background = "#ff2266cc";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Enviar confirmação
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nome = nomeInput.value.trim();
+        if (!nome) {
+            showToast("Por favor, digite seu nome!", true);
+            return;
+        }
+        const quantidade = quantidadeSelect.value;
+        try {
+            await addDoc(confirmacoesRef, {
+                nome: nome,
+                quantidade: quantidade,
+                timestamp: serverTimestamp()
+            });
+            showToast(`✨ Confirmado, ${nome}! ✨`);
+            form.reset();
+            nomeInput.value = '';
+        } catch (error) {
+            console.error("Erro Firebase:", error);
+            showToast("Erro ao confirmar. Tente novamente.", true);
+        }
+    });
+
+    // Lista em tempo real
+    const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
+    onSnapshot(q, (snapshot) => {
+        if (snapshot.empty) {
+            listaDiv.innerHTML = '<div class="confirm-item" style="text-align:center;">💫 Nenhuma confirmação ainda. Seja o primeiro! 💫</div>';
+            return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const nomeExibido = data.nome || "Anônimo";
+            const qtd = data.quantidade || "1";
+            html += `<div class="confirm-item"><i class="fas fa-glitter" style="color:#ff88ee;"></i> <strong>${escapeHtml(nomeExibido)}</strong> - ${qtd} pessoa(s) confirmadas</div>`;
+        });
+        listaDiv.innerHTML = html;
+    });
+
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // ------------------- Personagens / Abas com galeria -------------------
+    const characters = [
+        { id: "maddie", name: "MADDIE", desc: "Estilo ousado, glitter nos olhos, poder e confiança. A rainha do drama com brilho intenso.", images: [
+            "https://i.pinimg.com/originals/8c/2a/6c/8c2a6c.jpg",
+            "https://i.pinimg.com/originals/5f/63/0e/5f630e.jpg",
+            "https://i.pinimg.com/originals/91/91/aa/9191aa.jpg"
+        ]},
+        { id: "cassie", name: "CASSIE", desc: "Vulnerável e romântica, porém com uma estética doce e melancólica. Looks com laços e tons pastel neon.", images: [
+            "https://i.pinimg.com/originals/3a/76/85/3a7685.jpg",
+            "https://i.pinimg.com/originals/7c/2b/5f/7c2b5f.jpg",
+            "https://i.pinimg.com/originals/2e/9f/2d/2e9f2d.jpg"
+        ]},
+        { id: "kat", name: "KAT", desc: "Poder feminino, maquiagem escura e atitude. Estética sexy e confiante, cheia de brilho e mistério.", images: [
+            "https://i.pinimg.com/originals/55/45/21/554521.jpg",
+            "https://i.pinimg.com/originals/66/12/7f/66127f.jpg",
+            "https://i.pinimg.com/originals/ab/cd/ef/abcdef.jpg"
+        ]},
+        { id: "jules", name: "JULES", desc: "Cores vibrantes, delineado artístico, cabelos coloridos. Liberdade e estilo único, inspiração total.", images: [
+            "https://i.pinimg.com/originals/fd/aa/21/fdaa21.jpg",
+            "https://i.pinimg.com/originals/9e/1a/8b/9e1a8b.jpg",
+            "https://i.pinimg.com/originals/12/34/56/123456.jpg"
+        ]},
+        { id: "rue", name: "RUE", desc: "Estética despojada e introspectiva, com olhos marcantes. Tons terrosos e brilho dramático.", images: [
+            "https://i.pinimg.com/originals/77/33/11/773311.jpg",
+            "https://i.pinimg.com/originals/88/44/22/884422.jpg",
+            "https://i.pinimg.com/originals/99/55/33/995533.jpg"
+        ]},
+        { id: "nate", name: "NATE", desc: "Atitude intensa e visual agressivo. Jaquetas, olhar penetrante e energia sombria.", images: [
+            "https://i.pinimg.com/originals/aa/bb/cc/aabbcc.jpg",
+            "https://i.pinimg.com/originals/dd/ee/ff/ddeeff.jpg",
+            "https://i.pinimg.com/originals/11/22/33/112233.jpg"
+        ]}
+    ];
+
+    const tabsContainer = document.getElementById('tabsContainer');
+    const contentArea = document.getElementById('personagemContentArea');
+
+    // Criar abas e conteúdo inicial
+    function buildTabs() {
+        tabsContainer.innerHTML = '';
+        characters.forEach((char, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn';
+            if(idx === 0) btn.classList.add('active');
+            btn.textContent = char.name;
+            btn.dataset.id = char.id;
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                showCharacterContent(char.id);
+            });
+            tabsContainer.appendChild(btn);
+        });
+        // Mostrar primeiro personagem
+        showCharacterContent(characters[0].id);
+    }
+
+    function showCharacterContent(charId) {
+        const character = characters.find(c => c.id === charId);
+        if(!character) return;
+        const galleryHTML = character.images.map(imgUrl => `<img src="${imgUrl}" alt="${character.name} style" loading="lazy" onerror="this.src='https://placehold.co/300x300/2a0e2e/ff88cc?text=Euphoria+Glow'">`).join('');
+        const html = `
+            <div class="personagem-desc">
+                <h3 style="font-size: 2rem; color:#ffa0f0;">${character.name}</h3>
+                <p style="max-width: 600px; margin: 12px auto;">${character.desc}</p>
+            </div>
+            <div class="gallery">
+                ${galleryHTML}
+            </div>
+        `;
+        contentArea.innerHTML = html;
+        // ativar animação fade
+        contentArea.style.opacity = '0';
+        setTimeout(() => contentArea.style.opacity = '1', 20);
+    }
+
+    buildTabs();
+
+    // Pequeno ajuste para imagens quebradas (fallback)
+    window.addEventListener('load', () => {
+        const allImgs = document.querySelectorAll('.gallery img');
+        allImgs.forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'https://placehold.co/300x300/1c0a2a/ff77dd?text=Glitter';
+            });
+        });
+    });
+
+    // Suavidade nos links internos do hero
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if(href === "#" || href === "") return;
+            const target = document.querySelector(href);
+            if(target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Glow extra para elementos e botões animados (efeito pulsante em alguns textos)
+    const styleGlow = document.createElement('style');
+    styleGlow.textContent = `
+        .btn-neon, .tab-btn {
+            transition: all 0.2s cubic-bezier(0.2, 1.2, 0.8, 1);
+        }
+        .glass-card {
+            transition: transform 0.25s ease, box-shadow 0.3s;
+        }
+        .confirm-item {
+            transition: 0.1s linear;
+        }
+    `;
+    document.head.appendChild(styleGlow);
+</script>
+</body>
+</html>

@@ -290,6 +290,62 @@
             }
         }
 
+        /* Informações Extras do Evento (Churrasco, Bebidas, Piscina) */
+        .extra-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 25px 0 15px;
+        }
+
+        .extra-card {
+            background: rgba(255, 68, 204, 0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 16px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 102, 204, 0.4);
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .extra-card:hover {
+            transform: translateY(-3px);
+            border-color: #ff66dd;
+            box-shadow: 0 0 20px rgba(255, 68, 204, 0.3);
+        }
+
+        .extra-card i {
+            font-size: 2rem;
+            color: #ff66dd;
+            margin-bottom: 10px;
+        }
+
+        .extra-card h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #ffa0f0;
+        }
+
+        .extra-card p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .extra-card .highlight {
+            color: #ff66dd;
+            font-weight: bold;
+        }
+
+        @media (max-width: 650px) {
+            .extra-card {
+                min-width: 100%;
+            }
+        }
+
         .rsvp-form {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(16px);
@@ -627,7 +683,26 @@
         </div>
     </div>
 
-    <div style="margin-top: 25px;">
+    <!-- INFORMAÇÕES EXTRAS: Churrasco, Bebidas, Piscina -->
+    <div class="extra-info">
+        <div class="extra-card">
+            <i class="fas fa-drumstick-bite"></i>
+            <h4>🍖 CHURRASCO</h4>
+            <p>Leve <span class="highlight">1kg de carne</span> por pessoa para entrar no clima!</p>
+        </div>
+        <div class="extra-card">
+            <i class="fas fa-cocktail"></i>
+            <h4>🥂 SHOTS DA ANIVERSARIANTE</h4>
+            <p>Vodka na boca <span class="highlight">dado pela Ana Beatriz</span> - vem tomar um shot!</p>
+        </div>
+        <div class="extra-card">
+            <i class="fas fa-swimmer"></i>
+            <h4>🏊 PISCINA LIBERADA</h4>
+            <p>Traga sua roupa de banho para <span class="highlight">aliviar o calor</span> e se divertir!</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px;">
         <a href="#rsvp" class="btn-neon">✨ CONFIRMAR PRESENÇA ✨</a>
     </div>
 </section>
@@ -675,6 +750,7 @@
     <p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p>
     <p style="margin-top: 10px;"><i class="fas fa-camera"></i> glitter, drama e brilho infinito</p>
     <p style="margin-top: 15px; font-size: 0.7rem;">Rua José Daniel Kielander, 468 - Jd. Arapongas ZN - Londrina/PR • 09/05 • 13h às 22h</p>
+    <p style="margin-top: 8px; font-size: 0.65rem; opacity: 0.7;">🍖 Leve 1kg de carne • 🥂 Shots de vodka pela aniversariante • 🏊 Piscina liberada</p>
 </footer>
 
 <!-- Firebase SDKs -->
@@ -876,7 +952,6 @@
     buildTabs();
 
     // ========== MÚSICA - LINK DO FIREBASE STORAGE ==========
-    // Seu áudio do WhatsApp hospedado no Firebase Storage (link direto e definitivo)
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop = true;
     audio.volume = 0.5;

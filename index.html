@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Aniversário Eufórico | Ana Beatriz</title>
-    <!-- FAVICON - Foto da Aniversariante -->
-    <link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
-    <link rel="shortcut icon" type="imager/png" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
-    <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
+    
+    <!-- FAVICON - Sua foto do Firebase Storage -->
+    <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media">
+    <link rel="shortcut icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media">
+    <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media">
     
     <!-- Fontes e Estilos Base -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -290,7 +291,6 @@
             }
         }
 
-        /* Informações Extras do Evento */
         .extra-info {
             display: flex;
             flex-wrap: wrap;
@@ -379,7 +379,6 @@
             box-shadow: 0 0 12px #ff44e6;
         }
 
-        /* Campos dinâmicos de acompanhantes */
         .acompanhantes-container {
             margin-top: 1rem;
             padding: 1rem;
@@ -883,7 +882,6 @@
                 timestamp: serverTimestamp()
             });
             
-            // Mostrar mensagem personalizada com nomes
             let msg = `✨ Confirmado, ${nome}! ✨`;
             if (acompanhantes.length > 0) {
                 msg += `\n👥 Acompanhantes: ${acompanhantes.join(', ')}`;
@@ -962,7 +960,7 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Personagens - Lista expandida com 10 opções
+    // Personagens - Lista expandida
     const characters = [
         { id: "maddy", name: "MADDY PEREZ", ator: "Alexa Demie", 
           estilo: "🔥 Sexy, confiante, roupas justas, maquiagem marcante, delineado forte.",
@@ -1000,7 +998,7 @@
           estilo: "👔 Estilo sóbrio, camisas sociais, looks de pai rico, ar misterioso.",
           pinterest: "https://www.pinterest.com/search/pins/?q=cal%20jacobs%20euphoria%20style",
           google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" },
-        { id: "maddy2", name: "MADDY (DETALHADO)", ator: "Alexa Demie", 
+        { id: "maddy2", name: "MADDY DETALHADO", ator: "Alexa Demie", 
           estilo: "💎 Glitter nos olhos, croped, delineado dramático, poder e sensualidade.",
           pinterest: "https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20makeup",
           google: "https://www.google.com/search?q=maddy+perez+euphoria+makeup&tbm=isch" }
@@ -1064,7 +1062,7 @@
 
     buildTabs();
 
-    // Música
+    // Música - Link do Firebase Storage
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop = true;
     audio.volume = 0.5;

@@ -15,16 +15,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #05020a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* Fundo */
         .particle-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 30%, #0a0318, #010001); }
         
         section { padding: 60px 16px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         
-        /* Glassmorphism com glow reduzido */
         .glass-card { background: rgba(15, 5, 30, 0.65); backdrop-filter: blur(12px); border-radius: 1.5rem; border: 1px solid rgba(255, 100, 200, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.2s ease, box-shadow 0.3s; }
         .glass-card:hover { box-shadow: 0 0 20px rgba(255,80,200,0.3); transform: translateY(-4px); }
         
-        /* Hero */
         .hero { min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; padding: 40px 16px 60px; }
         
         .hero-avatar { width: min(200px, 45vw); height: min(200px, 45vw); border-radius: 50%; object-fit: cover; border: 4px solid #ff66d0; box-shadow: 0 0 20px rgba(255,102,204,0.6); animation: pulseGlow 2s infinite alternate; }
@@ -33,31 +30,26 @@
         .hero h1 { font-size: clamp(2.5rem, 12vw, 5rem); font-weight: 800; margin: 20px 0 10px; background: linear-gradient(135deg, #FFB7FF, #FF44CC, #AA6EF0); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; }
         .hero p { font-size: clamp(1rem, 4vw, 1.4rem); letter-spacing: 4px; background: rgba(0,0,0,0.5); display: inline-block; padding: 8px 20px; border-radius: 60px; backdrop-filter: blur(5px); }
         
-        /* Botões com glow mais forte só no hover */
         .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; color: #fff; border-radius: 40px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; }
         .btn-neon:hover { background: #ff44cc; color: #000; box-shadow: 0 0 20px #ff44cc; border-color: #ff99ee; transform: scale(1.02); }
         
         .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; }
         
-        /* Botão flutuante fixo (CTA) */
         .floating-cta { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.8); backdrop-filter: blur(16px); padding: 10px 24px; border-radius: 60px; border: 1px solid #ff66dd; box-shadow: 0 0 15px rgba(255,68,204,0.5); animation: floatPulse 1.5s infinite; }
         .floating-cta a { color: white; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         @keyframes floatPulse { 0% { box-shadow: 0 0 5px #ff44cc; } 100% { box-shadow: 0 0 20px #ff44cc; } }
         
-        /* Player de música responsivo */
         .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 10px 18px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .music-player i { font-size: 1.2rem; color: #ff66dd; animation: pulseIcon 1.5s infinite; }
         @keyframes pulseIcon { 0%,100% { text-shadow: 0 0 2px #ff44cc; } 50% { text-shadow: 0 0 12px #ff66ff; } }
-        @media (max-width: 768px) { .music-player { bottom: 80px; } } /* Evita conflito com botão fixo */
+        @media (max-width: 768px) { .music-player { bottom: 80px; } }
         
-        /* Countdown com urgência */
         .countdown-section { margin: 30px 0 20px; }
         .countdown-title { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 20px; text-align: center; color: #ffa0f0; }
         .countdown-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         .countdown-box { background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 1rem; padding: 15px 20px; text-align: center; min-width: 80px; border: 1px solid #ff66cc; transition: all 0.3s; }
         .countdown-number { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; color: #ff66dd; text-shadow: 0 0 5px #ff44cc; }
         
-        /* Cards de info com contraste melhorado */
         .event-info, .extra-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0 10px; }
         .info-card, .extra-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border-radius: 1rem; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border: 1px solid #ff88dd; }
         .info-card i, .extra-card i { font-size: 1.8rem; color: #ff66dd; }
@@ -67,7 +59,6 @@
         .counter-card { background: linear-gradient(135deg, rgba(255,68,204,0.25), rgba(170,68,255,0.25)); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 20px; margin: 20px auto; text-align: center; border: 1px solid #ff66dd; max-width: 400px; }
         .counter-number { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; color: #ff66dd; text-shadow: 0 0 5px #ff44cc; }
         
-        /* Formulário */
         .rsvp-form { background: rgba(0,0,0,0.6); backdrop-filter: blur(16px); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 2rem; }
         .input-group { margin-bottom: 1.2rem; }
         input, select { width: 100%; padding: 12px 16px; background: rgba(30,15,50,0.9); border: 1px solid #ff77cc; border-radius: 60px; color: white; font-size: 1rem; outline: none; }
@@ -81,7 +72,6 @@
         .lista-confirmacoes { max-height: 300px; overflow-y: auto; }
         .confirm-item { background: rgba(255,200,240,0.1); margin: 8px 0; padding: 10px 14px; border-radius: 40px; border-left: 4px solid #ff66dd; }
         
-        /* Abas e personagens */
         .personagens-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
         .tab-btn { background: rgba(0,0,0,0.5); border: 1px solid #ff55bb; padding: 8px 16px; border-radius: 40px; color: #ffddfa; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .tab-btn.active, .tab-btn:hover { background: #ff44cc; color: #11001c; box-shadow: 0 0 12px #ff44cc; }
@@ -96,8 +86,9 @@
         .poll-section { margin-top: 30px; }
         .poll-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
         .poll-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 15px 0; }
-        .poll-btn { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 16px; border-radius: 40px; cursor: pointer; color: white; }
+        .poll-btn { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 16px; border-radius: 40px; cursor: pointer; color: white; transition: 0.2s; }
         .poll-btn:hover { background: #ff44cc; color: #000; box-shadow: 0 0 10px #ff44cc; }
+        .poll-btn.voted { background: #ff44cc; color: #000; box-shadow: 0 0 15px #ff44cc; cursor: default; opacity: 0.7; }
         .poll-result { margin-top: 15px; font-size: 0.9rem; }
         
         footer { text-align: center; padding: 30px 16px; border-top: 1px solid rgba(255,68,200,0.3); font-size: 0.8rem; }
@@ -112,10 +103,7 @@
 
 <div class="particle-bg"></div>
 
-<!-- Botão flutuante CTA -->
 <div class="floating-cta"><a href="#rsvp"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA</a></div>
-
-<!-- Player música (mobile bottom-right ajustado) -->
 <div id="musicToggle" class="music-player"><i class="fas fa-play"></i><span>♫ EUPHORIA</span></div>
 
 <section class="hero" id="home">
@@ -124,8 +112,8 @@
     <p>✦ Aniversário Eufórico ✦</p>
     
     <div style="margin: 15px 0;">
-        <button id="copyLinkBtn" class="btn-neon btn-copy"><i class="fas fa-copy"></i> Copiar link do convite</button>
-        <button id="calendarBtn" class="btn-neon" style="margin-left: 10px;"><i class="fas fa-calendar-plus"></i> Adicionar ao calendário</button>
+        <button id="copyLinkBtn" class="btn-neon btn-copy"><i class="fas fa-copy"></i> Copiar link</button>
+        <button id="calendarBtn" class="btn-neon"><i class="fas fa-calendar-plus"></i> Adicionar ao calendário</button>
     </div>
     
     <div class="countdown-section">
@@ -179,15 +167,35 @@
     </div>
 </section>
 
-<section id="enquete"><div class="glass-card" style="padding: 20px 16px;"><h2 style="text-align:center;"><i class="fas fa-poll"></i> Qual personagem Euphoria você mais se identifica?</h2><div class="poll-card"><div class="poll-options" id="pollOptions"><button data-personagem="Maddie" class="poll-btn">💋 Maddie</button><button data-personagem="Cassie" class="poll-btn">💖 Cassie</button><button data-personagem="Jules" class="poll-btn">🌈 Jules</button><button data-personagem="Rue" class="poll-btn">💊 Rue</button><button data-personagem="Kat" class="poll-btn">🖤 Kat</button><button data-personagem="Fez" class="poll-btn">🌿 Fez</button></div><div id="pollResult" class="poll-result"></div></div></div></section>
+<!-- Enquete em tempo real -->
+<section id="enquete">
+    <div class="glass-card" style="padding: 20px 16px;">
+        <h2 style="text-align:center;"><i class="fas fa-poll"></i> Qual personagem Euphoria você mais se identifica?</h2>
+        <div class="poll-card">
+            <div class="poll-options" id="pollOptions">
+                <button data-personagem="Maddie" class="poll-btn">💋 Maddie</button>
+                <button data-personagem="Cassie" class="poll-btn">💖 Cassie</button>
+                <button data-personagem="Jules" class="poll-btn">🌈 Jules</button>
+                <button data-personagem="Rue" class="poll-btn">💊 Rue</button>
+                <button data-personagem="Kat" class="poll-btn">🖤 Kat</button>
+                <button data-personagem="Fez" class="poll-btn">🌿 Fez</button>
+            </div>
+            <div id="pollResult" class="poll-result"></div>
+        </div>
+    </div>
+</section>
 
-<section id="inspiracoes"><h2 style="font-size: clamp(1.5rem, 6vw, 2.5rem); text-align:center; margin-bottom: 20px;">✦ PERSONAGENS INSPIRAÇÃO ✦</h2><div class="personagens-tabs" id="tabsContainer"></div><div id="personagemContentArea" class="glass-card" style="padding: 20px 16px; margin-top: 20px;"></div></section>
+<section id="inspiracoes">
+    <h2 style="font-size: clamp(1.5rem, 6vw, 2.5rem); text-align:center; margin-bottom: 20px;">✦ PERSONAGENS INSPIRAÇÃO ✦</h2>
+    <div class="personagens-tabs" id="tabsContainer"></div>
+    <div id="personagemContentArea" class="glass-card" style="padding: 20px 16px; margin-top: 20px;"></div>
+</section>
 
-<footer><p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p><p style="margin-top: 10px;">Rua José Daniel Kielander, 468 - Londrina/PR • 09/05 • 13h às 22h</p></footer>
+<footer><p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p><p>Rua José Daniel Kielander, 468 - Londrina/PR • 09/05 • 13h às 22h</p></footer>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAgv65CANczS-6hdlEVaE4uPRvnXH9k1Sg",
@@ -200,6 +208,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const confirmacoesRef = collection(db, "confirmacoes");
+    const votosRef = doc(db, "enquete", "personagens");
 
     // Elementos
     const form = document.getElementById('formConfirmacao');
@@ -210,9 +219,102 @@
     const listaDiv = document.getElementById('listaConfirmados');
     const totalSpan = document.getElementById('totalPessoas');
     
-    // Controle de spam (limite por sessão)
     let hasConfirmed = sessionStorage.getItem('hasConfirmed');
-    
+    let userVoted = sessionStorage.getItem('userVotedPoll'); // controle de voto por sessão
+
+    // Inicializar documento de votos se não existir
+    async function initPoll() {
+        const docSnap = await getDoc(votosRef);
+        if (!docSnap.exists()) {
+            await setDoc(votosRef, {
+                Maddie: 0,
+                Cassie: 0,
+                Jules: 0,
+                Rue: 0,
+                Kat: 0,
+                Fez: 0
+            });
+        }
+    }
+    initPoll();
+
+    // Atualizar exibição da enquete em tempo real
+    function updatePollUI(votes) {
+        const total = Object.values(votes).reduce((a,b) => a + b, 0);
+        const pollResultDiv = document.getElementById('pollResult');
+        if (total === 0) {
+            pollResultDiv.innerHTML = '👆 Clique no seu personagem favorito!';
+            return;
+        }
+        let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+        for (const [personagem, count] of Object.entries(votes)) {
+            const percent = Math.round((count / total) * 100);
+            html += `
+                <div>
+                    <span style="display: inline-block; width: 80px;">${personagem}</span>
+                    <div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;">
+                        <div style="width: ${percent}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div>
+                    </div>
+                    <span style="margin-left: 10px;">${percent}% (${count})</span>
+                </div>
+            `;
+        }
+        html += '</div>';
+        pollResultDiv.innerHTML = html;
+    }
+
+    // Escutar mudanças nos votos em tempo real
+    onSnapshot(votosRef, (docSnap) => {
+        if (docSnap.exists()) {
+            updatePollUI(docSnap.data());
+        }
+    });
+
+    // Função para votar
+    async function votar(personagem) {
+        if (userVoted) {
+            showToast('Você já votou! 🎭', false);
+            return;
+        }
+        try {
+            // Incrementa o contador do personagem no Firestore
+            await updateDoc(votosRef, {
+                [personagem]: increment(1)
+            });
+            userVoted = true;
+            sessionStorage.setItem('userVotedPoll', 'true');
+            showConfetti();
+            showToast(`✨ Você votou em ${personagem}! ✨`);
+            // Desabilita visualmente os botões
+            document.querySelectorAll('.poll-btn').forEach(btn => {
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'default';
+                btn.classList.add('voted');
+            });
+        } catch (error) {
+            console.error("Erro ao votar:", error);
+            showToast('Erro ao registrar voto. Tente novamente.', true);
+        }
+    }
+
+    // Configurar eventos dos botões de votação
+    function setupPollButtons() {
+        const btns = document.querySelectorAll('.poll-btn');
+        btns.forEach(btn => {
+            // Se já votou, desabilita visualmente
+            if (userVoted) {
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'default';
+                btn.classList.add('voted');
+            }
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const personagem = btn.dataset.personagem;
+                votar(personagem);
+            });
+        });
+    }
+
     // Confetes
     function showConfetti() {
         for(let i=0;i<3;i++) setTimeout(() => {
@@ -310,7 +412,6 @@
         const d=Math.floor(diff/864e5), h=Math.floor((diff%864e5)/36e5), m=Math.floor((diff%36e5)/6e4), s=Math.floor((diff%6e4)/1e3);
         document.getElementById('days').innerHTML=d.toString().padStart(2,'0'); document.getElementById('hours').innerHTML=h.toString().padStart(2,'0');
         document.getElementById('minutes').innerHTML=m.toString().padStart(2,'0'); document.getElementById('seconds').innerHTML=s.toString().padStart(2,'0');
-        // urgência visual
         if(d<=3) document.querySelectorAll('.countdown-box').forEach(b=>b.style.borderColor='#ff44cc');
     }
     updateCountdown(); setInterval(updateCountdown,1000);
@@ -330,16 +431,6 @@
     function animateGlitter(){ if(document.hidden) return; ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{ p.update(); p.draw(); }); animId=requestAnimationFrame(animateGlitter); }
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
-    
-    // Enquete localStorage
-    let pollVotes={Maddie:0,Cassie:0,Jules:0,Rue:0,Kat:0,Fez:0}, userVoted=false;
-    const saved=localStorage.getItem('euphoriaPollVotes'); if(saved) pollVotes=JSON.parse(saved);
-    if(localStorage.getItem('euphoriaUserVoted')==='true') userVoted=true;
-    function updatePoll(){ const total=Object.values(pollVotes).reduce((a,b)=>a+b,0); if(!total){ document.getElementById('pollResult').innerHTML='👆 Clique no seu personagem favorito!'; return; }
-    let html=''; for(let [p,v] of Object.entries(pollVotes)){ let perc=Math.round(v/total*100); html+=`<div><span style="display:inline-block;width:80px">${p}</span><div style="display:inline-block;width:60%;background:rgba(255,68,204,0.2);border-radius:20px;overflow:hidden"><div style="width:${perc}%;background:linear-gradient(90deg,#ff44cc,#aa44ff);height:20px;border-radius:20px"></div></div><span style="margin-left:10px">${perc}% (${v})</span></div>`; }
-    document.getElementById('pollResult').innerHTML=html; }
-    updatePoll();
-    document.querySelectorAll('.poll-btn').forEach(btn=>btn.addEventListener('click',()=>{ if(userVoted){ showToast('Você já votou! 🎭'); return; } let p=btn.dataset.personagem; pollVotes[p]++; userVoted=true; localStorage.setItem('euphoriaPollVotes',JSON.stringify(pollVotes)); localStorage.setItem('euphoriaUserVoted','true'); updatePoll(); showConfetti(); showToast(`✨ Você é team ${p}! ✨`); }));
     
     // Personagens
     const chars = [
@@ -364,6 +455,9 @@
     const musicBtn=document.getElementById('musicToggle'); let playing=false;
     musicBtn.addEventListener('click',()=>{ if(playing){ audio.pause(); musicBtn.innerHTML='<i class="fas fa-play"></i><span>♫ EUPHORIA</span>'; } else{ audio.play().catch(e=>console.log); musicBtn.innerHTML='<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>'; } playing=!playing; });
     audio.addEventListener('ended',()=>{ if(playing) audio.play(); });
+    
+    // Inicializar botões de enquete após carregar DOM
+    setupPollButtons();
     
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){ let hash=this.getAttribute('href'); if(hash==="#") return; let el=document.querySelector(hash); if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); } }));
 </script>

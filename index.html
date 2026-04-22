@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Aniversário Eufórico | Ana Beatriz</title>
     
-    <!-- FAVICON - Sua foto -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     <link rel="shortcut icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    
     <style>
         * {
             margin: 0;
@@ -27,6 +30,16 @@
             scroll-behavior: smooth;
         }
 
+        #glitter-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         .particle-bg {
             position: fixed;
             top: 0;
@@ -37,27 +50,12 @@
             background: radial-gradient(circle at 20% 30%, #0a0318, #010001);
         }
 
-        .particle-bg::before {
-            content: "";
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: repeating-linear-gradient(45deg, rgba(255, 0, 212, 0.03) 0px, rgba(255, 0, 212, 0.03) 2px, transparent 2px, transparent 8px);
-            animation: shiftBg 20s linear infinite;
-        }
-
-        @keyframes shiftBg {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(20px, 20px); }
-        }
-
         section {
             padding: 60px 16px;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
+            z-index: 1;
         }
 
         .glass-card {
@@ -148,6 +146,13 @@
             transform: scale(1.02);
         }
 
+        .btn-copy {
+            background: linear-gradient(135deg, #ff44cc, #aa44ff);
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+        }
+
         .music-player {
             position: fixed;
             top: 16px;
@@ -208,6 +213,12 @@
             margin-bottom: 20px;
             text-align: center;
             color: #ffa0f0;
+            animation: pulseText 1s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; text-shadow: 0 0 5px #ff44cc; }
+            50% { opacity: 0.8; text-shadow: 0 0 20px #ff44cc; }
         }
 
         .countdown-container {
@@ -226,6 +237,12 @@
             min-width: 80px;
             border: 1px solid #ff66cc;
             box-shadow: 0 0 15px rgba(255, 68, 204, 0.3);
+            transition: all 0.3s;
+        }
+
+        .countdown-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #ff44cc;
         }
 
         .countdown-number {
@@ -289,7 +306,6 @@
             }
         }
 
-        /* Contador de Pessoas */
         .counter-card {
             background: linear-gradient(135deg, rgba(255, 68, 204, 0.2), rgba(170, 68, 255, 0.2));
             backdrop-filter: blur(10px);
@@ -306,18 +322,6 @@
             font-weight: 800;
             color: #ff66dd;
             text-shadow: 0 0 20px #ff44cc;
-        }
-
-        .counter-label {
-            font-size: 1rem;
-            letter-spacing: 2px;
-            color: #cc99ff;
-        }
-
-        .counter-sub {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 8px;
         }
 
         .extra-info {
@@ -455,6 +459,19 @@
             word-break: break-word;
         }
 
+        .reminder-section {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .reminder-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
         .personagens-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -481,14 +498,6 @@
                 padding: 6px 12px;
                 font-size: 0.7rem;
             }
-            .personagens-tabs {
-                gap: 6px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .tab-btn { padding: 10px 24px; font-size: 1rem; }
-            .personagens-tabs { gap: 12px; margin-bottom: 2rem; }
         }
 
         .tab-btn.active, .tab-btn:hover {
@@ -553,13 +562,6 @@
             flex: 1;
         }
 
-        @media (min-width: 600px) {
-            .inspiration-card {
-                min-width: 200px;
-                padding: 20px 24px;
-            }
-        }
-
         .inspiration-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 25px rgba(255, 68, 204, 0.4);
@@ -601,9 +603,45 @@
             box-shadow: 0 0 15px #ff66ff;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
+        /* Enquete */
+        .poll-section {
+            margin-top: 30px;
+        }
+
+        .poll-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1rem;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .poll-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .poll-btn {
+            background: rgba(255, 68, 204, 0.2);
+            border: 1px solid #ff66cc;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+
+        .poll-btn:hover, .poll-btn.active {
+            background: #ff44cc;
+            color: #000;
+            box-shadow: 0 0 15px #ff44cc;
+        }
+
+        .poll-result {
+            margin-top: 15px;
+            font-size: 0.9rem;
         }
 
         footer {
@@ -616,9 +654,6 @@
         @media (max-width: 480px) {
             section {
                 padding: 40px 12px;
-            }
-            .glass-card {
-                border-radius: 1.2rem;
             }
             .hero {
                 min-height: 70vh;
@@ -666,17 +701,11 @@
             background: #ff44cc;
             border-radius: 10px;
         }
-
-        h2, h3 {
-            word-break: break-word;
-        }
-
-        button, .btn-neon, .tab-btn {
-            -webkit-tap-highlight-color: transparent;
-        }
     </style>
 </head>
 <body>
+
+<canvas id="glitter-canvas"></canvas>
 <div class="particle-bg"></div>
 
 <div id="musicToggle" class="music-player">
@@ -688,6 +717,10 @@
     <img class="hero-avatar" src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990" alt="Ana Beatriz">
     <h1>Ana Beatriz</h1>
     <p>✦ Aniversário Eufórico ✦</p>
+    
+    <div style="margin: 15px 0;">
+        <button id="copyLinkBtn" class="btn-neon btn-copy"><i class="fas fa-copy"></i> Copiar link do convite</button>
+    </div>
     
     <div class="countdown-section">
         <div class="countdown-title">
@@ -737,7 +770,6 @@
         </div>
     </div>
 
-    <!-- CONTADOR DE PESSOAS CONFIRMADAS -->
     <div class="counter-card">
         <div class="counter-number" id="totalPessoas">0</div>
         <div class="counter-label">PESSOAS CONFIRMADAS</div>
@@ -764,7 +796,12 @@
         </div>
     </div>
 
-    <div style="margin-top: 15px;">
+    <div class="reminder-section">
+        <input type="text" id="reminderPhone" class="reminder-input" placeholder="(XX) XXXXX-XXXX" value="">
+        <button id="reminderBtn" class="btn-neon"><i class="fab fa-whatsapp"></i> Me lembrem no WhatsApp</button>
+    </div>
+
+    <div style="margin-top: 20px;">
         <a href="#rsvp" class="btn-neon">✨ CONFIRMAR PRESENÇA ✨</a>
     </div>
 </section>
@@ -808,6 +845,25 @@
     </div>
 </section>
 
+<!-- Enquete de Personagem -->
+<section id="enquete">
+    <div class="glass-card" style="padding: 20px 16px;">
+        <h2 style="font-size: clamp(1.3rem, 5vw, 1.8rem); text-align: center;"><i class="fas fa-poll"></i> Qual personagem Euphoria você mais se identifica?</h2>
+        <div class="poll-card">
+            <div class="poll-options" id="pollOptions">
+                <button data-personagem="Maddie" class="poll-btn">💋 Maddie</button>
+                <button data-personagem="Cassie" class="poll-btn">💖 Cassie</button>
+                <button data-personagem="Jules" class="poll-btn">🌈 Jules</button>
+                <button data-personagem="Rue" class="poll-btn">💊 Rue</button>
+                <button data-personagem="Kat" class="poll-btn">🖤 Kat</button>
+                <button data-personagem="Fez" class="poll-btn">🌿 Fez</button>
+            </div>
+            <div id="pollResult" class="poll-result"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Personagens inspirações -->
 <section id="inspiracoes">
     <h2 style="font-size: clamp(1.5rem, 6vw, 2.5rem); text-align:center; margin-bottom: 20px;">✦ PERSONAGENS INSPIRAÇÃO ✦</h2>
     <div class="personagens-tabs" id="tabsContainer"></div>
@@ -818,7 +874,6 @@
     <p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p>
     <p style="margin-top: 10px;"><i class="fas fa-camera"></i> glitter, drama e brilho infinito</p>
     <p style="margin-top: 15px; font-size: 0.7rem;">Rua José Daniel Kielander, 468 - Jd. Arapongas ZN - Londrina/PR • 09/05 • 13h às 22h</p>
-    <p style="margin-top: 8px; font-size: 0.65rem; opacity: 0.7;">🍖 Leve 1kg de carne • 🥂 Shots de vodka pela aniversariante • 🏊 Piscina liberada</p>
 </footer>
 
 <script type="module">
@@ -838,6 +893,7 @@
     const db = getFirestore(app);
     const confirmacoesRef = collection(db, "confirmacoes");
 
+    // Elementos
     const form = document.getElementById('formConfirmacao');
     const nomeInput = document.getElementById('nome');
     const quantidadeSelect = document.getElementById('quantidade');
@@ -845,6 +901,58 @@
     const acompanhantesList = document.getElementById('acompanhantesList');
     const listaDiv = document.getElementById('listaConfirmados');
     const totalPessoasSpan = document.getElementById('totalPessoas');
+    
+    // Enquete
+    let pollVotes = { Maddie: 0, Cassie: 0, Jules: 0, Rue: 0, Kat: 0, Fez: 0 };
+    let userVoted = false;
+
+    function showConfetti() {
+        canvasConfetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#ff44cc', '#ff66dd', '#aa44ff', '#ff88ee', '#ffffff']
+        });
+        setTimeout(() => {
+            canvasConfetti({
+                particleCount: 50,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.7 },
+                colors: ['#ff44cc', '#ff88ee']
+            });
+            canvasConfetti({
+                particleCount: 50,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.7 },
+                colors: ['#ff44cc', '#ff88ee']
+            });
+        }, 100);
+    }
+
+    // Botão copiar link
+    document.getElementById('copyLinkBtn').addEventListener('click', () => {
+        const link = 'https://anivers-rio-euf-rico-ana.vercel.app';
+        navigator.clipboard.writeText(link).then(() => {
+            showToast('✨ Link copiado! Compartilhe com seus amigos ✨');
+        }).catch(() => {
+            showToast('Clique no link e copie manualmente', true);
+        });
+    });
+
+    // Botão lembrete WhatsApp
+    document.getElementById('reminderBtn').addEventListener('click', () => {
+        const phone = document.getElementById('reminderPhone').value.trim();
+        if (!phone) {
+            showToast('Digite seu número de WhatsApp com DDD', true);
+            return;
+        }
+        const message = encodeURIComponent(`Olá! 👋\n\nVocê se inscreveu para receber um lembrete do Aniversário Eufórico da Ana Beatriz!\n\n📅 Data: 09/05/2026\n⏰ Horário: 13h às 22h\n📍 Local: Rua José Daniel Kielander, 468 - Londrina/PR\n\nConfirme sua presença no site: https://anivers-rio-euf-rico-ana.vercel.app\n\nTe espero lá! ✨🎉`);
+        const url = `https://wa.me/55${phone.replace(/\D/g, '')}?text=${message}`;
+        window.open(url, '_blank');
+        showToast('📱 Você será redirecionado para o WhatsApp');
+    });
 
     function gerarCamposAcompanhantes(quantidade) {
         const numAcompanhantes = parseInt(quantidade) - 1;
@@ -902,6 +1010,7 @@
                 acompanhantes: acompanhantes,
                 timestamp: serverTimestamp()
             });
+            showConfetti();
             showToast(`✨ Confirmado, ${nome}! ✨`, false);
             form.reset();
             nomeInput.value = '';
@@ -914,7 +1023,6 @@
         }
     });
 
-    // Função para atualizar lista e contador total
     function atualizarListaEtotal(snapshot) {
         if (snapshot.empty) {
             listaDiv.innerHTML = '<div class="confirm-item" style="text-align:center;">💫 Nenhuma confirmação ainda. Seja o primeiro! 💫</div>';
@@ -931,7 +1039,6 @@
             const qtd = parseInt(data.quantidade) || 1;
             const acompanhantes = data.acompanhantes || [];
             
-            // Soma total de pessoas (inclui o anfitrião + acompanhantes)
             totalPessoas += qtd;
             
             let acompanhantesText = '';
@@ -985,6 +1092,119 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
+    // Partículas de glitter
+    const canvas = document.getElementById('glitter-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    class GlitterParticle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedY = Math.random() * 1 + 0.2;
+            this.opacity = Math.random() * 0.5 + 0.2;
+            this.color = ['#ff44cc', '#ff88ee', '#aa44ff', '#ff66dd'][Math.floor(Math.random() * 4)];
+        }
+        update() {
+            this.y += this.speedY;
+            if (this.y > canvas.height) {
+                this.y = 0;
+                this.x = Math.random() * canvas.width;
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.fill();
+        }
+    }
+    
+    function initGlitter() {
+        for (let i = 0; i < 150; i++) {
+            particles.push(new GlitterParticle());
+        }
+    }
+    
+    function animateGlitter() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateGlitter);
+    }
+    
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        particles = [];
+        initGlitter();
+    });
+    
+    resizeCanvas();
+    initGlitter();
+    animateGlitter();
+
+    // Enquete
+    function updatePollDisplay() {
+        const total = Object.values(pollVotes).reduce((a, b) => a + b, 0);
+        if (total === 0) {
+            document.getElementById('pollResult').innerHTML = '👆 Clique no seu personagem favorito!';
+            return;
+        }
+        let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+        for (const [personagem, votes] of Object.entries(pollVotes)) {
+            const percentage = Math.round((votes / total) * 100);
+            html += `
+                <div>
+                    <span style="display: inline-block; width: 80px;">${personagem}</span>
+                    <div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;">
+                        <div style="width: ${percentage}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div>
+                    </div>
+                    <span style="margin-left: 10px;">${percentage}% (${votes})</span>
+                </div>
+            `;
+        }
+        html += '</div>';
+        document.getElementById('pollResult').innerHTML = html;
+    }
+    
+    const savedVotes = localStorage.getItem('euphoriaPollVotes');
+    if (savedVotes) {
+        pollVotes = JSON.parse(savedVotes);
+    }
+    const savedUserVoted = localStorage.getItem('euphoriaUserVoted');
+    if (savedUserVoted === 'true') {
+        userVoted = true;
+    }
+    updatePollDisplay();
+    
+    document.querySelectorAll('.poll-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (userVoted) {
+                showToast('Você já votou! 🎭', false);
+                return;
+            }
+            const personagem = btn.dataset.personagem;
+            pollVotes[personagem]++;
+            userVoted = true;
+            localStorage.setItem('euphoriaPollVotes', JSON.stringify(pollVotes));
+            localStorage.setItem('euphoriaUserVoted', 'true');
+            updatePollDisplay();
+            showConfetti();
+            showToast(`✨ Você é team ${personagem}! ✨`);
+        });
+    });
+
+    // Personagens
     const characters = [
         { id: "maddy", name: "MADDY PEREZ", ator: "Alexa Demie", 
           estilo: "🔥 Sexy, confiante, roupas justas, maquiagem marcante, delineado forte.",
@@ -1021,11 +1241,7 @@
         { id: "cal", name: "CAL JACOBS", ator: "Eric Dane", 
           estilo: "👔 Estilo sóbrio, camisas sociais, looks de pai rico, ar misterioso.",
           pinterest: "https://www.pinterest.com/search/pins/?q=cal%20jacobs%20euphoria%20style",
-          google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" },
-        { id: "maddy2", name: "MADDY DETALHADO", ator: "Alexa Demie", 
-          estilo: "💎 Glitter nos olhos, croped, delineado dramático, poder e sensualidade.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20makeup",
-          google: "https://www.google.com/search?q=maddy+perez+euphoria+makeup&tbm=isch" }
+          google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" }
     ];
 
     const tabsContainer = document.getElementById('tabsContainer');
@@ -1074,7 +1290,7 @@
                     <a href="${character.google}" target="_blank" class="btn-inspire">Pesquisar no Google →</a>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 25px; font-size: clamp(0.7rem, 3vw, 0.85rem); opacity: 0.8;">
+            <div style="text-align: center; margin-top: 25px;">
                 <i class="fas fa-crown"></i> Vista-se como seu personagem favorito!
             </div>
         `;
@@ -1085,6 +1301,7 @@
 
     buildTabs();
 
+    // Música
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop = true;
     audio.volume = 0.5;

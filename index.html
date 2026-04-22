@@ -10,7 +10,6 @@
     <link rel="shortcut icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     
-    <!-- Fontes e Estilos Base -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -288,6 +287,37 @@
                 width: 100%;
                 justify-content: center;
             }
+        }
+
+        /* Contador de Pessoas */
+        .counter-card {
+            background: linear-gradient(135deg, rgba(255, 68, 204, 0.2), rgba(170, 68, 255, 0.2));
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 20px;
+            margin: 20px auto;
+            text-align: center;
+            border: 1px solid #ff66dd;
+            max-width: 400px;
+        }
+
+        .counter-number {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            color: #ff66dd;
+            text-shadow: 0 0 20px #ff44cc;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: #cc99ff;
+        }
+
+        .counter-sub {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 8px;
         }
 
         .extra-info {
@@ -655,7 +685,6 @@
 </div>
 
 <section class="hero" id="home">
-    <!-- FOTO PRINCIPAL TROCADA - AGORA É A SUA! -->
     <img class="hero-avatar" src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990" alt="Ana Beatriz">
     <h1>Ana Beatriz</h1>
     <p>✦ Aniversário Eufórico ✦</p>
@@ -705,6 +734,15 @@
                 <div class="info-label">LOCAL</div>
                 <div class="info-value">Rua José Daniel Kielander, 468<br>Jd. Arapongas ZN - Londrina/PR</div>
             </div>
+        </div>
+    </div>
+
+    <!-- CONTADOR DE PESSOAS CONFIRMADAS -->
+    <div class="counter-card">
+        <div class="counter-number" id="totalPessoas">0</div>
+        <div class="counter-label">PESSOAS CONFIRMADAS</div>
+        <div class="counter-sub">
+            <i class="fas fa-users"></i> Contando aniversariante + acompanhantes
         </div>
     </div>
 
@@ -806,6 +844,7 @@
     const acompanhantesContainer = document.getElementById('acompanhantesContainer');
     const acompanhantesList = document.getElementById('acompanhantesList');
     const listaDiv = document.getElementById('listaConfirmados');
+    const totalPessoasSpan = document.getElementById('totalPessoas');
 
     function gerarCamposAcompanhantes(quantidade) {
         const numAcompanhantes = parseInt(quantidade) - 1;
@@ -875,25 +914,41 @@
         }
     });
 
-    const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
-    onSnapshot(q, (snapshot) => {
+    // Função para atualizar lista e contador total
+    function atualizarListaEtotal(snapshot) {
         if (snapshot.empty) {
             listaDiv.innerHTML = '<div class="confirm-item" style="text-align:center;">💫 Nenhuma confirmação ainda. Seja o primeiro! 💫</div>';
+            totalPessoasSpan.innerHTML = '0';
             return;
         }
+        
         let html = '';
+        let totalPessoas = 0;
+        
         snapshot.forEach(doc => {
             const data = doc.data();
             const nomeExibido = data.nome || "Anônimo";
-            const qtd = data.quantidade || "1";
+            const qtd = parseInt(data.quantidade) || 1;
             const acompanhantes = data.acompanhantes || [];
+            
+            // Soma total de pessoas (inclui o anfitrião + acompanhantes)
+            totalPessoas += qtd;
+            
             let acompanhantesText = '';
             if (acompanhantes.length > 0) {
                 acompanhantesText = ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${acompanhantes.join(', ')})</span>`;
             }
+            
             html += `<div class="confirm-item"><i class="fas fa-glitter" style="color:#ff88ee;"></i> <strong>${escapeHtml(nomeExibido)}</strong> - ${qtd} pessoa(s)${acompanhantesText}</div>`;
         });
+        
         listaDiv.innerHTML = html;
+        totalPessoasSpan.innerHTML = totalPessoas;
+    }
+
+    const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
+    onSnapshot(q, (snapshot) => {
+        atualizarListaEtotal(snapshot);
     });
 
     function escapeHtml(str) {

@@ -30,19 +30,24 @@
         .hero h1 { font-size: clamp(2.5rem, 12vw, 5rem); font-weight: 800; margin: 20px 0 10px; background: linear-gradient(135deg, #FFB7FF, #FF44CC, #AA6EF0); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; }
         .hero p { font-size: clamp(1rem, 4vw, 1.4rem); letter-spacing: 4px; background: rgba(0,0,0,0.5); display: inline-block; padding: 8px 20px; border-radius: 60px; backdrop-filter: blur(5px); }
         
-        .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; color: #fff; border-radius: 40px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; }
+        .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; color: #fff; border-radius: 40px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; margin: 5px; }
         .btn-neon:hover { background: #ff44cc; color: #000; box-shadow: 0 0 20px #ff44cc; border-color: #ff99ee; transform: scale(1.02); }
         
         .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; }
+        
+        /* Botões em linha responsivos */
+        .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 15px 0; }
+        @media (max-width: 480px) { .button-group { gap: 8px; } .btn-neon { padding: 8px 16px; font-size: 0.75rem; } }
         
         .floating-cta { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.8); backdrop-filter: blur(16px); padding: 10px 24px; border-radius: 60px; border: 1px solid #ff66dd; box-shadow: 0 0 15px rgba(255,68,204,0.5); animation: floatPulse 1.5s infinite; }
         .floating-cta a { color: white; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         @keyframes floatPulse { 0% { box-shadow: 0 0 5px #ff44cc; } 100% { box-shadow: 0 0 20px #ff44cc; } }
         
-        .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 10px 18px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        /* Botão da música - VOLTOU PARA O TOPO DIREITO */
+        .music-player { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 10px 18px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 0 10px rgba(255,68,204,0.5); }
         .music-player i { font-size: 1.2rem; color: #ff66dd; animation: pulseIcon 1.5s infinite; }
         @keyframes pulseIcon { 0%,100% { text-shadow: 0 0 2px #ff44cc; } 50% { text-shadow: 0 0 12px #ff66ff; } }
-        @media (max-width: 768px) { .music-player { bottom: 80px; } }
+        @media (max-width: 768px) { .music-player { top: 16px; right: 16px; padding: 8px 14px; } }
         
         .countdown-section { margin: 30px 0 20px; }
         .countdown-title { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 20px; text-align: center; color: #ffa0f0; }
@@ -104,6 +109,8 @@
 <div class="particle-bg"></div>
 
 <div class="floating-cta"><a href="#rsvp"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA</a></div>
+
+<!-- Botão da música - VOLTOU PARA O TOPO DIREITO -->
 <div id="musicToggle" class="music-player"><i class="fas fa-play"></i><span>♫ EUPHORIA</span></div>
 
 <section class="hero" id="home">
@@ -111,7 +118,7 @@
     <h1>Ana Beatriz</h1>
     <p>✦ Aniversário Eufórico ✦</p>
     
-    <div style="margin: 15px 0;">
+    <div class="button-group">
         <button id="copyLinkBtn" class="btn-neon btn-copy"><i class="fas fa-copy"></i> Copiar link</button>
         <button id="calendarBtn" class="btn-neon"><i class="fas fa-calendar-plus"></i> Adicionar ao calendário</button>
     </div>
@@ -167,7 +174,6 @@
     </div>
 </section>
 
-<!-- Enquete em tempo real -->
 <section id="enquete">
     <div class="glass-card" style="padding: 20px 16px;">
         <h2 style="text-align:center;"><i class="fas fa-poll"></i> Qual personagem Euphoria você mais se identifica?</h2>
@@ -210,7 +216,6 @@
     const confirmacoesRef = collection(db, "confirmacoes");
     const votosRef = doc(db, "enquete", "personagens");
 
-    // Elementos
     const form = document.getElementById('formConfirmacao');
     const nomeInput = document.getElementById('nome');
     const qtdSelect = document.getElementById('quantidade');
@@ -220,102 +225,50 @@
     const totalSpan = document.getElementById('totalPessoas');
     
     let hasConfirmed = sessionStorage.getItem('hasConfirmed');
-    let userVoted = sessionStorage.getItem('userVotedPoll'); // controle de voto por sessão
+    let userVoted = sessionStorage.getItem('userVotedPoll');
 
-    // Inicializar documento de votos se não existir
     async function initPoll() {
         const docSnap = await getDoc(votosRef);
         if (!docSnap.exists()) {
-            await setDoc(votosRef, {
-                Maddie: 0,
-                Cassie: 0,
-                Jules: 0,
-                Rue: 0,
-                Kat: 0,
-                Fez: 0
-            });
+            await setDoc(votosRef, { Maddie: 0, Cassie: 0, Jules: 0, Rue: 0, Kat: 0, Fez: 0 });
         }
     }
     initPoll();
 
-    // Atualizar exibição da enquete em tempo real
     function updatePollUI(votes) {
         const total = Object.values(votes).reduce((a,b) => a + b, 0);
         const pollResultDiv = document.getElementById('pollResult');
-        if (total === 0) {
-            pollResultDiv.innerHTML = '👆 Clique no seu personagem favorito!';
-            return;
-        }
+        if (total === 0) { pollResultDiv.innerHTML = '👆 Clique no seu personagem favorito!'; return; }
         let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
         for (const [personagem, count] of Object.entries(votes)) {
             const percent = Math.round((count / total) * 100);
-            html += `
-                <div>
-                    <span style="display: inline-block; width: 80px;">${personagem}</span>
-                    <div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;">
-                        <div style="width: ${percent}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div>
-                    </div>
-                    <span style="margin-left: 10px;">${percent}% (${count})</span>
-                </div>
-            `;
+            html += `<div><span style="display: inline-block; width: 80px;">${personagem}</span><div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;"><div style="width: ${percent}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div></div><span style="margin-left: 10px;">${percent}% (${count})</span></div>`;
         }
         html += '</div>';
         pollResultDiv.innerHTML = html;
     }
 
-    // Escutar mudanças nos votos em tempo real
-    onSnapshot(votosRef, (docSnap) => {
-        if (docSnap.exists()) {
-            updatePollUI(docSnap.data());
-        }
-    });
+    onSnapshot(votosRef, (docSnap) => { if (docSnap.exists()) updatePollUI(docSnap.data()); });
 
-    // Função para votar
     async function votar(personagem) {
-        if (userVoted) {
-            showToast('Você já votou! 🎭', false);
-            return;
-        }
+        if (userVoted) { showToast('Você já votou! 🎭', false); return; }
         try {
-            // Incrementa o contador do personagem no Firestore
-            await updateDoc(votosRef, {
-                [personagem]: increment(1)
-            });
+            await updateDoc(votosRef, { [personagem]: increment(1) });
             userVoted = true;
             sessionStorage.setItem('userVotedPoll', 'true');
             showConfetti();
             showToast(`✨ Você votou em ${personagem}! ✨`);
-            // Desabilita visualmente os botões
-            document.querySelectorAll('.poll-btn').forEach(btn => {
-                btn.style.opacity = '0.6';
-                btn.style.cursor = 'default';
-                btn.classList.add('voted');
-            });
-        } catch (error) {
-            console.error("Erro ao votar:", error);
-            showToast('Erro ao registrar voto. Tente novamente.', true);
-        }
+            document.querySelectorAll('.poll-btn').forEach(btn => { btn.style.opacity = '0.6'; btn.style.cursor = 'default'; btn.classList.add('voted'); });
+        } catch (error) { console.error("Erro ao votar:", error); showToast('Erro ao registrar voto.', true); }
     }
 
-    // Configurar eventos dos botões de votação
     function setupPollButtons() {
-        const btns = document.querySelectorAll('.poll-btn');
-        btns.forEach(btn => {
-            // Se já votou, desabilita visualmente
-            if (userVoted) {
-                btn.style.opacity = '0.6';
-                btn.style.cursor = 'default';
-                btn.classList.add('voted');
-            }
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const personagem = btn.dataset.personagem;
-                votar(personagem);
-            });
+        document.querySelectorAll('.poll-btn').forEach(btn => {
+            if (userVoted) { btn.style.opacity = '0.6'; btn.style.cursor = 'default'; btn.classList.add('voted'); }
+            btn.addEventListener('click', (e) => { e.preventDefault(); votar(btn.dataset.personagem); });
         });
     }
 
-    // Confetes
     function showConfetti() {
         for(let i=0;i<3;i++) setTimeout(() => {
             for(let j=0;j<60;j++) {
@@ -342,21 +295,50 @@
         },i*100);
     }
     
-    // Botão calendário
-    document.getElementById('calendarBtn').addEventListener('click',()=>{
-        const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Aniversário+Eufórico+Ana+Beatriz&dates=20260509T130000/20260509T220000&details=Churrasco,+piscina+e+muita+Euphoria!+Leve+1kg+de+carne.+Shots+de+vodka+por+conta+da+aniversariante.&location=Rua+José+Daniel+Kielander,+468+-+Londrina/PR`;
-        window.open(url, '_blank');
-        showToast('📅 Evento adicionado ao seu calendário!');
+    // Botão calendário - Detecta dispositivo e abre app nativo
+    document.getElementById('calendarBtn').addEventListener('click', () => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const eventTitle = encodeURIComponent('Aniversário Eufórico - Ana Beatriz');
+        const eventDate = '20260509T130000Z';
+        const eventEnd = '20260509T220000Z';
+        const eventLocation = encodeURIComponent('Rua José Daniel Kielander, 468 - Londrina/PR');
+        const eventDetails = encodeURIComponent('Churrasco, piscina, shots de vodka e muita Euphoria! Leve 1kg de carne por pessoa.');
+        
+        if (isIOS) {
+            // iPhone - Apple Calendar
+            const appleUrl = `webcal://p03-calendars.icloud.com/published/2/MTI3MjE0NzU5MjEyNzIxNDlVtNQ8VHn1qQJk7vWxX6YzZ9`; // fallback
+            // Melhor: criar arquivo .ics
+            const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${decodeURIComponent(eventTitle)}
+DTSTART:20260509T130000Z
+DTEND:20260509T220000Z
+LOCATION:Rua José Daniel Kielander, 468 - Londrina/PR
+DESCRIPTION:Churrasco, piscina, shots de vodka e muita Euphoria! Leve 1kg de carne por pessoa.
+END:VEVENT
+END:VCALENDAR`;
+            const blob = new Blob([icsContent], {type: 'text/calendar'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'aniversario_euphoria.ics';
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast('📅 Arquivo .ics baixado! Abra para adicionar ao seu calendário.');
+        } else {
+            // Android/Samsung - Google Calendar
+            const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=20260509T130000/20260509T220000&details=${eventDetails}&location=${eventLocation}`;
+            window.open(googleUrl, '_blank');
+            showToast('📅 Abrindo Google Calendar...');
+        }
     });
     
-    // Copiar link
     document.getElementById('copyLinkBtn').addEventListener('click',()=>{
         navigator.clipboard.writeText('https://anivers-rio-euf-rico-ana.vercel.app');
         showToast('✨ Link copiado!');
         showConfetti();
     });
     
-    // Acompanhantes dinâmicos
     qtdSelect.addEventListener('change',()=>{
         const num = parseInt(qtdSelect.value)-1;
         if(num<=0){ containerAcomp.style.display='none'; return; }
@@ -368,7 +350,6 @@
     
     function showToast(msg,err=false){ const t=document.createElement('div'); t.className='toast-msg'; t.textContent=msg; if(err) t.style.background='#ff2266'; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
     
-    // Envio do formulário
     form.addEventListener('submit', async (e)=>{
         e.preventDefault();
         if(hasConfirmed){ showToast('Você já confirmou presença! 🎉',true); return; }
@@ -388,7 +369,6 @@
         }finally{ btn.disabled=false; btn.textContent='Confirmar presença'; }
     });
     
-    // Lista em tempo real
     const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snap)=>{
         if(snap.empty){ listaDiv.innerHTML='<div class="confirm-item">💫 Nenhuma confirmação ainda. Seja o primeiro!</div>'; totalSpan.innerText='0'; return; }
@@ -405,7 +385,6 @@
     });
     function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // Countdown
     function updateCountdown(){
         const ev=new Date(2026,4,9,13,0,0), now=new Date(), diff=ev-now;
         if(diff<=0){ document.getElementById('days').innerHTML='00'; document.getElementById('hours').innerHTML='00'; document.getElementById('minutes').innerHTML='00'; document.getElementById('seconds').innerHTML='00'; return; }
@@ -416,7 +395,6 @@
     }
     updateCountdown(); setInterval(updateCountdown,1000);
     
-    // Partículas (pausam quando aba inativa)
     let particles=[], animId;
     function startParticles(){ if(animId) cancelAnimationFrame(animId); animateGlitter(); }
     function stopParticles(){ if(animId) cancelAnimationFrame(animId); animId=null; }
@@ -432,7 +410,6 @@
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
     
-    // Personagens
     const chars = [
         { id:"maddy", name:"MADDY PEREZ", ator:"Alexa Demie", estilo:"🔥 Sexy, confiante, delineado forte.", pinterest:"https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits", google:"https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
         { id:"cassie", name:"CASSIE HOWARD", ator:"Sydney Sweeney", estilo:"💖 Romântico, tons pastéis, brilho delicado.", pinterest:"https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits", google:"https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },
@@ -449,14 +426,12 @@
     function showChar(id){ let c=chars.find(c=>c.id===id); if(!c) return; contentDiv.innerHTML=`<div class="personagem-header"><h3>${c.name}</h3><div class="ator">✨ interpretada(o) por ${c.ator} ✨</div><div class="estilo-box">${c.estilo}</div></div><div class="inspiration-links"><div class="inspiration-card"><i class="fab fa-pinterest"></i><h4>Pinterest Board</h4><a href="${c.pinterest}" target="_blank" class="btn-inspire">Ver no Pinterest →</a></div><div class="inspiration-card"><i class="fab fa-google"></i><h4>Google Images</h4><a href="${c.google}" target="_blank" class="btn-inspire">Pesquisar no Google →</a></div></div>`; }
     buildTabs();
     
-    // Música
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
     audio.loop=true; audio.volume=0.5;
     const musicBtn=document.getElementById('musicToggle'); let playing=false;
     musicBtn.addEventListener('click',()=>{ if(playing){ audio.pause(); musicBtn.innerHTML='<i class="fas fa-play"></i><span>♫ EUPHORIA</span>'; } else{ audio.play().catch(e=>console.log); musicBtn.innerHTML='<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>'; } playing=!playing; });
     audio.addEventListener('ended',()=>{ if(playing) audio.play(); });
     
-    // Inicializar botões de enquete após carregar DOM
     setupPollButtons();
     
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){ let hash=this.getAttribute('href'); if(hash==="#") return; let el=document.querySelector(hash); if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); } }));

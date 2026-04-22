@@ -8,691 +8,127 @@
     <!-- FAVICON -->
     <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     <link rel="shortcut icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
-    <link rel="apple-touch-icon" href="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/C0F72BC2-A909-468E-89D8-D90EBAE079B5.jpeg?alt=media&token=ac23d85b-7dec-4df7-bf64-f822abae7990">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #05020a;
-            font-family: 'Inter', sans-serif;
-            color: #f0eef7;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        #glitter-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: radial-gradient(circle at 20% 30%, #0a0318, #010001);
-        }
-
-        section {
-            padding: 60px 16px;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .glass-card {
-            background: rgba(15, 5, 30, 0.55);
-            backdrop-filter: blur(12px);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 100, 200, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 0, 212, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.3s;
-        }
-
-        .glass-card:hover {
-            box-shadow: 0 0 25px rgba(255, 80, 200, 0.6);
-            transform: translateY(-4px);
-        }
-
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex-direction: column;
-            position: relative;
-            padding: 40px 16px 60px;
-        }
-
-        .hero-avatar {
-            width: min(200px, 45vw);
-            height: min(200px, 45vw);
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #ff66d0;
-            box-shadow: 0 0 40px rgba(255, 102, 204, 0.8), 0 0 0 8px rgba(255, 50, 150, 0.2);
-            transition: all 0.3s;
-            animation: pulseGlow 2s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 5px #ff44cc, 0 0 0 4px rgba(255, 80, 200, 0.3);}
-            100% { box-shadow: 0 0 30px #ff66f0, 0 0 0 12px rgba(255, 100, 200, 0.2);}
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 10vw, 4rem);
-            font-weight: 800;
-            margin: 20px 0 10px;
-            background: linear-gradient(135deg, #FFB7FF, #FF44CC, #AA6EF0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-            padding: 0 10px;
-        }
-
-        .hero p {
-            font-size: clamp(0.9rem, 4vw, 1.4rem);
-            letter-spacing: 3px;
-            font-weight: 300;
-            background: rgba(0,0,0,0.5);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 60px;
-            backdrop-filter: blur(5px);
-        }
-
-        .btn-neon {
-            background: none;
-            border: 2px solid #ff55dd;
-            padding: 12px 28px;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
-            font-weight: bold;
-            color: #fff;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 0 8px #ff44cc;
-            backdrop-filter: blur(4px);
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-neon:hover {
-            background: #ff44cc;
-            color: #000;
-            box-shadow: 0 0 25px #ff44cc, 0 0 8px #ff99ee;
-            border-color: #ff99ee;
-            transform: scale(1.02);
-        }
-
-        .btn-copy {
-            background: linear-gradient(135deg, #ff44cc, #aa44ff);
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.85rem;
-        }
-
-        .music-player {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 60px;
-            padding: 8px 16px;
-            border: 1px solid #ff66dd;
-            box-shadow: 0 0 15px rgba(255, 68, 204, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .music-player:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #ff44cc;
-            border-color: #ff99ee;
-        }
-
-        .music-player i {
-            font-size: 1.2rem;
-            color: #ff66dd;
-            animation: pulseIcon 1.5s infinite;
-        }
-
-        .music-player span {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        @media (min-width: 768px) {
-            .music-player {
-                padding: 10px 18px;
-                top: 20px;
-                right: 20px;
-            }
-            .music-player i { font-size: 1.4rem; }
-            .music-player span { font-size: 0.85rem; }
-        }
-
-        @keyframes pulseIcon {
-            0%, 100% { text-shadow: 0 0 2px #ff44cc; }
-            50% { text-shadow: 0 0 12px #ff66ff, 0 0 5px #ff44cc; }
-        }
-
-        .countdown-section {
-            margin: 30px 0 20px;
-        }
-
-        .countdown-title {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            margin-bottom: 20px;
-            text-align: center;
-            color: #ffa0f0;
-            animation: pulseText 1s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 1; text-shadow: 0 0 5px #ff44cc; }
-            50% { opacity: 0.8; text-shadow: 0 0 20px #ff44cc; }
-        }
-
-        .countdown-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .countdown-box {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 1rem;
-            padding: 15px 20px;
-            text-align: center;
-            min-width: 80px;
-            border: 1px solid #ff66cc;
-            box-shadow: 0 0 15px rgba(255, 68, 204, 0.3);
-            transition: all 0.3s;
-        }
-
-        .countdown-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #ff44cc;
-        }
-
-        .countdown-number {
-            font-size: clamp(2rem, 6vw, 3rem);
-            font-weight: 800;
-            color: #ff66dd;
-            text-shadow: 0 0 10px #ff44cc;
-        }
-
-        .countdown-label {
-            font-size: clamp(0.7rem, 3vw, 0.9rem);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #cc99ff;
-        }
-
-        .event-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0 10px;
-        }
-
-        .info-card {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 1rem;
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #ff88dd;
-        }
-
-        .info-card i {
-            font-size: 1.8rem;
-            color: #ff66dd;
-        }
-
-        .info-card .info-text {
-            text-align: left;
-        }
-
-        .info-card .info-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #cc99ff;
-        }
-
-        .info-card .info-value {
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
-            font-weight: 600;
-        }
-
-        @media (max-width: 550px) {
-            .info-card {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        .counter-card {
-            background: linear-gradient(135deg, rgba(255, 68, 204, 0.2), rgba(170, 68, 255, 0.2));
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            padding: 20px;
-            margin: 20px auto;
-            text-align: center;
-            border: 1px solid #ff66dd;
-            max-width: 400px;
-        }
-
-        .counter-number {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: 800;
-            color: #ff66dd;
-            text-shadow: 0 0 20px #ff44cc;
-        }
-
-        .extra-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px;
-            margin: 25px 0 15px;
-        }
-
-        .extra-card {
-            background: rgba(255, 68, 204, 0.12);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            padding: 16px 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 102, 204, 0.4);
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .extra-card:hover {
-            transform: translateY(-3px);
-            border-color: #ff66dd;
-            box-shadow: 0 0 20px rgba(255, 68, 204, 0.3);
-        }
-
-        .extra-card i {
-            font-size: 2rem;
-            color: #ff66dd;
-            margin-bottom: 10px;
-        }
-
-        .extra-card h4 {
-            font-size: 1rem;
-            margin-bottom: 8px;
-            color: #ffa0f0;
-        }
-
-        .extra-card p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .extra-card .highlight {
-            color: #ff66dd;
-            font-weight: bold;
-        }
-
-        @media (max-width: 650px) {
-            .extra-card {
-                min-width: 100%;
-            }
-        }
-
-        .rsvp-form {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(16px);
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .rsvp-form { padding: 2rem; }
-        }
-
-        .input-group {
-            margin-bottom: 1.2rem;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(30, 15, 50, 0.8);
-            border: 1px solid #ff77cc;
-            border-radius: 60px;
-            color: white;
-            font-size: clamp(0.9rem, 3.5vw, 1rem);
-            outline: none;
-            transition: 0.2s;
-        }
-
-        input:focus, select:focus {
-            border-color: #ff44e6;
-            box-shadow: 0 0 12px #ff44e6;
-        }
-
-        .acompanhantes-container {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(255, 68, 204, 0.08);
-            border-radius: 1rem;
-            border: 1px dashed #ff66cc;
-        }
-
-        .acompanhante-input {
-            margin-bottom: 0.8rem;
-        }
-
-        .acompanhante-input label {
-            font-size: 0.8rem;
-            color: #ffa0f0;
-            margin-bottom: 0.3rem;
-            display: block;
-        }
-
-        .acompanhante-input input {
-            width: 100%;
-            padding: 10px 14px;
-            background: rgba(30, 15, 50, 0.8);
-            border: 1px solid #ff77cc;
-            border-radius: 60px;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .lista-confirmacoes {
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 0 4px;
-        }
-
-        .confirm-item {
-            background: rgba(255, 200, 240, 0.08);
-            margin: 8px 0;
-            padding: 10px 14px;
-            border-radius: 40px;
-            border-left: 4px solid #ff66dd;
-            font-weight: 500;
-            font-size: clamp(0.8rem, 3vw, 0.95rem);
-            backdrop-filter: blur(4px);
-            word-break: break-word;
-        }
-
-        .personagens-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .tab-btn {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #ff55bb;
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: #ffddfa;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: clamp(0.7rem, 3vw, 0.9rem);
-            white-space: nowrap;
-        }
-
-        @media (max-width: 480px) {
-            .tab-btn {
-                padding: 6px 12px;
-                font-size: 0.7rem;
-            }
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: #ff44cc;
-            color: #11001c;
-            box-shadow: 0 0 16px #ff44cc;
-            border-color: white;
-        }
-
-        .personagem-header {
-            text-align: center;
-            margin-bottom: 1.2rem;
-        }
-
-        .personagem-header h3 {
-            font-size: clamp(1.4rem, 6vw, 2.2rem);
-            color: #ffa0f0;
-            margin-bottom: 6px;
-        }
-
-        .personagem-header .ator {
-            font-size: clamp(0.75rem, 3vw, 1rem);
-            color: #cc99ff;
-            margin-bottom: 12px;
-        }
-
-        .estilo-box {
-            background: rgba(255, 68, 204, 0.15);
-            border-radius: 60px;
-            padding: 8px 16px;
-            display: inline-block;
-            margin: 12px auto;
-            font-size: clamp(0.75rem, 3vw, 0.95rem);
-            font-weight: 500;
-            backdrop-filter: blur(4px);
-            border: 1px solid #ff88dd;
-            max-width: 90%;
-        }
-
-        .inspiration-links {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        @media (min-width: 600px) {
-            .inspiration-links {
-                flex-direction: row;
-                justify-content: center;
-            }
-        }
-
-        .inspiration-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 1.2rem;
-            padding: 18px 16px;
-            text-align: center;
-            transition: all 0.3s;
-            border: 1px solid #ff66cc;
-            flex: 1;
-        }
-
-        .inspiration-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(255, 68, 204, 0.4);
-        }
-
-        .inspiration-card i {
-            font-size: clamp(1.8rem, 6vw, 2.5rem);
-            color: #ff66dd;
-            margin-bottom: 10px;
-        }
-
-        .inspiration-card h4 {
-            font-size: clamp(1rem, 4vw, 1.3rem);
-            margin-bottom: 8px;
-        }
-
-        .inspiration-card p {
-            font-size: clamp(0.7rem, 3vw, 0.85rem);
-            margin-bottom: 12px;
-            opacity: 0.8;
-        }
-
-        .btn-inspire {
-            background: linear-gradient(135deg, #ff44cc, #aa44ff);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-decoration: none;
-            font-size: clamp(0.7rem, 3vw, 0.85rem);
-        }
-
-        .btn-inspire:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #ff66ff;
-        }
-
-        .poll-section {
-            margin-top: 30px;
-        }
-
-        .poll-card {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1rem;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .poll-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .poll-btn {
-            background: rgba(255, 68, 204, 0.2);
-            border: 1px solid #ff66cc;
-            padding: 8px 16px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: white;
-        }
-
-        .poll-btn:hover, .poll-btn.active {
-            background: #ff44cc;
-            color: #000;
-            box-shadow: 0 0 15px #ff44cc;
-        }
-
-        .poll-result {
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 16px;
-            border-top: 1px solid rgba(255,68,200,0.3);
-            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
-        }
-
-        @media (max-width: 480px) {
-            section {
-                padding: 40px 12px;
-            }
-            .hero {
-                min-height: 70vh;
-            }
-        }
-
-        .toast-msg {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ff44ddcc;
-            backdrop-filter: blur(20px);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 60px;
-            font-weight: bold;
-            z-index: 1000;
-            animation: fadeUp 0.2s ease;
-            font-size: clamp(0.8rem, 3vw, 0.9rem);
-            white-space: nowrap;
-        }
-
-        @media (max-width: 480px) {
-            .toast-msg {
-                white-space: normal;
-                text-align: center;
-                max-width: 85%;
-                line-height: 1.3;
-            }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; bottom: 0; }
-            to { opacity: 1; bottom: 20px; }
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #110022;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ff44cc;
-            border-radius: 10px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #05020a; font-family: 'Inter', sans-serif; color: #f0eef7; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        .particle-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 30%, #0a0318, #010001); }
+        
+        section { padding: 60px 16px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        
+        .glass-card { background: rgba(15, 5, 30, 0.55); backdrop-filter: blur(12px); border-radius: 1.5rem; border: 1px solid rgba(255, 100, 200, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(255,0,212,0.2); transition: transform 0.2s ease, box-shadow 0.3s; }
+        .glass-card:hover { box-shadow: 0 0 25px rgba(255,80,200,0.6); transform: translateY(-4px); }
+        
+        .hero { min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; padding: 40px 16px 60px; }
+        
+        .hero-avatar { width: min(200px, 45vw); height: min(200px, 45vw); border-radius: 50%; object-fit: cover; border: 4px solid #ff66d0; box-shadow: 0 0 40px rgba(255,102,204,0.8), 0 0 0 8px rgba(255,50,150,0.2); animation: pulseGlow 2s infinite alternate; }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ff44cc, 0 0 0 4px rgba(255,80,200,0.3); } 100% { box-shadow: 0 0 30px #ff66f0, 0 0 0 12px rgba(255,100,200,0.2); } }
+        
+        .hero h1 { font-size: clamp(2rem, 10vw, 4rem); font-weight: 800; margin: 20px 0 10px; background: linear-gradient(135deg, #FFB7FF, #FF44CC, #AA6EF0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero p { font-size: clamp(0.9rem, 4vw, 1.4rem); letter-spacing: 3px; background: rgba(0,0,0,0.5); display: inline-block; padding: 8px 20px; border-radius: 60px; backdrop-filter: blur(5px); }
+        
+        .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; color: #fff; border-radius: 40px; cursor: pointer; transition: 0.2s; box-shadow: 0 0 8px #ff44cc; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; }
+        .btn-neon:hover { background: #ff44cc; color: #000; box-shadow: 0 0 25px #ff44cc; border-color: #ff99ee; transform: scale(1.02); }
+        
+        .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; }
+        
+        .music-player { position: fixed; top: 16px; right: 16px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 8px 16px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .music-player i { font-size: 1.2rem; color: #ff66dd; animation: pulseIcon 1.5s infinite; }
+        @keyframes pulseIcon { 0%,100% { text-shadow: 0 0 2px #ff44cc; } 50% { text-shadow: 0 0 12px #ff66ff; } }
+        
+        .countdown-section { margin: 30px 0 20px; }
+        .countdown-title { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 20px; text-align: center; color: #ffa0f0; animation: pulseText 1s infinite; }
+        @keyframes pulseText { 0%,100% { opacity: 1; } 50% { opacity: 0.8; text-shadow: 0 0 20px #ff44cc; } }
+        
+        .countdown-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .countdown-box { background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 1rem; padding: 15px 20px; text-align: center; min-width: 80px; border: 1px solid #ff66cc; transition: all 0.3s; }
+        .countdown-box:hover { transform: scale(1.05); box-shadow: 0 0 25px #ff44cc; }
+        .countdown-number { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; color: #ff66dd; text-shadow: 0 0 10px #ff44cc; }
+        .countdown-label { font-size: clamp(0.7rem, 3vw, 0.9rem); text-transform: uppercase; letter-spacing: 2px; color: #cc99ff; }
+        
+        .event-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0 10px; }
+        .info-card { background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border-radius: 1rem; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border: 1px solid #ff88dd; }
+        .info-card i { font-size: 1.8rem; color: #ff66dd; }
+        .info-card .info-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #cc99ff; }
+        .info-card .info-value { font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: 600; }
+        
+        @media (max-width: 550px) { .info-card { width: 100%; justify-content: center; } }
+        
+        .counter-card { background: linear-gradient(135deg, rgba(255,68,204,0.2), rgba(170,68,255,0.2)); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 20px; margin: 20px auto; text-align: center; border: 1px solid #ff66dd; max-width: 400px; }
+        .counter-number { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; color: #ff66dd; text-shadow: 0 0 20px #ff44cc; }
+        
+        .extra-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 25px 0 15px; }
+        .extra-card { background: rgba(255,68,204,0.12); backdrop-filter: blur(10px); border-radius: 1rem; padding: 16px 20px; text-align: center; border: 1px solid rgba(255,102,204,0.4); transition: all 0.3s; flex: 1; min-width: 180px; }
+        .extra-card:hover { transform: translateY(-3px); border-color: #ff66dd; box-shadow: 0 0 20px rgba(255,68,204,0.3); }
+        .extra-card i { font-size: 2rem; color: #ff66dd; margin-bottom: 10px; }
+        .extra-card h4 { font-size: 1rem; margin-bottom: 8px; color: #ffa0f0; }
+        .extra-card p { font-size: 0.85rem; opacity: 0.9; }
+        .extra-card .highlight { color: #ff66dd; font-weight: bold; }
+        
+        @media (max-width: 650px) { .extra-card { min-width: 100%; } }
+        
+        .rsvp-form { background: rgba(0,0,0,0.6); backdrop-filter: blur(16px); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 2rem; }
+        @media (min-width: 768px) { .rsvp-form { padding: 2rem; } }
+        
+        .input-group { margin-bottom: 1.2rem; }
+        input, select { width: 100%; padding: 12px 16px; background: rgba(30,15,50,0.8); border: 1px solid #ff77cc; border-radius: 60px; color: white; font-size: clamp(0.9rem, 3.5vw, 1rem); outline: none; transition: 0.2s; }
+        input:focus, select:focus { border-color: #ff44e6; box-shadow: 0 0 12px #ff44e6; }
+        
+        .acompanhantes-container { margin-top: 1rem; padding: 1rem; background: rgba(255,68,204,0.08); border-radius: 1rem; border: 1px dashed #ff66cc; }
+        .acompanhante-input { margin-bottom: 0.8rem; }
+        .acompanhante-input label { font-size: 0.8rem; color: #ffa0f0; margin-bottom: 0.3rem; display: block; }
+        .acompanhante-input input { width: 100%; padding: 10px 14px; background: rgba(30,15,50,0.8); border: 1px solid #ff77cc; border-radius: 60px; color: white; font-size: 0.9rem; }
+        
+        .lista-confirmacoes { max-height: 300px; overflow-y: auto; padding: 0 4px; }
+        .confirm-item { background: rgba(255,200,240,0.08); margin: 8px 0; padding: 10px 14px; border-radius: 40px; border-left: 4px solid #ff66dd; font-weight: 500; font-size: clamp(0.8rem, 3vw, 0.95rem); backdrop-filter: blur(4px); word-break: break-word; }
+        
+        .personagens-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
+        .tab-btn { background: rgba(0,0,0,0.5); border: 1px solid #ff55bb; padding: 8px 16px; border-radius: 40px; color: #ffddfa; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: clamp(0.7rem, 3vw, 0.9rem); white-space: nowrap; }
+        @media (max-width: 480px) { .tab-btn { padding: 6px 12px; font-size: 0.7rem; } }
+        .tab-btn.active, .tab-btn:hover { background: #ff44cc; color: #11001c; box-shadow: 0 0 16px #ff44cc; border-color: white; }
+        
+        .personagem-header { text-align: center; margin-bottom: 1.2rem; }
+        .personagem-header h3 { font-size: clamp(1.4rem, 6vw, 2.2rem); color: #ffa0f0; margin-bottom: 6px; }
+        .personagem-header .ator { font-size: clamp(0.75rem, 3vw, 1rem); color: #cc99ff; margin-bottom: 12px; }
+        .estilo-box { background: rgba(255,68,204,0.15); border-radius: 60px; padding: 8px 16px; display: inline-block; margin: 12px auto; font-size: clamp(0.75rem, 3vw, 0.95rem); font-weight: 500; backdrop-filter: blur(4px); border: 1px solid #ff88dd; max-width: 90%; }
+        
+        .inspiration-links { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        @media (min-width: 600px) { .inspiration-links { flex-direction: row; justify-content: center; } }
+        
+        .inspiration-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 1.2rem; padding: 18px 16px; text-align: center; transition: all 0.3s; border: 1px solid #ff66cc; flex: 1; }
+        .inspiration-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(255,68,204,0.4); }
+        .inspiration-card i { font-size: clamp(1.8rem, 6vw, 2.5rem); color: #ff66dd; margin-bottom: 10px; }
+        .inspiration-card h4 { font-size: clamp(1rem, 4vw, 1.3rem); margin-bottom: 8px; }
+        .inspiration-card p { font-size: clamp(0.7rem, 3vw, 0.85rem); margin-bottom: 12px; opacity: 0.8; }
+        .btn-inspire { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; padding: 8px 18px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; display: inline-block; text-decoration: none; font-size: clamp(0.7rem, 3vw, 0.85rem); }
+        .btn-inspire:hover { transform: scale(1.05); box-shadow: 0 0 15px #ff66ff; }
+        
+        .poll-section { margin-top: 30px; }
+        .poll-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
+        .poll-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 15px 0; }
+        .poll-btn { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 16px; border-radius: 40px; cursor: pointer; transition: 0.2s; color: white; }
+        .poll-btn:hover, .poll-btn.active { background: #ff44cc; color: #000; box-shadow: 0 0 15px #ff44cc; }
+        .poll-result { margin-top: 15px; font-size: 0.9rem; }
+        
+        footer { text-align: center; padding: 30px 16px; border-top: 1px solid rgba(255,68,200,0.3); font-size: clamp(0.7rem, 2.5vw, 0.8rem); }
+        
+        @media (max-width: 480px) { section { padding: 40px 12px; } .hero { min-height: 70vh; } }
+        
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ff44ddcc; backdrop-filter: blur(20px); color: white; padding: 10px 20px; border-radius: 60px; font-weight: bold; z-index: 1000; animation: fadeUp 0.2s ease; font-size: clamp(0.8rem, 3vw, 0.9rem); white-space: nowrap; }
+        @media (max-width: 480px) { .toast-msg { white-space: normal; text-align: center; max-width: 85%; line-height: 1.3; } }
+        @keyframes fadeUp { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #110022; }
+        ::-webkit-scrollbar-thumb { background: #ff44cc; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<canvas id="glitter-canvas"></canvas>
 <div class="particle-bg"></div>
 
 <div id="musicToggle" class="music-player">
@@ -710,92 +146,41 @@
     </div>
     
     <div class="countdown-section">
-        <div class="countdown-title">
-            <i class="fas fa-hourglass-half"></i> FALTAM <i class="fas fa-hourglass-half"></i>
-        </div>
+        <div class="countdown-title"><i class="fas fa-hourglass-half"></i> FALTAM <i class="fas fa-hourglass-half"></i></div>
         <div class="countdown-container" id="countdown">
-            <div class="countdown-box">
-                <div class="countdown-number" id="days">00</div>
-                <div class="countdown-label">DIAS</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="hours">00</div>
-                <div class="countdown-label">HORAS</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="minutes">00</div>
-                <div class="countdown-label">MINUTOS</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="seconds">00</div>
-                <div class="countdown-label">SEGUNDOS</div>
-            </div>
+            <div class="countdown-box"><div class="countdown-number" id="days">00</div><div class="countdown-label">DIAS</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="hours">00</div><div class="countdown-label">HORAS</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">MINUTOS</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">SEGUNDOS</div></div>
         </div>
     </div>
 
     <div class="event-info">
-        <div class="info-card">
-            <i class="fas fa-calendar-alt"></i>
-            <div class="info-text">
-                <div class="info-label">DATA</div>
-                <div class="info-value">09 de Maio, 2026</div>
-            </div>
-        </div>
-        <div class="info-card">
-            <i class="fas fa-clock"></i>
-            <div class="info-text">
-                <div class="info-label">HORÁRIO</div>
-                <div class="info-value">13:00 às 22:00</div>
-            </div>
-        </div>
-        <div class="info-card">
-            <i class="fas fa-map-marker-alt"></i>
-            <div class="info-text">
-                <div class="info-label">LOCAL</div>
-                <div class="info-value">Rua José Daniel Kielander, 468<br>Jd. Arapongas ZN - Londrina/PR</div>
-            </div>
-        </div>
+        <div class="info-card"><i class="fas fa-calendar-alt"></i><div class="info-text"><div class="info-label">DATA</div><div class="info-value">09 de Maio, 2026</div></div></div>
+        <div class="info-card"><i class="fas fa-clock"></i><div class="info-text"><div class="info-label">HORÁRIO</div><div class="info-value">13:00 às 22:00</div></div></div>
+        <div class="info-card"><i class="fas fa-map-marker-alt"></i><div class="info-text"><div class="info-label">LOCAL</div><div class="info-value">Rua José Daniel Kielander, 468<br>Jd. Arapongas ZN - Londrina/PR</div></div></div>
     </div>
 
     <div class="counter-card">
         <div class="counter-number" id="totalPessoas">0</div>
         <div class="counter-label">PESSOAS CONFIRMADAS</div>
-        <div class="counter-sub">
-            <i class="fas fa-users"></i> Contando aniversariante + acompanhantes
-        </div>
     </div>
 
     <div class="extra-info">
-        <div class="extra-card">
-            <i class="fas fa-drumstick-bite"></i>
-            <h4>🍖 CHURRASCO</h4>
-            <p>Leve <span class="highlight">1kg de carne</span> por pessoa!</p>
-        </div>
-        <div class="extra-card">
-            <i class="fas fa-cocktail"></i>
-            <h4>🥂 SHOTS DA ANIVERSARIANTE</h4>
-            <p>Vodka na boca <span class="highlight">dado pela Ana Beatriz</span></p>
-        </div>
-        <div class="extra-card">
-            <i class="fas fa-swimmer"></i>
-            <h4>🏊 PISCINA LIBERADA</h4>
-            <p>Traga sua roupa de banho!</p>
-        </div>
+        <div class="extra-card"><i class="fas fa-drumstick-bite"></i><h4>🍖 CHURRASCO</h4><p>Leve <span class="highlight">1kg de carne</span> por pessoa!</p></div>
+        <div class="extra-card"><i class="fas fa-cocktail"></i><h4>🥂 SHOTS DA ANIVERSARIANTE</h4><p>Vodka na boca <span class="highlight">dado pela Ana Beatriz</span></p></div>
+        <div class="extra-card"><i class="fas fa-swimmer"></i><h4>🏊 PISCINA LIBERADA</h4><p>Traga sua roupa de banho!</p></div>
     </div>
 
-    <div style="margin-top: 20px;">
-        <a href="#rsvp" class="btn-neon">✨ CONFIRMAR PRESENÇA ✨</a>
-    </div>
+    <div style="margin-top: 20px;"><a href="#rsvp" class="btn-neon">✨ CONFIRMAR PRESENÇA ✨</a></div>
 </section>
 
 <section id="rsvp">
     <div class="glass-card" style="padding: 20px 16px;">
-        <h2 style="font-size: clamp(1.4rem, 5vw, 2rem); text-align: center; margin-bottom: 20px;"><i class="fas fa-star-of-life" style="color:#ff66dd;"></i> RSVP · Confirmação <i class="fas fa-heart" style="color:#ff44cc;"></i></h2>
+        <h2 style="font-size: clamp(1.4rem, 5vw, 2rem); text-align: center; margin-bottom: 20px;"><i class="fas fa-star-of-life"></i> RSVP · Confirmação <i class="fas fa-heart"></i></h2>
         <div class="rsvp-form">
             <form id="formConfirmacao">
-                <div class="input-group">
-                    <input type="text" id="nome" placeholder="Seu nome *" required>
-                </div>
+                <div class="input-group"><input type="text" id="nome" placeholder="Seu nome *" required></div>
                 <div class="input-group">
                     <select id="quantidade">
                         <option value="1">1 pessoa (só eu)</option>
@@ -805,24 +190,16 @@
                         <option value="5">5 pessoas (eu + 4)</option>
                     </select>
                 </div>
-                
                 <div id="acompanhantesContainer" class="acompanhantes-container" style="display: none;">
-                    <div style="font-size: 0.85rem; color: #ffa0f0; margin-bottom: 12px;">
-                        <i class="fas fa-users"></i> Informe o nome dos acompanhantes:
-                    </div>
+                    <div style="font-size: 0.85rem; color: #ffa0f0; margin-bottom: 12px;"><i class="fas fa-users"></i> Informe o nome dos acompanhantes:</div>
                     <div id="acompanhantesList"></div>
                 </div>
-                
-                <div style="text-align: center;">
-                    <button type="submit" class="btn-neon"><i class="fas fa-check-circle"></i> Confirmar presença</button>
-                </div>
+                <div style="text-align: center;"><button type="submit" class="btn-neon"><i class="fas fa-check-circle"></i> Confirmar presença</button></div>
             </form>
         </div>
         <div style="margin-top: 20px;">
-            <h3 style="font-size: clamp(1.1rem, 4vw, 1.3rem);"><i class="fas fa-users"></i> Confirmados até agora ✨</h3>
-            <div id="listaConfirmados" class="lista-confirmacoes">
-                <div style="text-align:center; padding:20px;">Carregando convidados...</div>
-            </div>
+            <h3><i class="fas fa-users"></i> Confirmados até agora ✨</h3>
+            <div id="listaConfirmados" class="lista-confirmacoes"><div style="text-align:center; padding:20px;">Carregando convidados...</div></div>
         </div>
     </div>
 </section>
@@ -855,7 +232,7 @@
 <footer>
     <p>✦ Estética Euphoria • Ana Beatriz • Todas as emoções em neon ✦</p>
     <p style="margin-top: 10px;"><i class="fas fa-camera"></i> glitter, drama e brilho infinito</p>
-    <p style="margin-top: 15px; font-size: 0.7rem;">Rua José Daniel Kielander, 468 - Jd. Arapongas ZN - Londrina/PR • 09/05 • 13h às 22h</p>
+    <p style="margin-top: 15px; font-size: 0.7rem;">Rua José Daniel Kielander, 468 - Londrina/PR • 09/05 • 13h às 22h</p>
 </footer>
 
 <script type="module">
@@ -888,40 +265,42 @@
     let pollVotes = { Maddie: 0, Cassie: 0, Jules: 0, Rue: 0, Kat: 0, Fez: 0 };
     let userVoted = false;
 
-    // Função de confete melhorada
+    // Função de confete SIMPLES e que funciona
     function showConfetti() {
-        canvasConfetti({
-            particleCount: 200,
-            spread: 100,
-            origin: { y: 0.6 },
-            colors: ['#ff44cc', '#ff66dd', '#aa44ff', '#ff88ee', '#ffffff', '#ff99ff']
-        });
-        
-        setTimeout(() => {
-            canvasConfetti({
-                particleCount: 100,
-                angle: 60,
-                spread: 80,
-                origin: { x: 0, y: 0.7 },
-                colors: ['#ff44cc', '#ff88ee', '#ff66dd']
-            });
-            canvasConfetti({
-                particleCount: 100,
-                angle: 120,
-                spread: 80,
-                origin: { x: 1, y: 0.7 },
-                colors: ['#ff44cc', '#ff88ee', '#ff66dd']
-            });
-        }, 100);
-        
-        setTimeout(() => {
-            canvasConfetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.5 },
-                colors: ['#ff44cc', '#ffffff', '#aa44ff']
-            });
-        }, 200);
+        // Confete principal
+        for(let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const colors = ['#ff44cc', '#ff66dd', '#aa44ff', '#ff88ee', '#ffffff'];
+                for(let j = 0; j < 50; j++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.left = Math.random() * window.innerWidth + 'px';
+                    particle.style.top = '-10px';
+                    particle.style.width = Math.random() * 8 + 4 + 'px';
+                    particle.style.height = Math.random() * 8 + 4 + 'px';
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9999';
+                    particle.style.opacity = '1';
+                    particle.style.boxShadow = '0 0 5px ' + particle.style.backgroundColor;
+                    document.body.appendChild(particle);
+                    
+                    let pos = -10;
+                    const fall = setInterval(() => {
+                        pos += Math.random() * 5 + 3;
+                        particle.style.top = pos + 'px';
+                        particle.style.left = parseFloat(particle.style.left) + (Math.random() - 0.5) * 3 + 'px';
+                        particle.style.opacity = 1 - pos / window.innerHeight;
+                        
+                        if (pos > window.innerHeight) {
+                            clearInterval(fall);
+                            particle.remove();
+                        }
+                    }, 16);
+                }
+            }, i * 100);
+        }
     }
 
     // Botão copiar link
@@ -944,12 +323,7 @@
         acompanhantesContainer.style.display = 'block';
         let html = '';
         for (let i = 1; i <= numAcompanhantes; i++) {
-            html += `
-                <div class="acompanhante-input">
-                    <label><i class="fas fa-user-friends"></i> Acompanhante ${i}</label>
-                    <input type="text" name="acompanhante${i}" placeholder="Nome do acompanhante ${i}" class="acompanhante-nome">
-                </div>
-            `;
+            html += `<div class="acompanhante-input"><label><i class="fas fa-user-friends"></i> Acompanhante ${i}</label><input type="text" name="acompanhante${i}" placeholder="Nome do acompanhante ${i}" class="acompanhante-nome"></div>`;
         }
         acompanhantesList.innerHTML = html;
     }
@@ -986,7 +360,6 @@
             }
         });
         
-        // Desabilitar botão para evitar duplo clique
         const submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
         submitBtn.textContent = 'Confirmando...';
@@ -999,11 +372,9 @@
                 timestamp: serverTimestamp()
             });
             
-            // Sucesso!
             showConfetti();
             showToast(`✨ Confirmado, ${nome}! ✨`, false);
             
-            // Limpar formulário
             form.reset();
             nomeInput.value = '';
             quantidadeSelect.value = '1';
@@ -1011,10 +382,9 @@
             acompanhantesList.innerHTML = '';
             
         } catch (error) {
-            console.error("Erro detalhado:", error);
+            console.error("Erro:", error);
             showToast(`Erro: ${error.message || "Tente novamente"}`, true);
         } finally {
-            // Reabilitar botão
             submitBtn.disabled = false;
             submitBtn.textContent = 'Confirmar presença';
         }
@@ -1035,14 +405,8 @@
             const nomeExibido = data.nome || "Anônimo";
             const qtd = parseInt(data.quantidade) || 1;
             const acompanhantes = data.acompanhantes || [];
-            
             totalPessoas += qtd;
-            
-            let acompanhantesText = '';
-            if (acompanhantes.length > 0) {
-                acompanhantesText = ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${acompanhantes.join(', ')})</span>`;
-            }
-            
+            let acompanhantesText = acompanhantes.length > 0 ? ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${acompanhantes.join(', ')})</span>` : '';
             html += `<div class="confirm-item"><i class="fas fa-glitter" style="color:#ff88ee;"></i> <strong>${escapeHtml(nomeExibido)}</strong> - ${qtd} pessoa(s)${acompanhantesText}</div>`;
         });
         
@@ -1089,66 +453,6 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Partículas de glitter
-    const canvas = document.getElementById('glitter-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    
-    class GlitterParticle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 3 + 1;
-            this.speedY = Math.random() * 0.8 + 0.1;
-            this.color = ['#ff44cc', '#ff88ee', '#aa44ff', '#ff66dd'][Math.floor(Math.random() * 4)];
-        }
-        update() {
-            this.y += this.speedY;
-            if (this.y > canvas.height) {
-                this.y = 0;
-                this.x = Math.random() * canvas.width;
-            }
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = this.color;
-            ctx.fill();
-        }
-    }
-    
-    function initGlitter() {
-        for (let i = 0; i < 200; i++) {
-            particles.push(new GlitterParticle());
-        }
-    }
-    
-    function animateGlitter() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        requestAnimationFrame(animateGlitter);
-    }
-    
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        particles = [];
-        initGlitter();
-    });
-    
-    resizeCanvas();
-    initGlitter();
-    animateGlitter();
-
     // Enquete
     function updatePollDisplay() {
         const total = Object.values(pollVotes).reduce((a, b) => a + b, 0);
@@ -1159,15 +463,7 @@
         let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
         for (const [personagem, votes] of Object.entries(pollVotes)) {
             const percentage = Math.round((votes / total) * 100);
-            html += `
-                <div>
-                    <span style="display: inline-block; width: 80px;">${personagem}</span>
-                    <div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;">
-                        <div style="width: ${percentage}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div>
-                    </div>
-                    <span style="margin-left: 10px;">${percentage}% (${votes})</span>
-                </div>
-            `;
+            html += `<div><span style="display: inline-block; width: 80px;">${personagem}</span><div style="display: inline-block; width: 60%; background: rgba(255,68,204,0.2); border-radius: 20px; overflow: hidden;"><div style="width: ${percentage}%; background: linear-gradient(90deg, #ff44cc, #aa44ff); height: 20px; border-radius: 20px;"></div></div><span style="margin-left: 10px;">${percentage}% (${votes})</span></div>`;
         }
         html += '</div>';
         document.getElementById('pollResult').innerHTML = html;
@@ -1202,42 +498,15 @@
 
     // Personagens
     const characters = [
-        { id: "maddy", name: "MADDY PEREZ", ator: "Alexa Demie", 
-          estilo: "🔥 Sexy, confiante, roupas justas, maquiagem marcante, delineado forte.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits",
-          google: "https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
-        { id: "cassie", name: "CASSIE HOWARD", ator: "Sydney Sweeney", 
-          estilo: "💖 Romântico, feminino, tons pastéis, brilho delicado.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits",
-          google: "https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },
-        { id: "jules", name: "JULES VAUGHN", ator: "Hunter Schafer", 
-          estilo: "🌈 Artístico, colorido, criativo, maquiagem experimental.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=jules%20euphoria%20makeup",
-          google: "https://www.google.com/search?q=jules+euphoria+makeup&tbm=isch" },
-        { id: "rue", name: "RUE BENNETT", ator: "Zendaya", 
-          estilo: "💊 Oversized, confortável, emocional, maquiagem com glitter.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=rue%20euphoria%20outfits",
-          google: "https://www.google.com/search?q=rue+euphoria+style&tbm=isch" },
-        { id: "nate", name: "NATE JACOBS", ator: "Jacob Elordi", 
-          estilo: "🧊 Simples, atlético, masculino, cores neutras.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=nate%20jacobs%20euphoria%20style",
-          google: "https://www.google.com/search?q=nate+jacobs+euphoria+outfits&tbm=isch" },
-        { id: "fez", name: "FEZCO", ator: "Angus Cloud", 
-          estilo: "🌿 Estilo streetwear, descontraído, camisas largas, vibe tranquila e leal.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=fezco%20euphoria%20style",
-          google: "https://www.google.com/search?q=fezco+euphoria+outfits&tbm=isch" },
-        { id: "lexi", name: "LEXI HOWARD", ator: "Maude Apatow", 
-          estilo: "📚 Estilo mais básico e intelectual, tons neutros, roupas confortáveis, observadora.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=lexi%20howard%20euphoria%20style",
-          google: "https://www.google.com/search?q=lexi+euphoria+outfits&tbm=isch" },
-        { id: "kat", name: "KAT HERNANDEZ", ator: "Barbie Ferreira", 
-          estilo: "🖤 Dark, couro, ousado, dominante, cheia de atitude.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=kat%20hernandez%20euphoria%20outfits",
-          google: "https://www.google.com/search?q=kat+euphoria+outfits&tbm=isch" },
-        { id: "cal", name: "CAL JACOBS", ator: "Eric Dane", 
-          estilo: "👔 Estilo sóbrio, camisas sociais, looks de pai rico, ar misterioso.",
-          pinterest: "https://www.pinterest.com/search/pins/?q=cal%20jacobs%20euphoria%20style",
-          google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" }
+        { id: "maddy", name: "MADDY PEREZ", ator: "Alexa Demie", estilo: "🔥 Sexy, confiante, roupas justas, maquiagem marcante, delineado forte.", pinterest: "https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits", google: "https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
+        { id: "cassie", name: "CASSIE HOWARD", ator: "Sydney Sweeney", estilo: "💖 Romântico, feminino, tons pastéis, brilho delicado.", pinterest: "https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits", google: "https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },
+        { id: "jules", name: "JULES VAUGHN", ator: "Hunter Schafer", estilo: "🌈 Artístico, colorido, criativo, maquiagem experimental.", pinterest: "https://www.pinterest.com/search/pins/?q=jules%20euphoria%20makeup", google: "https://www.google.com/search?q=jules+euphoria+makeup&tbm=isch" },
+        { id: "rue", name: "RUE BENNETT", ator: "Zendaya", estilo: "💊 Oversized, confortável, emocional, maquiagem com glitter.", pinterest: "https://www.pinterest.com/search/pins/?q=rue%20euphoria%20outfits", google: "https://www.google.com/search?q=rue+euphoria+style&tbm=isch" },
+        { id: "nate", name: "NATE JACOBS", ator: "Jacob Elordi", estilo: "🧊 Simples, atlético, masculino, cores neutras.", pinterest: "https://www.pinterest.com/search/pins/?q=nate%20jacobs%20euphoria%20style", google: "https://www.google.com/search?q=nate+jacobs+euphoria+outfits&tbm=isch" },
+        { id: "fez", name: "FEZCO", ator: "Angus Cloud", estilo: "🌿 Estilo streetwear, descontraído, camisas largas, vibe tranquila e leal.", pinterest: "https://www.pinterest.com/search/pins/?q=fezco%20euphoria%20style", google: "https://www.google.com/search?q=fezco+euphoria+outfits&tbm=isch" },
+        { id: "lexi", name: "LEXI HOWARD", ator: "Maude Apatow", estilo: "📚 Estilo mais básico e intelectual, tons neutros, roupas confortáveis, observadora.", pinterest: "https://www.pinterest.com/search/pins/?q=lexi%20howard%20euphoria%20style", google: "https://www.google.com/search?q=lexi+euphoria+outfits&tbm=isch" },
+        { id: "kat", name: "KAT HERNANDEZ", ator: "Barbie Ferreira", estilo: "🖤 Dark, couro, ousado, dominante, cheia de atitude.", pinterest: "https://www.pinterest.com/search/pins/?q=kat%20hernandez%20euphoria%20outfits", google: "https://www.google.com/search?q=kat+euphoria+outfits&tbm=isch" },
+        { id: "cal", name: "CAL JACOBS", ator: "Eric Dane", estilo: "👔 Estilo sóbrio, camisas sociais, looks de pai rico, ar misterioso.", pinterest: "https://www.pinterest.com/search/pins/?q=cal%20jacobs%20euphoria%20style", google: "https://www.google.com/search?q=cal+jacobs+euphoria+outfits&tbm=isch" }
     ];
 
     const tabsContainer = document.getElementById('tabsContainer');
@@ -1268,27 +537,13 @@
             <div class="personagem-header">
                 <h3>${character.name}</h3>
                 <div class="ator">✨ interpretada(o) por ${character.ator} ✨</div>
-                <div class="estilo-box">
-                    <i class="fas fa-palette"></i> ${character.estilo}
-                </div>
+                <div class="estilo-box"><i class="fas fa-palette"></i> ${character.estilo}</div>
             </div>
             <div class="inspiration-links">
-                <div class="inspiration-card">
-                    <i class="fab fa-pinterest"></i>
-                    <h4>Pinterest Board</h4>
-                    <p>Explore looks, maquiagem e vibe completa</p>
-                    <a href="${character.pinterest}" target="_blank" class="btn-inspire">Ver no Pinterest →</a>
-                </div>
-                <div class="inspiration-card">
-                    <i class="fab fa-google"></i>
-                    <h4>Google Images</h4>
-                    <p>Galeria de fotos e inspiração visual</p>
-                    <a href="${character.google}" target="_blank" class="btn-inspire">Pesquisar no Google →</a>
-                </div>
+                <div class="inspiration-card"><i class="fab fa-pinterest"></i><h4>Pinterest Board</h4><p>Explore looks, maquiagem e vibe completa</p><a href="${character.pinterest}" target="_blank" class="btn-inspire">Ver no Pinterest →</a></div>
+                <div class="inspiration-card"><i class="fab fa-google"></i><h4>Google Images</h4><p>Galeria de fotos e inspiração visual</p><a href="${character.google}" target="_blank" class="btn-inspire">Pesquisar no Google →</a></div>
             </div>
-            <div style="text-align: center; margin-top: 25px;">
-                <i class="fas fa-crown"></i> Vista-se como seu personagem favorito!
-            </div>
+            <div style="text-align: center; margin-top: 25px;"><i class="fas fa-crown"></i> Vista-se como seu personagem favorito!</div>
         `;
         contentArea.innerHTML = html;
         contentArea.style.opacity = '0';

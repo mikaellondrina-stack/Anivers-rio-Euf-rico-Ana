@@ -35,7 +35,6 @@
         
         .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; }
         
-        /* Botões em linha responsivos */
         .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 15px 0; }
         @media (max-width: 480px) { .button-group { gap: 8px; } .btn-neon { padding: 8px 16px; font-size: 0.75rem; } }
         
@@ -43,7 +42,6 @@
         .floating-cta a { color: white; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         @keyframes floatPulse { 0% { box-shadow: 0 0 5px #ff44cc; } 100% { box-shadow: 0 0 20px #ff44cc; } }
         
-        /* Botão da música - VOLTOU PARA O TOPO DIREITO */
         .music-player { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 10px 18px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 0 10px rgba(255,68,204,0.5); }
         .music-player i { font-size: 1.2rem; color: #ff66dd; animation: pulseIcon 1.5s infinite; }
         @keyframes pulseIcon { 0%,100% { text-shadow: 0 0 2px #ff44cc; } 50% { text-shadow: 0 0 12px #ff66ff; } }
@@ -109,8 +107,6 @@
 <div class="particle-bg"></div>
 
 <div class="floating-cta"><a href="#rsvp"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA</a></div>
-
-<!-- Botão da música - VOLTOU PARA O TOPO DIREITO -->
 <div id="musicToggle" class="music-player"><i class="fas fa-play"></i><span>♫ EUPHORIA</span></div>
 
 <section class="hero" id="home">
@@ -174,6 +170,7 @@
     </div>
 </section>
 
+<!-- Enquete com 9 personagens -->
 <section id="enquete">
     <div class="glass-card" style="padding: 20px 16px;">
         <h2 style="text-align:center;"><i class="fas fa-poll"></i> Qual personagem Euphoria você mais se identifica?</h2>
@@ -185,6 +182,9 @@
                 <button data-personagem="Rue" class="poll-btn">💊 Rue</button>
                 <button data-personagem="Kat" class="poll-btn">🖤 Kat</button>
                 <button data-personagem="Fez" class="poll-btn">🌿 Fez</button>
+                <button data-personagem="Lexi" class="poll-btn">📚 Lexi</button>
+                <button data-personagem="Nate" class="poll-btn">🧊 Nate</button>
+                <button data-personagem="Cal" class="poll-btn">👔 Cal</button>
             </div>
             <div id="pollResult" class="poll-result"></div>
         </div>
@@ -227,10 +227,14 @@
     let hasConfirmed = sessionStorage.getItem('hasConfirmed');
     let userVoted = sessionStorage.getItem('userVotedPoll');
 
+    // Inicializar documento de votos com 9 personagens
     async function initPoll() {
         const docSnap = await getDoc(votosRef);
         if (!docSnap.exists()) {
-            await setDoc(votosRef, { Maddie: 0, Cassie: 0, Jules: 0, Rue: 0, Kat: 0, Fez: 0 });
+            await setDoc(votosRef, {
+                Maddie: 0, Cassie: 0, Jules: 0, Rue: 0, Kat: 0, Fez: 0,
+                Lexi: 0, Nate: 0, Cal: 0
+            });
         }
     }
     initPoll();
@@ -295,19 +299,14 @@
         },i*100);
     }
     
-    // Botão calendário - Detecta dispositivo e abre app nativo
+    // Calendário
     document.getElementById('calendarBtn').addEventListener('click', () => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const eventTitle = encodeURIComponent('Aniversário Eufórico - Ana Beatriz');
-        const eventDate = '20260509T130000Z';
-        const eventEnd = '20260509T220000Z';
         const eventLocation = encodeURIComponent('Rua José Daniel Kielander, 468 - Londrina/PR');
         const eventDetails = encodeURIComponent('Churrasco, piscina, shots de vodka e muita Euphoria! Leve 1kg de carne por pessoa.');
         
         if (isIOS) {
-            // iPhone - Apple Calendar
-            const appleUrl = `webcal://p03-calendars.icloud.com/published/2/MTI3MjE0NzU5MjEyNzIxNDlVtNQ8VHn1qQJk7vWxX6YzZ9`; // fallback
-            // Melhor: criar arquivo .ics
             const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
@@ -326,7 +325,6 @@ END:VCALENDAR`;
             URL.revokeObjectURL(link.href);
             showToast('📅 Arquivo .ics baixado! Abra para adicionar ao seu calendário.');
         } else {
-            // Android/Samsung - Google Calendar
             const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=20260509T130000/20260509T220000&details=${eventDetails}&location=${eventLocation}`;
             window.open(googleUrl, '_blank');
             showToast('📅 Abrindo Google Calendar...');
@@ -395,6 +393,7 @@ END:VCALENDAR`;
     }
     updateCountdown(); setInterval(updateCountdown,1000);
     
+    // Partículas
     let particles=[], animId;
     function startParticles(){ if(animId) cancelAnimationFrame(animId); animateGlitter(); }
     function stopParticles(){ if(animId) cancelAnimationFrame(animId); animId=null; }
@@ -410,6 +409,7 @@ END:VCALENDAR`;
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
     
+    // Personagens
     const chars = [
         { id:"maddy", name:"MADDY PEREZ", ator:"Alexa Demie", estilo:"🔥 Sexy, confiante, delineado forte.", pinterest:"https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits", google:"https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
         { id:"cassie", name:"CASSIE HOWARD", ator:"Sydney Sweeney", estilo:"💖 Romântico, tons pastéis, brilho delicado.", pinterest:"https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits", google:"https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },

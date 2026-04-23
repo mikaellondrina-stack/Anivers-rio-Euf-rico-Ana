@@ -17,12 +17,10 @@
         
         .particle-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 30%, #0a0318, #010001); }
         
-        /* Estrela cadente */
         .shooting-star { position: fixed; width: 2px; height: 2px; background: linear-gradient(45deg, #fff, #ff44cc); border-radius: 50%; box-shadow: 0 0 10px #ff44cc; pointer-events: none; z-index: -1; }
         
         section { padding: 60px 16px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         
-        /* Efeito 3D nos cards */
         .glass-card {
             background: rgba(15, 5, 30, 0.65);
             backdrop-filter: blur(12px);
@@ -30,7 +28,6 @@
             border: 1px solid rgba(255, 100, 200, 0.3);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
         }
         .glass-card:hover {
             transform: translateY(-5px) rotateX(2deg);
@@ -57,13 +54,10 @@
         .floating-cta a { color: white; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         @keyframes floatPulse { 0% { box-shadow: 0 0 5px #ff44cc; } 100% { box-shadow: 0 0 20px #ff44cc; } }
         
-        /* Player de música com beat visualizer */
         .music-player { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 10px 18px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 0 10px rgba(255,68,204,0.5); }
         .music-player i { font-size: 1.2rem; color: #ff66dd; animation: pulseIcon 1.5s infinite; }
         @keyframes pulseIcon { 0%,100% { text-shadow: 0 0 2px #ff44cc; } 50% { text-shadow: 0 0 12px #ff66ff; } }
-        .visualizer { display: flex; gap: 3px; align-items: center; margin-left: 8px; }
-        .visualizer span { width: 4px; background: #ff66dd; border-radius: 2px; transition: height 0.1s; }
-        @media (max-width: 768px) { .music-player { top: 16px; right: 16px; padding: 8px 14px; } .visualizer span { width: 3px; } }
+        @media (max-width: 768px) { .music-player { top: 16px; right: 16px; padding: 8px 14px; } }
         
         .countdown-section { margin: 30px 0 20px; }
         .countdown-title { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 20px; text-align: center; color: #ffa0f0; }
@@ -97,7 +91,6 @@
         .confirm-item { background: rgba(255,200,240,0.1); margin: 8px 0; padding: 10px 14px; border-radius: 40px; border-left: 4px solid #ff66dd; transition: all 0.2s; }
         .confirm-item:hover { transform: translateX(5px); background: rgba(255,200,240,0.2); }
         
-        /* Mural de recados */
         .mural-section { margin-top: 30px; }
         .mural-container { max-height: 200px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 1rem; }
         .mensagem-item { background: rgba(255,68,204,0.08); margin: 8px 0; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; border-left: 3px solid #ff66dd; }
@@ -128,7 +121,6 @@
         .poll-btn.voted { background: #ff44cc; color: #000; box-shadow: 0 0 15px #ff44cc; cursor: default; opacity: 0.7; transform: none; }
         .poll-result { margin-top: 15px; font-size: 0.9rem; }
         
-        /* Quiz */
         .quiz-section { margin-top: 30px; }
         .quiz-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
         .quiz-question { font-size: 1.1rem; margin-bottom: 15px; }
@@ -137,7 +129,7 @@
         .quiz-opt:hover { background: #ff44cc; color: #000; transform: scale(1.02); }
         .quiz-resultado { font-size: 1rem; margin-top: 10px; color: #ffa0f0; }
         
-        .surpresa-btn { margin-top: 20px; }
+        .surpresa-btn { margin-top: 20px; text-align: center; }
         
         footer { text-align: center; padding: 30px 16px; border-top: 1px solid rgba(255,68,200,0.3); font-size: 0.8rem; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ff44dd; color: white; padding: 10px 20px; border-radius: 60px; z-index: 1001; animation: fadeUp 0.2s; }
@@ -153,14 +145,9 @@
 
 <div class="floating-cta"><a href="#rsvp"><i class="fas fa-check-circle"></i> CONFIRMAR PRESENÇA</a></div>
 
-<!-- Player de música com beat visualizer -->
 <div id="musicToggle" class="music-player">
     <i class="fas fa-play"></i>
     <span>♫ EUPHORIA</span>
-    <div class="visualizer" id="visualizer">
-        <span style="height: 8px"></span><span style="height: 15px"></span><span style="height: 10px"></span>
-        <span style="height: 20px"></span><span style="height: 12px"></span><span style="height: 18px"></span>
-    </div>
 </div>
 
 <section class="hero" id="home">
@@ -222,7 +209,6 @@
         </div>
         <div><h3><i class="fas fa-users"></i> Confirmados até agora ✨</h3><div id="listaConfirmados" class="lista-confirmacoes"><div style="text-align:center; padding:20px;">Carregando...</div></div></div>
         
-        <!-- MURAL DE RECADOS -->
         <div class="mural-section">
             <h3><i class="fas fa-comment-dots"></i> Mural de recados 💬</h3>
             <div id="muralContainer" class="mural-container"><div style="text-align:center; padding:10px;">Carregando mensagens...</div></div>
@@ -235,7 +221,6 @@
     </div>
 </section>
 
-<!-- QUIZ RÁPIDO -->
 <section id="quiz" class="quiz-section">
     <div class="glass-card" style="padding: 20px 16px;">
         <h2 style="text-align:center; margin-bottom:15px;"><i class="fas fa-question-circle"></i> Descubra seu personagem Euphoria</h2>
@@ -267,8 +252,7 @@
     </div>
 </section>
 
-<!-- Botão surpresa -->
-<div style="text-align: center; margin: -20px 0 20px;">
+<div class="surpresa-btn">
     <button id="surpresaBtn" class="btn-neon"><i class="fas fa-gift"></i> Revelar surpresa</button>
 </div>
 
@@ -427,33 +411,6 @@
         }, 2000);
     });
 
-    // Beat visualizer
-    let audioCtx, analyser, source;
-    const visualizerSpans = document.querySelectorAll('#visualizer span');
-    function setupVisualizer() {
-        if(!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 64;
-            source = audioCtx.createMediaElementSource(audio);
-            source.connect(analyser);
-            analyser.connect(audioCtx.destination);
-        }
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        function updateVisualizer() {
-            if(analyser && !audio.paused) {
-                analyser.getByteFrequencyData(dataArray);
-                for(let i=0; i<visualizerSpans.length; i++) {
-                    const val = dataArray[i*2] || 0;
-                    const height = Math.max(5, Math.min(30, val / 5));
-                    visualizerSpans[i].style.height = height + 'px';
-                }
-            }
-            requestAnimationFrame(updateVisualizer);
-        }
-        updateVisualizer();
-    }
-
     // Estrelas cadentes
     function createShootingStar() {
         const star = document.createElement('div');
@@ -600,20 +557,31 @@
     function showChar(id){ let c=chars.find(c=>c.id===id); if(!c) return; contentDiv.innerHTML=`<div class="personagem-header"><h3>${c.name}</h3><div class="ator">✨ interpretada(o) por ${c.ator} ✨</div><div class="estilo-box">${c.estilo}</div></div><div class="inspiration-links"><div class="inspiration-card"><i class="fab fa-pinterest"></i><h4>Pinterest Board</h4><a href="${c.pinterest}" target="_blank" class="btn-inspire">Ver no Pinterest →</a></div><div class="inspiration-card"><i class="fab fa-google"></i><h4>Google Images</h4><a href="${c.google}" target="_blank" class="btn-inspire">Pesquisar no Google →</a></div></div>`; }
     buildTabs();
     
+    // MÚSICA - CORRIGIDA E SIMPLES
     const audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
-    audio.loop=true; audio.volume=0.5;
-    const musicBtn=document.getElementById('musicToggle'); let playing=false;
-    musicBtn.addEventListener('click',()=>{
-        if(playing){ audio.pause(); musicBtn.innerHTML='<i class="fas fa-play"></i><span>♫ EUPHORIA</span>'; }
-        else{ 
-            audio.play().catch(e=>console.log);
-            musicBtn.innerHTML='<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>';
-            if(!audioCtx) setupVisualizer();
-            else if(audioCtx.state === 'suspended') audioCtx.resume();
+    audio.loop = true;
+    audio.volume = 0.5;
+    
+    const musicBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
+    
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            musicBtn.innerHTML = '<i class="fas fa-play"></i><span>♫ EUPHORIA</span>';
+            isPlaying = false;
+        } else {
+            audio.play().catch(e => console.log("Erro ao reproduzir:", e));
+            musicBtn.innerHTML = '<i class="fas fa-pause"></i><span>♫ EUPHORIA</span>';
+            isPlaying = true;
         }
-        playing=!playing;
     });
-    audio.addEventListener('ended',()=>{ if(playing) audio.play(); });
+    
+    audio.addEventListener('ended', () => {
+        if (isPlaying) {
+            audio.play();
+        }
+    });
     
     function setupPollButtons() {
         document.querySelectorAll('.poll-btn').forEach(btn => {

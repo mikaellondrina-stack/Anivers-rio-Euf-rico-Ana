@@ -458,6 +458,7 @@
     const confirmacoesRef = collection(db, "confirmacoes");
     const mensagensRef = collection(db, "mensagens");
     const votosRef = doc(db, "enquete", "personagens");
+    const visitasRef = doc(db, "contadores", "visitas");
 
     let hasConfirmed = sessionStorage.getItem('hasConfirmed');
     let userVoted = sessionStorage.getItem('userVotedPoll');
@@ -468,13 +469,30 @@
     let quizResultadoFinal = '';
     let clickCount = 0;
 
-    // Contagem de visualizações
-    let viewCount = localStorage.getItem('siteViews') || 0;
-    viewCount = parseInt(viewCount) + 1;
-    localStorage.setItem('siteViews', viewCount);
-    document.getElementById('viewCounter').innerHTML = `👁️ ${viewCount} visitas`;
+    // ========== CONTAGEM DE VISUALIZAÇÕES EM TEMPO REAL (FIREBASE) ==========
+    async function initVisitas() {
+        const docSnap = await getDoc(visitasRef);
+        if (!docSnap.exists()) {
+            await setDoc(visitasRef, { total: 1 });
+            document.getElementById('viewCounter').innerHTML = `👁️ 1 visita`;
+        } else {
+            const totalAtual = docSnap.data().total;
+            await updateDoc(visitasRef, { total: increment(1) });
+            // O listener abaixo atualizará automaticamente
+        }
+    }
+    
+    // Escutar atualizações em tempo real do contador
+    onSnapshot(visitasRef, (docSnap) => {
+        if (docSnap.exists()) {
+            const total = docSnap.data().total;
+            document.getElementById('viewCounter').innerHTML = `👁️ ${total} visitas`;
+        }
+    });
+    
+    initVisitas();
 
-    // Efeito de digitação
+    // ========== EFEITO DE DIGITAÇÃO ==========
     const nomeCompleto = "Ana Beatriz";
     const typingTitle = document.getElementById('typingTitle');
     let charIndex = 0;
@@ -487,7 +505,7 @@
     }
     typeWriter();
 
-    // Tema claro/escuro
+    // ========== TEMA CLARO/ESCURO ==========
     const themeToggle = document.getElementById('themeToggle');
     let isDarkMode = localStorage.getItem('theme') !== 'light';
     function applyTheme() {
@@ -506,7 +524,7 @@
         applyTheme();
     });
 
-    // Screen de entrada
+    // ========== SCREEN DE ENTRADA ==========
     const entryScreen = document.getElementById('entryScreen');
     const mainContent = document.getElementById('mainContent');
     const entryBtn = document.getElementById('entryBtn');
@@ -541,7 +559,7 @@
         }
     }
 
-    // Música com easter egg
+    // ========== MÚSICA COM EASTER EGG ==========
     function initAudio() {
         audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
         audio.loop = true;
@@ -575,7 +593,7 @@
         setTimeout(() => egg.remove(), 2000);
     }
 
-    // Scroll progress
+    // ========== BARRA DE PROGRESSO ==========
     window.addEventListener('scroll', () => {
         const winScroll = document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - window.innerHeight;
@@ -590,7 +608,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
-    // Scroll reveal
+    // ========== SCROLL REVEAL ==========
     const reveals = document.querySelectorAll('.reveal');
     function checkReveal() {
         reveals.forEach(el => {
@@ -601,7 +619,7 @@
     window.addEventListener('scroll', checkReveal);
     window.addEventListener('load', checkReveal);
     
-    // Data da festa
+    // ========== DATA DA FESTA ==========
     function checkPartyDate() {
         const eventDate = new Date(2026, 4, 9, 13, 0, 0);
         const now = new Date();
@@ -612,7 +630,7 @@
         }
     }
 
-    // Votação
+    // ========== VOTAÇÃO ==========
     async function initPoll() {
         const docSnap = await getDoc(votosRef);
         if (!docSnap.exists()) {
@@ -647,7 +665,7 @@
         } catch(e) { console.error(e); }
     }
 
-    // Mural com notificação
+    // ========== MURAL COM NOTIFICAÇÃO ==========
     let lastMessageCount = 0;
     function carregarMural() {
         onSnapshot(query(mensagensRef, orderBy("timestamp", "desc")), (snap) => {
@@ -691,7 +709,7 @@
         } catch(e) { showToast('Erro ao enviar recado.', true); }
     });
 
-    // Quiz com compartilhamento
+    // ========== QUIZ COM COMPARTILHAMENTO ==========
     const quizPerguntas = [
         { q: "Qual desses estilos você mais usa?", op: ["Glitter e cores vibrantes", "Looks mais básicos", "Couro e roupas ousadas", "Romântico e delicado"] },
         { q: "Como você age em uma festa?", op: ["Centro das atenções", "Observando", "Curto na minha", "Com elegância"] },
@@ -748,20 +766,20 @@
     }
     carregarQuiz();
 
-    // Surpresa
+    // ========== SURPRESA ==========
     document.getElementById('surpresaBtn').addEventListener('click', () => {
         showConfetti();
         showToast('🎁 Surpresa! Você ganhou um abraço virtual da Ana Beatriz! 💖');
         setTimeout(() => showToast('✨ Dica: Vista seu melhor glitter para a festa! ✨'), 2000);
     });
 
-    // Easter egg no título
+    // ========== EASTER EGG NO TÍTULO ==========
     document.querySelector('.hero h1')?.addEventListener('click', () => {
         showToast('💜 Você é especial! 💜');
         showConfetti();
     });
 
-    // Ripple effect
+    // ========== RIPPLE EFFECT ==========
     document.querySelectorAll('.btn-neon, .poll-btn, .tab-btn, .quiz-opt').forEach(btn => {
         btn.classList.add('ripple');
     });
@@ -786,7 +804,7 @@
         },i*100);
     }
     
-    // Calendário
+    // ========== CALENDÁRIO ==========
     document.getElementById('calendarBtn')?.addEventListener('click', () => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
@@ -804,14 +822,14 @@
         }
     });
     
-    // Copiar link
+    // ========== COPIAR LINK ==========
     document.getElementById('copyLinkBtn')?.addEventListener('click',()=>{
         navigator.clipboard.writeText('https://anivers-rio-euf-rico-ana.vercel.app');
         showToast('✨ Link copiado!');
         showConfetti();
     });
     
-    // Formulário RSVP
+    // ========== FORMULÁRIO RSVP ==========
     const form = document.getElementById('formConfirmacao');
     const nomeInput = document.getElementById('nome');
     const qtdSelect = document.getElementById('quantidade');
@@ -855,11 +873,23 @@
         }finally{ btn.disabled=false; btn.textContent='Confirmar presença'; }
     });
     
+    // ========== LISTA DE CONFIRMADOS (COM NOMES DOS ACOMPANHANTES) ==========
     const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snap)=>{
         if(snap.empty){ listaDiv.innerHTML='<div class="confirm-item">💫 Nenhuma confirmação ainda. Seja o primeiro!</div>'; totalSpan.innerText='0'; return; }
         let html='', total=0;
-        snap.forEach(doc=>{ const d=doc.data(); const qtd=parseInt(d.quantidade)||1; total+=qtd; html+=`<div class="confirm-item"><i class="fas fa-glitter"></i> <strong>${escapeHtml(d.nome)}</strong> - ${qtd} pessoa(s)</div>`; });
+        snap.forEach(doc=>{ 
+            const d=doc.data(); 
+            const qtd=parseInt(d.quantidade)||1; 
+            total+=qtd; 
+            const nomePrincipal = escapeHtml(d.nome);
+            const acompanhantes = d.acompanhantes || [];
+            let acompsText = '';
+            if (acompanhantes.length > 0) {
+                acompsText = ` <span style="font-size:0.75rem; opacity:0.8;">(+ ${acompanhantes.map(escapeHtml).join(', ')})</span>`;
+            }
+            html+=`<div class="confirm-item"><i class="fas fa-glitter"></i> <strong>${nomePrincipal}</strong> - ${qtd} pessoa(s)${acompsText}</div>`;
+        });
         listaDiv.innerHTML=html;
         totalSpan.innerText=total;
         updateWelcomeMessage();
@@ -867,7 +897,7 @@
     
     function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // Contagem regressiva
+    // ========== CONTAGEM REGRESSIVA ==========
     function updateCountdown(){
         const ev=new Date(2026,4,9,13,0,0), now=new Date(), diff=ev-now;
         if(diff<=0){ 
@@ -886,7 +916,7 @@
     }
     updateCountdown(); setInterval(updateCountdown,1000);
     
-    // Partículas otimizadas
+    // ========== PARTÍCULAS OTIMIZADAS ==========
     let particles=[], animId;
     function startParticles(){ if(animId) cancelAnimationFrame(animId); animateGlitter(); }
     function stopParticles(){ if(animId) cancelAnimationFrame(animId); animId=null; }
@@ -905,7 +935,7 @@
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
     
-    // Estrelas cadentes
+    // ========== ESTRELAS CADENTES ==========
     function createShootingStar() {
         const star = document.createElement('div');
         star.className = 'shooting-star';
@@ -923,7 +953,7 @@
     }
     setInterval(() => { if(Math.random() > 0.96 && !document.hidden) createShootingStar(); }, 8000);
     
-    // Personagens
+    // ========== PERSONAGENS ==========
     const chars = [
         { id:"maddy", name:"MADDY PEREZ", ator:"Alexa Demie", estilo:"🔥 Sexy, confiante, delineado forte.", pinterest:"https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits", google:"https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
         { id:"cassie", name:"CASSIE HOWARD", ator:"Sydney Sweeney", estilo:"💖 Romântico, tons pastéis, brilho delicado.", pinterest:"https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits", google:"https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },

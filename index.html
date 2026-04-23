@@ -14,73 +14,131 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Temas */
-        body.light-theme {
-            background-color: #f5e6ff;
-            color: #1a0033;
+        /* ========== TEMAS COM CONTRASTE PERFEITO ========== */
+        body {
+            background-color: #05020a;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
+        
+        /* MODO ESCURO (padrão) - texto claro */
+        body {
+            --text-primary: #ffffff;
+            --text-secondary: #ffb3e6;
+            --text-dark: #11001c;
+            --bg-glass: rgba(15, 5, 30, 0.65);
+            --bg-card: rgba(0, 0, 0, 0.6);
+            --border-color: rgba(255, 100, 200, 0.3);
+        }
+        
+        /* MODO CLARO - texto escuro */
+        body.light-theme {
+            --text-primary: #2d0a4a;
+            --text-secondary: #660066;
+            --text-dark: #11001c;
+            --bg-glass: rgba(245, 230, 255, 0.9);
+            --bg-card: rgba(245, 230, 255, 0.85);
+            --border-color: rgba(255, 100, 200, 0.6);
+            background-color: #f5e6ff;
+            color: #2d0a4a;
+        }
+        
         body.light-theme .particle-bg {
             background: radial-gradient(circle at 20% 30%, #f0d9ff, #e6ccff);
         }
-        body.light-theme .glass-card {
-            background: rgba(245, 230, 255, 0.8);
-            border: 1px solid rgba(255, 100, 200, 0.5);
-        }
-        body.light-theme .info-card, 
+        
+        body.light-theme .glass-card,
+        body.light-theme .info-card,
         body.light-theme .extra-card,
         body.light-theme .counter-card,
         body.light-theme .rsvp-form,
         body.light-theme .poll-card,
         body.light-theme .quiz-card,
-        body.light-theme .inspiration-card {
-            background: rgba(245, 230, 255, 0.7);
-            color: #1a0033;
-        }
+        body.light-theme .inspiration-card,
         body.light-theme .countdown-box,
         body.light-theme .confirm-item,
-        body.light-theme .mensagem-item {
-            background: rgba(255, 200, 240, 0.3);
-            color: #1a0033;
+        body.light-theme .mensagem-item,
+        body.light-theme .mural-container,
+        body.light-theme .music-player,
+        body.light-theme .floating-cta,
+        body.light-theme .theme-toggle,
+        body.light-theme .welcome-badge {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
         }
+        
         body.light-theme .btn-neon {
-            color: #1a0033;
+            color: #2d0a4a;
             border-color: #ff44cc;
         }
+        
         body.light-theme .btn-neon:hover {
             background: #ff44cc;
             color: white;
         }
-        body.light-theme input, 
+        
+        body.light-theme input,
         body.light-theme select {
-            background: rgba(245, 230, 255, 0.9);
-            color: #1a0033;
+            background: #ffffff;
+            color: #2d0a4a;
             border-color: #ff88dd;
         }
         
-        body { background-color: #05020a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; transition: all 0.3s ease; }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 60px;
-            padding: 8px 16px;
-            border: 1px solid #ff66dd;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+        body.light-theme .countdown-number,
+        body.light-theme .counter-number {
+            color: #ff44cc;
+            text-shadow: none;
         }
-        .theme-toggle:hover { transform: scale(1.05); box-shadow: 0 0 15px #ff44cc; }
         
+        body.light-theme .hero h1 {
+            background: linear-gradient(135deg, #cc3399, #ff44cc, #8800aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        body.light-theme .poll-btn,
+        body.light-theme .quiz-opt,
+        body.light-theme .tab-btn {
+            color: #2d0a4a;
+            border-color: #ff88dd;
+        }
+        
+        body.light-theme .poll-btn:hover,
+        body.light-theme .quiz-opt:hover,
+        body.light-theme .tab-btn:hover {
+            background: #ff44cc;
+            color: white;
+        }
+        
+        body.light-theme .mensagem-nome {
+            color: #cc33cc;
+        }
+        
+        body.light-theme .entry-screen {
+            background: radial-gradient(circle at center, #f0d9ff, #e6ccff);
+        }
+        
+        body.light-theme .entry-logo {
+            background: linear-gradient(135deg, #cc3399, #ff44cc, #8800aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Elementos comuns */
         .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #ff44cc, #aa44ff); z-index: 10001; transition: width 0.1s; }
         .back-to-top { position: fixed; bottom: 80px; right: 20px; background: rgba(255,68,204,0.8); backdrop-filter: blur(8px); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .back-to-top.show { opacity: 1; visibility: visible; }
         .back-to-top:hover { transform: scale(1.1); background: #ff44cc; box-shadow: 0 0 20px #ff44cc; }
+        
+        .theme-toggle { position: fixed; top: 80px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); border-radius: 60px; padding: 8px 16px; border: 1px solid #ff66dd; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s; color: white; }
+        body.light-theme .theme-toggle { color: #2d0a4a; background: rgba(245,230,255,0.9); }
+        .theme-toggle:hover { transform: scale(1.05); box-shadow: 0 0 15px #ff44cc; }
         
         .entry-screen {
             position: fixed;
@@ -96,7 +154,6 @@
             align-items: center;
             transition: opacity 1s ease-in-out;
         }
-        body.light-theme .entry-screen { background: radial-gradient(circle at center, #f0d9ff, #e6ccff); }
         .entry-screen.fade-out { opacity: 0; pointer-events: none; }
         .typing-title {
             font-size: clamp(2rem, 8vw, 4rem);
@@ -110,6 +167,7 @@
             min-height: 100px;
         }
         .entry-sub { color: #ffa0f0; letter-spacing: 4px; margin-bottom: 40px; font-size: 0.9rem; }
+        body.light-theme .entry-sub { color: #aa44ff; }
         .entry-btn { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; padding: 14px 42px; font-size: 1.2rem; font-weight: bold; color: white; border-radius: 60px; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 20px rgba(255,68,204,0.5); }
         .entry-btn:hover { transform: scale(1.05); box-shadow: 0 0 35px #ff44cc; }
         
@@ -133,9 +191,9 @@
         .hero-avatar { width: min(180px, 40vw); height: min(180px, 40vw); border-radius: 50%; object-fit: cover; border: 4px solid #ff66d0; box-shadow: 0 0 20px rgba(255,102,204,0.6); animation: pulseGlow 2s infinite alternate; }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ff44cc; } 100% { box-shadow: 0 0 25px #ff66f0; } }
         
-        .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; border-radius: 40px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; margin: 5px; }
+        .btn-neon { background: none; border: 2px solid #ff55dd; padding: 12px 28px; font-size: clamp(0.85rem, 3.5vw, 1rem); font-weight: bold; border-radius: 40px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px); text-decoration: none; display: inline-block; margin: 5px; color: inherit; }
         .btn-neon:hover { background: #ff44cc; color: #000; box-shadow: 0 0 20px #ff44cc; border-color: #ff99ee; transform: scale(1.02); }
-        .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; }
+        .btn-copy { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; color: white; }
         
         .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 15px 0; }
         @media (max-width: 480px) { .button-group { gap: 8px; } .btn-neon { padding: 8px 16px; font-size: 0.75rem; } .theme-toggle { top: 70px; right: 16px; padding: 6px 12px; font-size: 0.7rem; } }
@@ -150,6 +208,7 @@
         
         .countdown-section { margin: 30px 0 20px; }
         .countdown-title { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 20px; text-align: center; color: #ffa0f0; }
+        body.light-theme .countdown-title { color: #cc3399; }
         .countdown-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         .countdown-box { background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 1rem; padding: 15px 20px; text-align: center; min-width: 80px; border: 1px solid #ff66cc; transition: all 0.3s; }
         .countdown-box:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 5px 20px rgba(255,68,204,0.3); }
@@ -164,7 +223,7 @@
         
         .rsvp-form { background: rgba(0,0,0,0.6); backdrop-filter: blur(16px); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 2rem; }
         .input-group { margin-bottom: 1.2rem; }
-        input, select { width: 100%; padding: 12px 16px; background: rgba(30,15,50,0.9); border: 1px solid #ff77cc; border-radius: 60px; font-size: 1rem; outline: none; transition: all 0.2s; }
+        input, select { width: 100%; padding: 12px 16px; background: rgba(30,15,50,0.9); border: 1px solid #ff77cc; border-radius: 60px; font-size: 1rem; outline: none; transition: all 0.2s; color: inherit; }
         input:focus, select:focus { border-color: #ff44e6; box-shadow: 0 0 8px #ff44e6; transform: scale(1.01); }
         
         .acompanhantes-container { margin-top: 1rem; padding: 1rem; background: rgba(255,68,204,0.1); border-radius: 1rem; border: 1px dashed #ff66cc; }
@@ -178,39 +237,42 @@
         .mensagem-nome { color: #ff66dd; font-weight: bold; }
         .mural-input { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .mural-input input { flex: 1; padding: 10px; background: rgba(30,15,50,0.9); border: 1px solid #ff77cc; border-radius: 60px; }
-        .notification-toast { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; padding: 10px 20px; border-radius: 60px; z-index: 1002; animation: fadeUp 0.3s; }
+        .notification-toast { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; color: white; padding: 10px 20px; border-radius: 60px; z-index: 1002; animation: fadeUp 0.3s; }
         @keyframes fadeUp { from { opacity: 0; bottom: 80px; } to { opacity: 1; bottom: 120px; } }
         
         .personagens-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
-        .tab-btn { background: rgba(0,0,0,0.5); border: 1px solid #ff55bb; padding: 8px 16px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .tab-btn { background: rgba(0,0,0,0.5); border: 1px solid #ff55bb; padding: 8px 16px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; color: inherit; }
         .tab-btn.active, .tab-btn:hover { background: #ff44cc; color: #11001c; box-shadow: 0 0 12px #ff44cc; transform: scale(1.02); }
         
         .personagem-header { text-align: center; margin-bottom: 1.2rem; }
         .personagem-header h3 { font-size: clamp(1.4rem, 6vw, 2.2rem); color: #ffa0f0; }
+        body.light-theme .personagem-header h3 { color: #cc3399; }
         .estilo-box { background: rgba(255,68,204,0.2); border-radius: 60px; padding: 8px 16px; display: inline-block; margin: 12px auto; font-size: 0.9rem; }
         .inspiration-links { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
         @media (min-width: 600px) { .inspiration-links { flex-direction: row; justify-content: center; } }
         .inspiration-card { background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 1.2rem; padding: 18px 16px; text-align: center; border: 1px solid #ff66cc; flex: 1; transition: all 0.3s; }
         .inspiration-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(255,68,204,0.4); }
-        .btn-inspire { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; padding: 8px 18px; border-radius: 40px; font-weight: bold; display: inline-block; text-decoration: none; margin-top: 10px; }
+        .btn-inspire { background: linear-gradient(135deg, #ff44cc, #aa44ff); border: none; padding: 8px 18px; border-radius: 40px; font-weight: bold; display: inline-block; text-decoration: none; margin-top: 10px; color: white; }
         
         .poll-section { margin-top: 30px; }
         .poll-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
         .poll-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 15px 0; }
-        .poll-btn { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 16px; border-radius: 40px; cursor: pointer; transition: 0.2s; }
-        .poll-btn:hover { background: #ff44cc; transform: scale(1.02); }
-        .poll-result { margin-top: 15px; font-size: 0.9rem; }
+        .poll-btn { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 16px; border-radius: 40px; cursor: pointer; transition: 0.2s; color: inherit; }
+        .poll-btn:hover { background: #ff44cc; color: white; transform: scale(1.02); }
+        .poll-result { margin-top: 15px; font-size: 0.9rem; color: inherit; }
         
         .quiz-section { margin-top: 30px; }
         .quiz-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
         .quiz-question { font-size: 1.1rem; margin-bottom: 15px; }
         .quiz-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .quiz-opt { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 20px; border-radius: 40px; cursor: pointer; transition: 0.2s; }
-        .quiz-opt:hover { background: #ff44cc; transform: scale(1.02); }
+        .quiz-opt { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 20px; border-radius: 40px; cursor: pointer; transition: 0.2s; color: inherit; }
+        .quiz-opt:hover { background: #ff44cc; color: white; transform: scale(1.02); }
         .quiz-resultado { font-size: 1rem; margin-top: 10px; color: #ffa0f0; }
+        body.light-theme .quiz-resultado { color: #cc3399; }
         .share-quiz-btn { margin-top: 15px; padding: 8px 20px; font-size: 0.8rem; }
         
-        .view-counter { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 4px 12px; border-radius: 60px; font-size: 0.7rem; z-index: 1000; }
+        .view-counter { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 4px 12px; border-radius: 60px; font-size: 0.7rem; z-index: 1000; color: white; }
+        body.light-theme .view-counter { background: rgba(245,230,255,0.8); color: #2d0a4a; }
         
         .easter-egg {
             position: fixed;
@@ -224,11 +286,13 @@
             z-index: 10000;
             animation: fadeInOut 2s ease;
             pointer-events: none;
+            color: white;
         }
+        body.light-theme .easter-egg { background: rgba(245,230,255,0.95); color: #2d0a4a; }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } }
         
         footer { text-align: center; padding: 30px 16px; border-top: 1px solid rgba(255,68,200,0.3); font-size: 0.8rem; }
-        .toast-msg { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; padding: 10px 20px; border-radius: 60px; z-index: 1001; animation: toastFade 0.3s; }
+        .toast-msg { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; color: white; padding: 10px 20px; border-radius: 60px; z-index: 1001; animation: toastFade 0.3s; }
         @keyframes toastFade { from { opacity: 0; bottom: 80px; } to { opacity: 1; bottom: 120px; } }
         
         @media (max-width: 480px) { section { padding: 40px 12px; } .tab-btn { padding: 6px 12px; font-size: 0.7rem; } .view-counter { bottom: 80px; } }
@@ -404,13 +468,13 @@
     let quizResultadoFinal = '';
     let clickCount = 0;
 
-    // ========== CONTAGEM DE VISUALIZAÇÕES ==========
+    // Contagem de visualizações
     let viewCount = localStorage.getItem('siteViews') || 0;
     viewCount = parseInt(viewCount) + 1;
     localStorage.setItem('siteViews', viewCount);
     document.getElementById('viewCounter').innerHTML = `👁️ ${viewCount} visitas`;
 
-    // ========== EFEITO DE DIGITAÇÃO ==========
+    // Efeito de digitação
     const nomeCompleto = "Ana Beatriz";
     const typingTitle = document.getElementById('typingTitle');
     let charIndex = 0;
@@ -423,7 +487,7 @@
     }
     typeWriter();
 
-    // ========== TEMA CLARO/ESCURO ==========
+    // Tema claro/escuro
     const themeToggle = document.getElementById('themeToggle');
     let isDarkMode = localStorage.getItem('theme') !== 'light';
     function applyTheme() {
@@ -442,7 +506,7 @@
         applyTheme();
     });
 
-    // ========== SCREEN DE ENTRADA ==========
+    // Screen de entrada
     const entryScreen = document.getElementById('entryScreen');
     const mainContent = document.getElementById('mainContent');
     const entryBtn = document.getElementById('entryBtn');
@@ -477,7 +541,7 @@
         }
     }
 
-    // ========== MÚSICA COM EASTER EGG ==========
+    // Música com easter egg
     function initAudio() {
         audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
         audio.loop = true;
@@ -511,7 +575,7 @@
         setTimeout(() => egg.remove(), 2000);
     }
 
-    // ========== BARRA DE PROGRESSO ==========
+    // Scroll progress
     window.addEventListener('scroll', () => {
         const winScroll = document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - window.innerHeight;
@@ -526,7 +590,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
-    // ========== SCROLL REVEAL ==========
+    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     function checkReveal() {
         reveals.forEach(el => {
@@ -537,7 +601,7 @@
     window.addEventListener('scroll', checkReveal);
     window.addEventListener('load', checkReveal);
     
-    // ========== DATA DA FESTA ==========
+    // Data da festa
     function checkPartyDate() {
         const eventDate = new Date(2026, 4, 9, 13, 0, 0);
         const now = new Date();
@@ -548,7 +612,7 @@
         }
     }
 
-    // ========== VOTAÇÃO ==========
+    // Votação
     async function initPoll() {
         const docSnap = await getDoc(votosRef);
         if (!docSnap.exists()) {
@@ -583,7 +647,7 @@
         } catch(e) { console.error(e); }
     }
 
-    // ========== MURAL COM NOTIFICAÇÃO ==========
+    // Mural com notificação
     let lastMessageCount = 0;
     function carregarMural() {
         onSnapshot(query(mensagensRef, orderBy("timestamp", "desc")), (snap) => {
@@ -627,7 +691,7 @@
         } catch(e) { showToast('Erro ao enviar recado.', true); }
     });
 
-    // ========== QUIZ COM COMPARTILHAMENTO ==========
+    // Quiz com compartilhamento
     const quizPerguntas = [
         { q: "Qual desses estilos você mais usa?", op: ["Glitter e cores vibrantes", "Looks mais básicos", "Couro e roupas ousadas", "Romântico e delicado"] },
         { q: "Como você age em uma festa?", op: ["Centro das atenções", "Observando", "Curto na minha", "Com elegância"] },
@@ -684,14 +748,14 @@
     }
     carregarQuiz();
 
-    // ========== SURPRESA ==========
+    // Surpresa
     document.getElementById('surpresaBtn').addEventListener('click', () => {
         showConfetti();
         showToast('🎁 Surpresa! Você ganhou um abraço virtual da Ana Beatriz! 💖');
         setTimeout(() => showToast('✨ Dica: Vista seu melhor glitter para a festa! ✨'), 2000);
     });
 
-    // ========== EASTER EGGS ==========
+    // Easter egg no título
     document.querySelector('.hero h1')?.addEventListener('click', () => {
         showToast('💜 Você é especial! 💜');
         showConfetti();
@@ -722,7 +786,7 @@
         },i*100);
     }
     
-    // ========== CALENDÁRIO ==========
+    // Calendário
     document.getElementById('calendarBtn')?.addEventListener('click', () => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
@@ -740,14 +804,14 @@
         }
     });
     
-    // ========== COPIAR LINK ==========
+    // Copiar link
     document.getElementById('copyLinkBtn')?.addEventListener('click',()=>{
         navigator.clipboard.writeText('https://anivers-rio-euf-rico-ana.vercel.app');
         showToast('✨ Link copiado!');
         showConfetti();
     });
     
-    // ========== FORMULÁRIO RSVP ==========
+    // Formulário RSVP
     const form = document.getElementById('formConfirmacao');
     const nomeInput = document.getElementById('nome');
     const qtdSelect = document.getElementById('quantidade');
@@ -803,7 +867,7 @@
     
     function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // ========== CONTAGEM REGRESSIVA ==========
+    // Contagem regressiva
     function updateCountdown(){
         const ev=new Date(2026,4,9,13,0,0), now=new Date(), diff=ev-now;
         if(diff<=0){ 
@@ -822,7 +886,7 @@
     }
     updateCountdown(); setInterval(updateCountdown,1000);
     
-    // ========== PARTÍCULAS OTIMIZADAS ==========
+    // Partículas otimizadas
     let particles=[], animId;
     function startParticles(){ if(animId) cancelAnimationFrame(animId); animateGlitter(); }
     function stopParticles(){ if(animId) cancelAnimationFrame(animId); animId=null; }
@@ -841,7 +905,7 @@
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
     
-    // ========== ESTRELAS CADENTES ==========
+    // Estrelas cadentes
     function createShootingStar() {
         const star = document.createElement('div');
         star.className = 'shooting-star';
@@ -859,7 +923,7 @@
     }
     setInterval(() => { if(Math.random() > 0.96 && !document.hidden) createShootingStar(); }, 8000);
     
-    // ========== PERSONAGENS ==========
+    // Personagens
     const chars = [
         { id:"maddy", name:"MADDY PEREZ", ator:"Alexa Demie", estilo:"🔥 Sexy, confiante, delineado forte.", pinterest:"https://www.pinterest.com/search/pins/?q=maddy%20perez%20euphoria%20outfits", google:"https://www.google.com/search?q=maddy+perez+euphoria+looks&tbm=isch" },
         { id:"cassie", name:"CASSIE HOWARD", ator:"Sydney Sweeney", estilo:"💖 Romântico, tons pastéis, brilho delicado.", pinterest:"https://www.pinterest.com/search/pins/?q=cassie%20howard%20euphoria%20outfits", google:"https://www.google.com/search?q=cassie+euphoria+looks&tbm=isch" },

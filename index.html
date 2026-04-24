@@ -261,13 +261,34 @@
         .poll-btn:hover { background: #ff44cc; color: white; transform: scale(1.02); }
         .poll-result { margin-top: 15px; font-size: 0.9rem; color: inherit; }
         
+        /* NOVO QUIZ - layout responsivo para textos longos */
         .quiz-section { margin-top: 30px; }
         .quiz-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
-        .quiz-question { font-size: 1.1rem; margin-bottom: 15px; }
-        .quiz-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .quiz-opt { background: rgba(255,68,204,0.2); border: 1px solid #ff66cc; padding: 8px 20px; border-radius: 40px; cursor: pointer; transition: 0.2s; color: inherit; }
+        .quiz-question { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.4; font-weight: 500; }
+        .quiz-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 20px; }
+        .quiz-opt {
+            background: rgba(255,68,204,0.15);
+            border: 1px solid #ff66cc;
+            padding: 12px 18px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: inherit;
+            font-size: 0.9rem;
+            text-align: left;
+            width: 100%;
+            max-width: 350px;
+        }
+        @media (min-width: 768px) {
+            .quiz-opt { width: auto; min-width: 200px; text-align: center; }
+        }
         .quiz-opt:hover { background: #ff44cc; color: white; transform: scale(1.02); }
-        .quiz-resultado { font-size: 1rem; margin-top: 10px; color: #ffa0f0; }
+        .quiz-progress {
+            font-size: 0.8rem;
+            color: #ffa0f0;
+            margin-bottom: 15px;
+        }
+        .quiz-resultado { font-size: 1rem; margin-top: 10px; color: #ffa0f0; line-height: 1.4; }
         body.light-theme .quiz-resultado { color: #cc3399; }
         .share-quiz-btn { margin-top: 15px; padding: 8px 20px; font-size: 0.8rem; }
         
@@ -295,7 +316,7 @@
         .toast-msg { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; color: white; padding: 10px 20px; border-radius: 60px; z-index: 1001; animation: toastFade 0.3s; }
         @keyframes toastFade { from { opacity: 0; bottom: 80px; } to { opacity: 1; bottom: 120px; } }
         
-        @media (max-width: 480px) { section { padding: 40px 12px; } .tab-btn { padding: 6px 12px; font-size: 0.7rem; } .view-counter { bottom: 80px; } }
+        @media (max-width: 480px) { section { padding: 40px 12px; } .tab-btn { padding: 6px 12px; font-size: 0.7rem; } .view-counter { bottom: 80px; } .quiz-opt { padding: 10px 14px; font-size: 0.8rem; } }
         @media (prefers-reduced-motion: reduce) { *, .glass-card, .countdown-box { animation: none !important; transition: none !important; } }
     </style>
 </head>
@@ -396,10 +417,12 @@
     </div>
 </section>
 
+<!-- NOVO QUIZ DETALHADO -->
 <section id="quiz" class="quiz-section reveal">
     <div class="glass-card" style="padding: 20px 16px;">
         <h2 style="text-align:center; margin-bottom:15px;"><i class="fas fa-question-circle"></i> Descubra seu personagem Euphoria</h2>
         <div class="quiz-card" id="quizContainer">
+            <div class="quiz-progress" id="quizProgress"></div>
             <div class="quiz-question" id="quizQuestion"></div>
             <div class="quiz-options" id="quizOptions"></div>
             <div class="quiz-resultado" id="quizResultado"></div>
@@ -458,7 +481,7 @@
     const confirmacoesRef = collection(db, "confirmacoes");
     const mensagensRef = collection(db, "mensagens");
     const votosRef = doc(db, "enquete", "personagens");
-    const viewsDocRef = doc(db, "views", "counter"); // para contador compartilhado
+    const viewsDocRef = doc(db, "views", "counter");
 
     let hasConfirmed = sessionStorage.getItem('hasConfirmed');
     let userVoted = sessionStorage.getItem('userVotedPoll');
@@ -466,7 +489,6 @@
     let audio = null;
     let isPlaying = false;
     let userNome = sessionStorage.getItem('userNome') || '';
-    let quizResultadoFinal = '';
     let clickCount = 0;
 
     // ========== CONTADOR DE VISUALIZAÇÕES EM TEMPO REAL ==========
@@ -483,14 +505,12 @@
         }
     }
     
-    // Escutar mudanças no contador
     onSnapshot(viewsDocRef, (doc) => {
         if (doc.exists()) {
             const count = doc.data().count;
             document.getElementById('viewCounter').innerHTML = `👁️ ${count} visitas`;
         }
     });
-    
     initViewCounter();
 
     // ========== Efeito de digitação ==========
@@ -710,54 +730,177 @@
         } catch(e) { showToast('Erro ao enviar recado.', true); }
     });
 
-    // ========== Quiz com compartilhamento ==========
+    // ========== NOVO QUIZ DETALHADO (8 perguntas) ==========
     const quizPerguntas = [
-        { q: "Qual desses estilos você mais usa?", op: ["Glitter e cores vibrantes", "Looks mais básicos", "Couro e roupas ousadas", "Romântico e delicado"] },
-        { q: "Como você age em uma festa?", op: ["Centro das atenções", "Observando", "Curto na minha", "Com elegância"] },
-        { q: "Qual sua vibe principal?", op: ["Drama e intensidade", "Introspecção", "Confiança", "Criatividade"] }
+        { q: "Como você reage quando se sente insegura ou emocionalmente ameaçada?",
+          op: [
+            "Tento me provar superior, controlando a situação e quem está ao meu redor.",
+            "Fico na minha, observando o que os outros fazem.",
+            "Busco afeto, atenção e aprovação, pois a validação externa me faz sentir segura.",
+            "Me expresso através da minha arte, criatividade ou escrevendo sobre o que sinto.",
+            "Busco algo que me faça 'desligar' do mundo e das emoções.",
+            "Me torno dura e agressiva, escondendo minha verdadeira vulnerabilidade.",
+            "Confio na minha intuição para me proteger do que me cerca.",
+            "Uso minha aparência e sensualidade para recuperar o poder da situação."
+          ] },
+        { q: "Qual desses estilos melhor representa a sua persona?",
+          op: [
+            "O que eu visto é uma armadura. Minha imagem exala poder e controle.",
+            "Um visual mais despretensioso e 'camaleão', que não chama muita atenção.",
+            "Romântico, doce e que valoriza a minha beleza natural.",
+            "Minha aparência é uma tela em branco para expressar minha criatividade.",
+            "Conforto em primeiro lugar. Quase sempre visuais largos e despojados.",
+            "Sempre impecável, atlético e viril, projetando força.",
+            "Meu estilo é uma mistura de conforto com uma pegada original.",
+            "Ostento minha confiança e sensualidade com peças arrojadas."
+          ] },
+        { q: "Como você enxerga e lida com a ideia de 'controle'?",
+          op: [
+            "Controle é tudo. Planejo cada detalhe para não ser pega de surpresa.",
+            "Prefiro observar e entender os acontecimentos antes de agir.",
+            "Sinto que não tenho controle sobre minha vida. As paixões me dominam.",
+            "O verdadeiro controle é ter liberdade para ser quem eu quero.",
+            "Já desisti dessa ideia. Minha vida é caótica e instável.",
+            "Manipulo as pessoas para manter o controle e conseguir o que quero.",
+            "Meu senso de controle se baseia em proteger as pessoas que amo.",
+            "Encontrei meu poder, e agora uso minha imagem para me impor."
+          ] },
+        { q: "O que te define nos relacionamentos (amorosos ou amizades)?",
+          op: [
+            "Extremamente leal, mas não tolero desrespeito.",
+            "Amiga leal e observadora, mas tenho dificuldade em expressar sentimentos.",
+            "Me entrego de forma avassaladora, mas nem sempre sou correspondida.",
+            "Preciso de conexões reais e intensas. Demonstro de forma única.",
+            "Sou confusa e, às vezes, acabo magoando as pessoas sem querer.",
+            "Relacionamentos são uma troca de poder. Não confio facilmente.",
+            "Valorizo a confiança e os laços construídos com o tempo.",
+            "Domino as situações e sei como atrair as pessoas."
+          ] },
+        { q: "O que você faz para manter sua imagem diante dos outros?",
+          op: [
+            "Trabalho para que todos me vejam como bem-sucedida e inatingível.",
+            "Não sinto necessidade de manter uma imagem chamativa.",
+            "Me esforço para ser 'perfeita' ou o que os outros desejam.",
+            "Vivo a minha verdade estética, não importa a opinião alheia.",
+            "Não tenho energia ou interesse em manter uma fachada.",
+            "Mantenho uma fachada de popularidade e sucesso.",
+            "Prefiro ser autêntico do que tentar agradar.",
+            "Minha imagem é o meu cartão de visitas para o mundo."
+          ] },
+        { q: "Com qual frase você mais se identifica?",
+          op: [
+            "Minha segurança está na força da minha imagem.",
+            "O show deve continuar.",
+            "Mudei minha aparência, mas queria que alguém me visse de verdade.",
+            "A arte é a forma mais honesta de ser quem eu sou.",
+            "Se eu pudesse ser uma pessoa diferente, eu juro que seria.",
+            "Fracos merecem sofrer. Eu não sou fraco.",
+            "Não concordo com tudo o que faço, mas faço o que preciso.",
+            "Demorou, mas aprendi que não preciso me encaixar para ser incrível."
+          ] },
+        { q: "O que te causa mais angústia?",
+          op: [
+            "Perder o controle ou ser percebida como fraca.",
+            "Ficar sempre à margem, sem ser protagonista.",
+            "Nunca ser amada pelo que sou de verdade.",
+            "Ser limitada por expectativas alheias.",
+            "O vazio existencial e a batalha com meus próprios demônios.",
+            "Ser exposto ou perder a imagem de controle.",
+            "Ver as pessoas que eu amo se destruindo.",
+            "Lidar com a solidão, mesmo cercada de gente."
+          ] },
+        { q: "Qual é o seu maior medo?",
+          op: [
+            "Ser traída ou abandonada.",
+            "Ficar irrelevante.",
+            "Ser rejeitada.",
+            "Perder a minha essência e me tornar comum.",
+            "Me perder de vez nos meus próprios problemas.",
+            "Se tornar igual ao que mais desprezo.",
+            "Falhar com as pessoas que dependem de mim.",
+            "Voltar a ser invisível."
+          ] }
     ];
+    
+    // Mapeamento das alternativas para personagens (ajustado para o universo Euphoria)
+    function calcularResultado(respostas) {
+        let pontos = { Maddie:0, Cassie:0, Jules:0, Rue:0, Kat:0, Fez:0, Lexi:0, Nate:0, Cal:0 };
+        respostas.forEach(resposta => {
+            // Lógica: cada alternativa está indexada de 0 a 7 (para cada pergunta)
+            // Alternativa 0 -> Maddie
+            // 1 -> Lexi/Fez (depende da pergunta, mas simplificamos)
+            // Vamos usar um mapeamento geral baseado no ethos dos personagens
+            const mapeamento = [
+                { Maddie: [0,7], Cassie: [2], Jules: [3], Rue: [4], Kat: [5], Fez: [1,6], Lexi: [1], Nate: [5], Cal: [6] }
+            ];
+            // Simplificação prática: cada resposta incrementa um personagem específico
+            if (resposta === 0) pontos.Maddie++;
+            else if (resposta === 1) pontos.Lexi += 0.5, pontos.Fez += 0.5;
+            else if (resposta === 2) pontos.Cassie++;
+            else if (resposta === 3) pontos.Jules++;
+            else if (resposta === 4) pontos.Rue++;
+            else if (resposta === 5) pontos.Kat += 0.5, pontos.Nate += 0.5;
+            else if (resposta === 6) pontos.Cal += 0.5, pontos.Fez += 0.5;
+            else if (resposta === 7) pontos.Maddie++;
+        });
+        let vencedor = Object.keys(pontos).reduce((a,b) => pontos[a] > pontos[b] ? a : b);
+        return vencedor;
+    }
+    
     const quizResultadosMap = {
-        "Maddie": "💋 MADDIE! 🔥 Poderosa, confiante, delineado impecável.",
-        "Jules": "🌈 JULES! ✨ Criativa, colorida, cheia de estilo.",
-        "Rue": "💊 RUE! 🖤 Introspectiva, emocional, autêntica.",
-        "Kat": "🖤 KAT! 🔥 Dominante, cheia de atitude.",
-        "Cassie": "💖 CASSIE! 💕 Romântica, delicada, sonhadora."
+        "Maddie": "💋 MADDIE! 🔥 Poderosa, confiante, dona do próprio nariz. Seu delineado é impecável e você não aceita menos do que merece.",
+        "Cassie": "💖 CASSIE! 💕 Romântica, delicada e sonhadora. Seu coração está sempre à flor da pele e você se entrega de verdade.",
+        "Jules": "🌈 JULES! ✨ Criativa, colorida e cheia de estilo. Sua maquiagem artística é sua marca e você vive sua verdade.",
+        "Rue": "💊 RUE! 🖤 Introspectiva, emocional e autêntica. Você carrega um mundo interno profundo e único.",
+        "Kat": "🖤 KAT! 🔥 Dominante, cheia de atitude e dona da própria sexualidade. Você não tem medo de ser quem é.",
+        "Fez": "🌿 FEZCO! 💚 Leal, tranquilo e protetor. Você cuida de quem ama e tem um coração gigante.",
+        "Lexi": "📚 LEXI! 🎭 Observadora, inteligente e criativa. Você está sempre atenta e sabe o que acontece ao seu redor.",
+        "Nate": "🧊 NATE! ⚡ Intenso, competitivo e controlador. Você carrega um furacão por dentro e busca poder.",
+        "Cal": "👔 CAL! 🔒 Sóbrio, misterioso e cheio de segredos. Você vive entre aparências e desejos ocultos."
     };
+    
     let quizStep = 0;
-    let quizPontos = { Maddie:0, Jules:0, Rue:0, Kat:0, Cassie:0 };
+    let quizRespostas = [];
     
     function carregarQuiz() {
-        if(quizStep < quizPerguntas.length) {
+        const progressDiv = document.getElementById('quizProgress');
+        const questionDiv = document.getElementById('quizQuestion');
+        const optionsDiv = document.getElementById('quizOptions');
+        const resultadoDiv = document.getElementById('quizResultado');
+        const shareContainer = document.getElementById('shareQuizBtnContainer');
+        
+        if (quizStep < quizPerguntas.length) {
+            progressDiv.innerHTML = `Pergunta ${quizStep + 1} de ${quizPerguntas.length}`;
             const p = quizPerguntas[quizStep];
-            document.getElementById('quizQuestion').innerHTML = p.q;
+            questionDiv.innerHTML = p.q;
             let html = '';
-            p.op.forEach(opt => { html += `<div class="quiz-opt" data-res="${opt}">${opt}</div>`; });
-            document.getElementById('quizOptions').innerHTML = html;
+            p.op.forEach((opt, idx) => {
+                html += `<div class="quiz-opt" data-res="${idx}">${opt}</div>`;
+            });
+            optionsDiv.innerHTML = html;
+            resultadoDiv.innerHTML = '';
+            shareContainer.style.display = 'none';
+            
             document.querySelectorAll('.quiz-opt').forEach(opt => {
                 opt.addEventListener('click', (e) => {
-                    const resposta = e.target.dataset.res;
-                    if(resposta.includes("glitter") || resposta.includes("atenções") || resposta.includes("Drama")) quizPontos.Maddie++;
-                    if(resposta.includes("arte") || resposta.includes("criativa") || resposta.includes("Criatividade")) quizPontos.Jules++;
-                    if(resposta.includes("básicos") || resposta.includes("observando") || resposta.includes("Introspecção")) quizPontos.Rue++;
-                    if(resposta.includes("couro") || resposta.includes("ousadas") || resposta.includes("Confiança")) quizPontos.Kat++;
-                    if(resposta.includes("Romântico") || resposta.includes("delicado") || resposta.includes("elegância")) quizPontos.Cassie++;
+                    const resposta = parseInt(e.target.dataset.res);
+                    quizRespostas.push(resposta);
                     quizStep++;
                     carregarQuiz();
                 });
             });
         } else {
-            let vencedor = Object.keys(quizPontos).reduce((a,b) => quizPontos[a] > quizPontos[b] ? a : b);
-            quizResultadoFinal = vencedor;
+            progressDiv.innerHTML = '✨ Resultado final ✨';
+            const vencedor = calcularResultado(quizRespostas);
             const resultadoTexto = quizResultadosMap[vencedor];
-            document.getElementById('quizQuestion').innerHTML = "✨ Seu resultado! ✨";
-            document.getElementById('quizOptions').innerHTML = '';
-            document.getElementById('quizResultado').innerHTML = resultadoTexto;
+            questionDiv.innerHTML = "✨ Seu personagem é... ✨";
+            optionsDiv.innerHTML = '';
+            resultadoDiv.innerHTML = resultadoTexto;
             
-            const shareContainer = document.getElementById('shareQuizBtnContainer');
             shareContainer.style.display = 'block';
             shareContainer.innerHTML = `<button id="shareQuizBtn" class="btn-neon share-quiz-btn"><i class="fas fa-share-alt"></i> Compartilhar resultado</button>`;
             document.getElementById('shareQuizBtn').addEventListener('click', () => {
-                const shareText = `🎭 Fiz o quiz e descobri que sou ${vencedor}! ${resultadoTexto}\n\n👉 Descubra o seu também: https://anivers-rio-euf-rico-ana.vercel.app`;
+                const shareText = `🎭 Fiz o quiz e descobri que sou ${vencedor}! ${quizResultadosMap[vencedor]}\n\n👉 Descubra o seu também: https://anivers-rio-euf-rico-ana.vercel.app`;
                 navigator.clipboard.writeText(shareText);
                 showToast('✨ Resultado copiado! Compartilhe com seus amigos! ✨');
                 showConfetti();
@@ -874,7 +1017,6 @@
         }finally{ btn.disabled=false; btn.textContent='Confirmar presença'; }
     });
     
-    // ========== LISTA DE CONFIRMADOS COM ACOMPANHANTES ==========
     const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snap) => {
         if (snap.empty) {
@@ -901,7 +1043,6 @@
     
     function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // ========== Contagem regressiva ==========
     function updateCountdown(){
         const ev=new Date(2026,4,9,13,0,0), now=new Date(), diff=ev-now;
         if(diff<=0){ 

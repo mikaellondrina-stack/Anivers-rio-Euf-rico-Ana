@@ -14,7 +14,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* ========== TEMAS COM CONTRASTE PERFEITO ========== */
         body {
             background-color: #05020a;
             font-family: 'Inter', sans-serif;
@@ -22,10 +21,6 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
             transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        /* MODO ESCURO (padrão) - texto claro */
-        body {
             --text-primary: #ffffff;
             --text-secondary: #ffb3e6;
             --text-dark: #11001c;
@@ -34,7 +29,6 @@
             --border-color: rgba(255, 100, 200, 0.3);
         }
         
-        /* MODO CLARO - texto escuro */
         body.light-theme {
             --text-primary: #2d0a4a;
             --text-secondary: #660066;
@@ -46,89 +40,26 @@
             color: #2d0a4a;
         }
         
-        body.light-theme .particle-bg {
-            background: radial-gradient(circle at 20% 30%, #f0d9ff, #e6ccff);
-        }
-        
-        body.light-theme .glass-card,
-        body.light-theme .info-card,
-        body.light-theme .extra-card,
-        body.light-theme .counter-card,
-        body.light-theme .rsvp-form,
-        body.light-theme .poll-card,
-        body.light-theme .quiz-card,
-        body.light-theme .inspiration-card,
-        body.light-theme .countdown-box,
-        body.light-theme .confirm-item,
-        body.light-theme .mensagem-item,
-        body.light-theme .mural-container,
-        body.light-theme .music-player,
-        body.light-theme .floating-cta,
-        body.light-theme .theme-toggle,
+        body.light-theme .particle-bg { background: radial-gradient(circle at 20% 30%, #f0d9ff, #e6ccff); }
+        body.light-theme .glass-card, body.light-theme .info-card, body.light-theme .extra-card,
+        body.light-theme .counter-card, body.light-theme .rsvp-form, body.light-theme .poll-card,
+        body.light-theme .quiz-card, body.light-theme .inspiration-card, body.light-theme .countdown-box,
+        body.light-theme .confirm-item, body.light-theme .mensagem-item, body.light-theme .mural-container,
+        body.light-theme .music-player, body.light-theme .floating-cta, body.light-theme .theme-toggle,
         body.light-theme .welcome-badge {
             background: var(--bg-card);
             color: var(--text-primary);
             border-color: var(--border-color);
         }
-        
-        body.light-theme .btn-neon {
-            color: #2d0a4a;
-            border-color: #ff44cc;
-        }
-        
-        body.light-theme .btn-neon:hover {
-            background: #ff44cc;
-            color: white;
-        }
-        
-        body.light-theme input,
-        body.light-theme select {
-            background: #ffffff;
-            color: #2d0a4a;
-            border-color: #ff88dd;
-        }
-        
-        body.light-theme .countdown-number,
-        body.light-theme .counter-number {
-            color: #ff44cc;
-            text-shadow: none;
-        }
-        
-        body.light-theme .hero h1 {
-            background: linear-gradient(135deg, #cc3399, #ff44cc, #8800aa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        body.light-theme .poll-btn,
-        body.light-theme .quiz-opt,
-        body.light-theme .tab-btn {
-            color: #2d0a4a;
-            border-color: #ff88dd;
-        }
-        
-        body.light-theme .poll-btn:hover,
-        body.light-theme .quiz-opt:hover,
-        body.light-theme .tab-btn:hover {
-            background: #ff44cc;
-            color: white;
-        }
-        
-        body.light-theme .mensagem-nome {
-            color: #cc33cc;
-        }
-        
-        body.light-theme .entry-screen {
-            background: radial-gradient(circle at center, #f0d9ff, #e6ccff);
-        }
-        
-        body.light-theme .entry-logo {
-            background: linear-gradient(135deg, #cc3399, #ff44cc, #8800aa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+        body.light-theme .btn-neon { color: #2d0a4a; border-color: #ff44cc; }
+        body.light-theme .btn-neon:hover { background: #ff44cc; color: white; }
+        body.light-theme input, body.light-theme select { background: #ffffff; color: #2d0a4a; border-color: #ff88dd; }
+        body.light-theme .countdown-number, body.light-theme .counter-number { color: #ff44cc; text-shadow: none; }
+        body.light-theme .hero h1 { background: linear-gradient(135deg, #cc3399, #ff44cc, #8800aa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.light-theme .poll-btn, body.light-theme .quiz-opt, body.light-theme .tab-btn { color: #2d0a4a; border-color: #ff88dd; }
+        body.light-theme .poll-btn:hover, body.light-theme .quiz-opt:hover, body.light-theme .tab-btn:hover { background: #ff44cc; color: white; }
+        body.light-theme .mensagem-nome { color: #cc33cc; }
+        body.light-theme .entry-screen { background: radial-gradient(circle at center, #f0d9ff, #e6ccff); }
         
         /* Elementos comuns */
         .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #ff44cc, #aa44ff); z-index: 10001; transition: width 0.1s; }
@@ -261,7 +192,6 @@
         .poll-btn:hover { background: #ff44cc; color: white; transform: scale(1.02); }
         .poll-result { margin-top: 15px; font-size: 0.9rem; color: inherit; }
         
-        /* NOVO QUIZ - layout responsivo para textos longos */
         .quiz-section { margin-top: 30px; }
         .quiz-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 20px; text-align: center; }
         .quiz-question { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.4; font-weight: 500; }
@@ -283,11 +213,7 @@
             .quiz-opt { width: auto; min-width: 200px; text-align: center; }
         }
         .quiz-opt:hover { background: #ff44cc; color: white; transform: scale(1.02); }
-        .quiz-progress {
-            font-size: 0.8rem;
-            color: #ffa0f0;
-            margin-bottom: 15px;
-        }
+        .quiz-progress { font-size: 0.8rem; color: #ffa0f0; margin-bottom: 15px; }
         .quiz-resultado { font-size: 1rem; margin-top: 10px; color: #ffa0f0; line-height: 1.4; }
         body.light-theme .quiz-resultado { color: #cc3399; }
         .share-quiz-btn { margin-top: 15px; padding: 8px 20px; font-size: 0.8rem; }
@@ -379,7 +305,7 @@
 
     <div class="extra-info">
         <div class="extra-card reveal"><i class="fas fa-drumstick-bite"></i><div><h4>🍖 CHURRASCO</h4><p>Leve <strong>1kg de carne</strong> por pessoa</p></div></div>
-        <div class="extra-card reveal"><i class="fas fa-cocktail"></i><div><h4>🥂 SHOTS DA ANIVERSARIANTE</h4><p>Vodka na boca <strong>por minha conta</strong></p></div></div>
+        <div class="extra-card reveal"><i class="fas fa-cocktail"></i><div><h4>🥂 SHOTS DA ANIVERSARIANTE</h4><p>Vodka na boca por minha conta</p><p style="font-size:0.7rem; opacity:0.8; margin-top:4px;">🍾 Leve sua bebida de preferência</p></div></div>
         <div class="extra-card reveal"><i class="fas fa-swimmer"></i><div><h4>🏊 PISCINA LIBERADA</h4><p>Traga sua roupa de banho</p></div></div>
     </div>
 </section>
@@ -417,7 +343,6 @@
     </div>
 </section>
 
-<!-- NOVO QUIZ DETALHADO -->
 <section id="quiz" class="quiz-section reveal">
     <div class="glass-card" style="padding: 20px 16px;">
         <h2 style="text-align:center; margin-bottom:15px;"><i class="fas fa-question-circle"></i> Descubra seu personagem Euphoria</h2>
@@ -491,7 +416,7 @@
     let userNome = sessionStorage.getItem('userNome') || '';
     let clickCount = 0;
 
-    // ========== CONTADOR DE VISUALIZAÇÕES EM TEMPO REAL ==========
+    // ========== CONTADOR DE VISUALIZAÇÕES ==========
     async function initViewCounter() {
         try {
             const docSnap = await getDoc(viewsDocRef);
@@ -500,17 +425,9 @@
             } else {
                 await updateDoc(viewsDocRef, { count: increment(1) });
             }
-        } catch (error) {
-            console.error("Erro ao inicializar contador:", error);
-        }
+        } catch (error) { console.error(error); }
     }
-    
-    onSnapshot(viewsDocRef, (doc) => {
-        if (doc.exists()) {
-            const count = doc.data().count;
-            document.getElementById('viewCounter').innerHTML = `👁️ ${count} visitas`;
-        }
-    });
+    onSnapshot(viewsDocRef, (doc) => { if (doc.exists()) document.getElementById('viewCounter').innerHTML = `👁️ ${doc.data().count} visitas`; });
     initViewCounter();
 
     // ========== Efeito de digitação ==========
@@ -526,7 +443,7 @@
     }
     typeWriter();
 
-    // ========== Tema claro/escuro ==========
+    // ========== Tema ==========
     const themeToggle = document.getElementById('themeToggle');
     let isDarkMode = localStorage.getItem('theme') !== 'light';
     function applyTheme() {
@@ -545,11 +462,10 @@
         applyTheme();
     });
 
-    // ========== Screen de entrada ==========
+    // ========== Entrada ==========
     const entryScreen = document.getElementById('entryScreen');
     const mainContent = document.getElementById('mainContent');
     const entryBtn = document.getElementById('entryBtn');
-    
     entryBtn.addEventListener('click', () => {
         entryScreen.classList.add('fade-out');
         setTimeout(() => {
@@ -576,16 +492,15 @@
         if (userNome && welcomeDiv) {
             const daysSpan = document.getElementById('days');
             const days = daysSpan ? daysSpan.innerText : '?';
-            welcomeDiv.innerHTML = `🔥 ${userNome}, faltam ${days} dias para essa festa épica!`;
+            welcomeDiv.innerHTML = `🔥 ${userNome}, faltam ${days} dias para sua noite épica!`;
         }
     }
 
-    // ========== Música com easter egg ==========
+    // ========== Música e easter egg ==========
     function initAudio() {
         audio = new Audio('https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/WhatsApp-Audio-2026-04-20-at-11.54.49.mp3?alt=media&token=ae4d078c-1d4b-4da3-9f99-30d40daa31fe');
         audio.loop = true;
         audio.volume = 0.5;
-        
         const musicBtn = document.getElementById('musicToggle');
         musicBtn.addEventListener('click', () => {
             clickCount++;
@@ -614,7 +529,7 @@
         setTimeout(() => egg.remove(), 2000);
     }
 
-    // ========== Scroll progress e back to top ==========
+    // ========== Scroll ==========
     window.addEventListener('scroll', () => {
         const winScroll = document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - window.innerHeight;
@@ -624,28 +539,21 @@
         if (winScroll > 300) backBtn.classList.add('show');
         else backBtn.classList.remove('show');
     });
-    
-    document.getElementById('backToTop').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    
+    document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
     // ========== Scroll reveal ==========
     const reveals = document.querySelectorAll('.reveal');
     function checkReveal() {
-        reveals.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100) el.classList.add('revealed');
-        });
+        reveals.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('revealed'); });
     }
     window.addEventListener('scroll', checkReveal);
     window.addEventListener('load', checkReveal);
-    
+
     // ========== Data da festa ==========
     function checkPartyDate() {
         const eventDate = new Date(2026, 4, 9, 13, 0, 0);
-        const now = new Date();
         const partyMsg = document.getElementById('partyMessage');
-        if (now >= eventDate) {
+        if (new Date() >= eventDate) {
             if (partyMsg) partyMsg.innerHTML = '🎉✨ A FESTA COMEÇOU! ✨🎉';
             setInterval(() => { if (Math.random() > 0.8) showConfetti(); }, 30000);
         }
@@ -654,9 +562,7 @@
     // ========== Votação ==========
     async function initPoll() {
         const docSnap = await getDoc(votosRef);
-        if (!docSnap.exists()) {
-            await setDoc(votosRef, { Maddie:0, Cassie:0, Jules:0, Rue:0, Kat:0, Fez:0, Lexi:0, Nate:0, Cal:0 });
-        }
+        if (!docSnap.exists()) await setDoc(votosRef, { Maddie:0, Cassie:0, Jules:0, Rue:0, Kat:0, Fez:0, Lexi:0, Nate:0, Cal:0 });
     }
     initPoll();
 
@@ -686,7 +592,7 @@
         } catch(e) { console.error(e); }
     }
 
-    // ========== Mural com notificação ==========
+    // ========== Mural ==========
     let lastMessageCount = 0;
     function carregarMural() {
         onSnapshot(query(mensagensRef, orderBy("timestamp", "desc")), (snap) => {
@@ -697,9 +603,7 @@
                 const data = doc.data();
                 html += `<div class="mensagem-item"><span class="mensagem-nome">${escapeHtml(data.nome)}</span>: ${escapeHtml(data.texto)}</div>`;
             });
-            if (snap.size > lastMessageCount && lastMessageCount > 0) {
-                showNotificationToast('💬 Nova mensagem no mural!');
-            }
+            if (snap.size > lastMessageCount && lastMessageCount > 0) showNotificationToast('💬 Nova mensagem no mural!');
             lastMessageCount = snap.size;
             container.innerHTML = html;
         });
@@ -716,135 +620,52 @@
 
     document.getElementById('enviarMsg').addEventListener('click', async () => {
         const now = Date.now();
-        if (now - lastMsgTime < 5000) { showToast('Aguarde 5 segundos para enviar outra mensagem!', true); return; }
+        if (now - lastMsgTime < 5000) { showToast('Aguarde 5 segundos!', true); return; }
         const nome = document.getElementById('msgNome').value.trim();
         const texto = document.getElementById('msgTexto').value.trim();
         if(!nome || !texto) { showToast('Preencha nome e mensagem!', true); return; }
-        if(texto.length > 200) { showToast('Mensagem muito longa! Máximo 200 caracteres.', true); return; }
+        if(texto.length > 200) { showToast('Mensagem muito longa!', true); return; }
         try {
             await addDoc(mensagensRef, { nome, texto, timestamp: serverTimestamp() });
             showToast('💬 Recado enviado!');
             document.getElementById('msgNome').value = '';
             document.getElementById('msgTexto').value = '';
             lastMsgTime = now;
-        } catch(e) { showToast('Erro ao enviar recado.', true); }
+        } catch(e) { showToast('Erro ao enviar.', true); }
     });
 
-    // ========== NOVO QUIZ DETALHADO (8 perguntas) ==========
+    // ========== Quiz detalhado ==========
     const quizPerguntas = [
         { q: "Como você reage quando se sente insegura ou emocionalmente ameaçada?",
-          op: [
-            "Tento me provar superior, controlando a situação e quem está ao meu redor.",
-            "Fico na minha, observando o que os outros fazem.",
-            "Busco afeto, atenção e aprovação, pois a validação externa me faz sentir segura.",
-            "Me expresso através da minha arte, criatividade ou escrevendo sobre o que sinto.",
-            "Busco algo que me faça 'desligar' do mundo e das emoções.",
-            "Me torno dura e agressiva, escondendo minha verdadeira vulnerabilidade.",
-            "Confio na minha intuição para me proteger do que me cerca.",
-            "Uso minha aparência e sensualidade para recuperar o poder da situação."
-          ] },
+          op: ["Tento me provar superior, controlando tudo", "Fico na minha, observando", "Busco afeto, atenção e aprovação", "Me expresso através da arte", "Busco algo para me 'desligar'", "Me torno dura e agressiva", "Confio na minha intuição", "Uso minha aparência e sensualidade"] },
         { q: "Qual desses estilos melhor representa a sua persona?",
-          op: [
-            "O que eu visto é uma armadura. Minha imagem exala poder e controle.",
-            "Um visual mais despretensioso e 'camaleão', que não chama muita atenção.",
-            "Romântico, doce e que valoriza a minha beleza natural.",
-            "Minha aparência é uma tela em branco para expressar minha criatividade.",
-            "Conforto em primeiro lugar. Quase sempre visuais largos e despojados.",
-            "Sempre impecável, atlético e viril, projetando força.",
-            "Meu estilo é uma mistura de conforto com uma pegada original.",
-            "Ostento minha confiança e sensualidade com peças arrojadas."
-          ] },
-        { q: "Como você enxerga e lida com a ideia de 'controle'?",
-          op: [
-            "Controle é tudo. Planejo cada detalhe para não ser pega de surpresa.",
-            "Prefiro observar e entender os acontecimentos antes de agir.",
-            "Sinto que não tenho controle sobre minha vida. As paixões me dominam.",
-            "O verdadeiro controle é ter liberdade para ser quem eu quero.",
-            "Já desisti dessa ideia. Minha vida é caótica e instável.",
-            "Manipulo as pessoas para manter o controle e conseguir o que quero.",
-            "Meu senso de controle se baseia em proteger as pessoas que amo.",
-            "Encontrei meu poder, e agora uso minha imagem para me impor."
-          ] },
-        { q: "O que te define nos relacionamentos (amorosos ou amizades)?",
-          op: [
-            "Extremamente leal, mas não tolero desrespeito.",
-            "Amiga leal e observadora, mas tenho dificuldade em expressar sentimentos.",
-            "Me entrego de forma avassaladora, mas nem sempre sou correspondida.",
-            "Preciso de conexões reais e intensas. Demonstro de forma única.",
-            "Sou confusa e, às vezes, acabo magoando as pessoas sem querer.",
-            "Relacionamentos são uma troca de poder. Não confio facilmente.",
-            "Valorizo a confiança e os laços construídos com o tempo.",
-            "Domino as situações e sei como atrair as pessoas."
-          ] },
-        { q: "O que você faz para manter sua imagem diante dos outros?",
-          op: [
-            "Trabalho para que todos me vejam como bem-sucedida e inatingível.",
-            "Não sinto necessidade de manter uma imagem chamativa.",
-            "Me esforço para ser 'perfeita' ou o que os outros desejam.",
-            "Vivo a minha verdade estética, não importa a opinião alheia.",
-            "Não tenho energia ou interesse em manter uma fachada.",
-            "Mantenho uma fachada de popularidade e sucesso.",
-            "Prefiro ser autêntico do que tentar agradar.",
-            "Minha imagem é o meu cartão de visitas para o mundo."
-          ] },
+          op: ["Image é armadura: poder e controle", "Visual camaleão, discreto", "Romântico, doce, feminino", "Tela em branco para criatividade", "Conforto em primeiro lugar", "Impecável, atlético, viril", "Mistura de conforto com originalidade", "Ostento confiança e sensualidade"] },
+        { q: "Como você lida com a ideia de 'controle'?",
+          op: ["Planejo tudo para não ser surpreendida", "Observo antes de agir", "As paixões me dominam", "Liberdade é meu controle", "Minha vida é caótica", "Manipulo para ter controle", "Protejo quem amo", "Uso minha imagem para me impor"] },
+        { q: "O que te define nos relacionamentos?",
+          op: ["Leal, mas não tolero desrespeito", "Amiga leal, mas fechada", "Me entrego de forma avassaladora", "Preciso de conexões reais", "Sou confusa, às vezes magoo", "Relacionamentos são poder", "Valorizo confiança e laços", "Domino e sei atrair"] },
+        { q: "O que você faz para manter sua imagem?",
+          op: ["Quero que me vejam como bem-sucedida", "Não ligo para imagem", "Me esforço para ser perfeita", "Vivo minha verdade estética", "Não tenho energia para fachada", "Mantenho fachada de sucesso", "Prefiro ser autêntico", "Imagem é meu cartão"] },
         { q: "Com qual frase você mais se identifica?",
-          op: [
-            "Minha segurança está na força da minha imagem.",
-            "O show deve continuar.",
-            "Mudei minha aparência, mas queria que alguém me visse de verdade.",
-            "A arte é a forma mais honesta de ser quem eu sou.",
-            "Se eu pudesse ser uma pessoa diferente, eu juro que seria.",
-            "Fracos merecem sofrer. Eu não sou fraco.",
-            "Não concordo com tudo o que faço, mas faço o que preciso.",
-            "Demorou, mas aprendi que não preciso me encaixar para ser incrível."
-          ] },
+          op: ["Minha segurança está na força da minha imagem", "O show deve continuar", "Queria que alguém me visse de verdade", "A arte é minha forma honesta", "Se eu pudesse ser outra pessoa", "Fracos merecem sofrer", "Faço o que preciso, mesmo sem concordar", "Aprendi que não preciso me encaixar"] },
         { q: "O que te causa mais angústia?",
-          op: [
-            "Perder o controle ou ser percebida como fraca.",
-            "Ficar sempre à margem, sem ser protagonista.",
-            "Nunca ser amada pelo que sou de verdade.",
-            "Ser limitada por expectativas alheias.",
-            "O vazio existencial e a batalha com meus próprios demônios.",
-            "Ser exposto ou perder a imagem de controle.",
-            "Ver as pessoas que eu amo se destruindo.",
-            "Lidar com a solidão, mesmo cercada de gente."
-          ] },
+          op: ["Perder o controle ou ser vista como fraca", "Ficar à margem, sem ser protagonista", "Nunca ser amada pelo que sou", "Ser limitada por expectativas", "Vazio existencial e meus demônios", "Ser exposto ou perder a imagem", "Ver quem amo se destruindo", "Solidão, mesmo cercada"] },
         { q: "Qual é o seu maior medo?",
-          op: [
-            "Ser traída ou abandonada.",
-            "Ficar irrelevante.",
-            "Ser rejeitada.",
-            "Perder a minha essência e me tornar comum.",
-            "Me perder de vez nos meus próprios problemas.",
-            "Se tornar igual ao que mais desprezo.",
-            "Falhar com as pessoas que dependem de mim.",
-            "Voltar a ser invisível."
-          ] }
+          op: ["Ser traída ou abandonada", "Ficar irrelevante", "Ser rejeitada", "Perder minha essência", "Me perder nos meus problemas", "Me tornar igual ao que desprezo", "Falhar com quem depende de mim", "Voltar a ser invisível"] }
     ];
     
-    // Mapeamento das alternativas para personagens (ajustado para o universo Euphoria)
     function calcularResultado(respostas) {
         let pontos = { Maddie:0, Cassie:0, Jules:0, Rue:0, Kat:0, Fez:0, Lexi:0, Nate:0, Cal:0 };
-        respostas.forEach(resposta => {
-            // Lógica: cada alternativa está indexada de 0 a 7 (para cada pergunta)
-            // Alternativa 0 -> Maddie
-            // 1 -> Lexi/Fez (depende da pergunta, mas simplificamos)
-            // Vamos usar um mapeamento geral baseado no ethos dos personagens
-            const mapeamento = [
-                { Maddie: [0,7], Cassie: [2], Jules: [3], Rue: [4], Kat: [5], Fez: [1,6], Lexi: [1], Nate: [5], Cal: [6] }
-            ];
-            // Simplificação prática: cada resposta incrementa um personagem específico
-            if (resposta === 0) pontos.Maddie++;
-            else if (resposta === 1) pontos.Lexi += 0.5, pontos.Fez += 0.5;
-            else if (resposta === 2) pontos.Cassie++;
-            else if (resposta === 3) pontos.Jules++;
-            else if (resposta === 4) pontos.Rue++;
-            else if (resposta === 5) pontos.Kat += 0.5, pontos.Nate += 0.5;
-            else if (resposta === 6) pontos.Cal += 0.5, pontos.Fez += 0.5;
-            else if (resposta === 7) pontos.Maddie++;
+        respostas.forEach(r => {
+            if (r === 0 || r === 7) pontos.Maddie++;
+            else if (r === 2) pontos.Cassie++;
+            else if (r === 3) pontos.Jules++;
+            else if (r === 4) pontos.Rue++;
+            else if (r === 1) { pontos.Lexi += 0.5; pontos.Fez += 0.5; }
+            else if (r === 5) { pontos.Kat += 0.5; pontos.Nate += 0.5; }
+            else if (r === 6) { pontos.Cal += 0.5; pontos.Fez += 0.5; }
         });
-        let vencedor = Object.keys(pontos).reduce((a,b) => pontos[a] > pontos[b] ? a : b);
-        return vencedor;
+        return Object.keys(pontos).reduce((a,b) => pontos[a] > pontos[b] ? a : b);
     }
     
     const quizResultadosMap = {
@@ -852,11 +673,11 @@
         "Cassie": "💖 CASSIE! 💕 Romântica, delicada e sonhadora. Seu coração está sempre à flor da pele e você se entrega de verdade.",
         "Jules": "🌈 JULES! ✨ Criativa, colorida e cheia de estilo. Sua maquiagem artística é sua marca e você vive sua verdade.",
         "Rue": "💊 RUE! 🖤 Introspectiva, emocional e autêntica. Você carrega um mundo interno profundo e único.",
-        "Kat": "🖤 KAT! 🔥 Dominante, cheia de atitude e dona da própria sexualidade. Você não tem medo de ser quem é.",
-        "Fez": "🌿 FEZCO! 💚 Leal, tranquilo e protetor. Você cuida de quem ama e tem um coração gigante.",
-        "Lexi": "📚 LEXI! 🎭 Observadora, inteligente e criativa. Você está sempre atenta e sabe o que acontece ao seu redor.",
-        "Nate": "🧊 NATE! ⚡ Intenso, competitivo e controlador. Você carrega um furacão por dentro e busca poder.",
-        "Cal": "👔 CAL! 🔒 Sóbrio, misterioso e cheio de segredos. Você vive entre aparências e desejos ocultos."
+        "Kat": "🖤 KAT! 🔥 Dominante, cheia de atitude e dona da própria sexualidade.",
+        "Fez": "🌿 FEZCO! 💚 Leal, tranquilo e protetor. Você cuida de quem ama.",
+        "Lexi": "📚 LEXI! 🎭 Observadora, inteligente e criativa. Você sabe tudo o que acontece ao seu redor.",
+        "Nate": "🧊 NATE! ⚡ Intenso, competitivo e controlador. Você carrega um furacão por dentro.",
+        "Cal": "👔 CAL! 🔒 Sóbrio, misterioso e cheio de segredos. Vive entre aparências e desejos ocultos."
     };
     
     let quizStep = 0;
@@ -868,19 +689,15 @@
         const optionsDiv = document.getElementById('quizOptions');
         const resultadoDiv = document.getElementById('quizResultado');
         const shareContainer = document.getElementById('shareQuizBtnContainer');
-        
         if (quizStep < quizPerguntas.length) {
             progressDiv.innerHTML = `Pergunta ${quizStep + 1} de ${quizPerguntas.length}`;
             const p = quizPerguntas[quizStep];
             questionDiv.innerHTML = p.q;
             let html = '';
-            p.op.forEach((opt, idx) => {
-                html += `<div class="quiz-opt" data-res="${idx}">${opt}</div>`;
-            });
+            p.op.forEach((opt, idx) => { html += `<div class="quiz-opt" data-res="${idx}">${opt}</div>`; });
             optionsDiv.innerHTML = html;
             resultadoDiv.innerHTML = '';
             shareContainer.style.display = 'none';
-            
             document.querySelectorAll('.quiz-opt').forEach(opt => {
                 opt.addEventListener('click', (e) => {
                     const resposta = parseInt(e.target.dataset.res);
@@ -896,13 +713,11 @@
             questionDiv.innerHTML = "✨ Seu personagem é... ✨";
             optionsDiv.innerHTML = '';
             resultadoDiv.innerHTML = resultadoTexto;
-            
             shareContainer.style.display = 'block';
             shareContainer.innerHTML = `<button id="shareQuizBtn" class="btn-neon share-quiz-btn"><i class="fas fa-share-alt"></i> Compartilhar resultado</button>`;
             document.getElementById('shareQuizBtn').addEventListener('click', () => {
-                const shareText = `🎭 Fiz o quiz e descobri que sou ${vencedor}! ${quizResultadosMap[vencedor]}\n\n👉 Descubra o seu também: https://anivers-rio-euf-rico-ana.vercel.app`;
-                navigator.clipboard.writeText(shareText);
-                showToast('✨ Resultado copiado! Compartilhe com seus amigos! ✨');
+                navigator.clipboard.writeText(`🎭 Fiz o quiz e descobri que sou ${vencedor}! ${quizResultadosMap[vencedor]}\n\n👉 Descubra o seu também: https://anivers-rio-euf-rico-ana.vercel.app`);
+                showToast('✨ Resultado copiado! Compartilhe! ✨');
                 showConfetti();
             });
             showConfetti();
@@ -910,23 +725,10 @@
     }
     carregarQuiz();
 
-    // ========== Surpresa ==========
-    document.getElementById('surpresaBtn').addEventListener('click', () => {
-        showConfetti();
-        showToast('🎁 Surpresa! Você ganhou um abraço virtual da Ana Beatriz! 💖');
-        setTimeout(() => showToast('✨ Dica: Vista seu melhor glitter para a festa! ✨'), 2000);
-    });
-
-    // ========== Easter egg no título ==========
-    document.querySelector('.hero h1')?.addEventListener('click', () => {
-        showToast('💜 Você é especial! 💜');
-        showConfetti();
-    });
-
-    // ========== Ripple effect ==========
-    document.querySelectorAll('.btn-neon, .poll-btn, .tab-btn, .quiz-opt').forEach(btn => {
-        btn.classList.add('ripple');
-    });
+    // ========== Surpresa e easter eggs ==========
+    document.getElementById('surpresaBtn').addEventListener('click', () => { showConfetti(); showToast('🎁 Abraço virtual da Ana Beatriz! 💖'); setTimeout(() => showToast('✨ Vista seu melhor glitter! ✨'), 2000); });
+    document.querySelector('.hero h1')?.addEventListener('click', () => { showToast('💜 Você é especial! 💜'); showConfetti(); });
+    document.querySelectorAll('.btn-neon, .poll-btn, .tab-btn, .quiz-opt').forEach(btn => btn.classList.add('ripple'));
 
     function showConfetti() {
         for(let i=0;i<3;i++) setTimeout(() => {
@@ -966,7 +768,6 @@
         }
     });
     
-    // ========== Copiar link ==========
     document.getElementById('copyLinkBtn')?.addEventListener('click',()=>{
         navigator.clipboard.writeText('https://anivers-rio-euf-rico-ana.vercel.app');
         showToast('✨ Link copiado!');
@@ -1019,21 +820,13 @@
     
     const q = query(confirmacoesRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snap) => {
-        if (snap.empty) {
-            listaDiv.innerHTML = '<div class="confirm-item">💫 Nenhuma confirmação ainda. Seja o primeiro!</div>';
-            totalSpan.innerText = '0';
-            return;
-        }
-        let html = '';
-        let total = 0;
+        if (snap.empty) { listaDiv.innerHTML = '<div class="confirm-item">💫 Nenhuma confirmação ainda. Seja o primeiro!</div>'; totalSpan.innerText = '0'; return; }
+        let html = '', total = 0;
         snap.forEach(doc => {
             const data = doc.data();
             const qtd = parseInt(data.quantidade) || 1;
             total += qtd;
-            let acompanhantesText = '';
-            if (data.acompanhantes && data.acompanhantes.length > 0) {
-                acompanhantesText = ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${data.acompanhantes.join(', ')})</span>`;
-            }
+            let acompanhantesText = (data.acompanhantes && data.acompanhantes.length) ? ` <span style="font-size:0.75rem; opacity:0.7;">(+ ${data.acompanhantes.join(', ')})</span>` : '';
             html += `<div class="confirm-item"><i class="fas fa-glitter"></i> <strong>${escapeHtml(data.nome)}</strong> - ${qtd} pessoa(s)${acompanhantesText}</div>`;
         });
         listaDiv.innerHTML = html;
@@ -1048,8 +841,7 @@
         if(diff<=0){ 
             document.getElementById('days').innerHTML='00'; document.getElementById('hours').innerHTML='00'; 
             document.getElementById('minutes').innerHTML='00'; document.getElementById('seconds').innerHTML='00';
-            checkPartyDate();
-            return; 
+            checkPartyDate(); return; 
         }
         const d=Math.floor(diff/864e5), h=Math.floor((diff%864e5)/36e5), m=Math.floor((diff%36e5)/6e4), s=Math.floor((diff%6e4)/1e3);
         document.getElementById('days').innerHTML=d.toString().padStart(2,'0');
@@ -1061,7 +853,7 @@
     }
     updateCountdown(); setInterval(updateCountdown,1000);
     
-    // ========== Partículas otimizadas ==========
+    // ========== Partículas glitter ==========
     let particles=[], animId;
     function startParticles(){ if(animId) cancelAnimationFrame(animId); animateGlitter(); }
     function stopParticles(){ if(animId) cancelAnimationFrame(animId); animId=null; }
@@ -1070,7 +862,6 @@
     const ctx=canvas.getContext('2d');
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const particleCount = isMobile ? 80 : 150;
-    
     function resizeCanvas(){ canvas.width=innerWidth; canvas.height=innerHeight; }
     class Glitter{ constructor(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.size=Math.random()*3+1; this.speedY=Math.random()*0.8+0.1; this.color=['#ff44cc','#ff88ee','#aa44ff','#ff66dd'][Math.floor(Math.random()*4)]; }
     update(){ this.y+=this.speedY; if(this.y>canvas.height){ this.y=0; this.x=Math.random()*canvas.width; } }
@@ -1080,23 +871,7 @@
     window.addEventListener('resize',()=>{ resizeCanvas(); particles=[]; initGlitter(); });
     resizeCanvas(); initGlitter(); startParticles();
     
-    // ========== Estrelas cadentes ==========
-    function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
-        star.style.left = Math.random() * window.innerWidth + 'px';
-        star.style.top = '0px';
-        document.body.appendChild(star);
-        let pos = 0;
-        const fall = setInterval(() => {
-            pos += 8;
-            star.style.top = pos + 'px';
-            star.style.left = (parseFloat(star.style.left) + 5) + 'px';
-            if(pos > window.innerHeight) { clearInterval(fall); star.remove(); }
-        }, 30);
-        setTimeout(() => { if(star) star.remove(); }, 3000);
-    }
-    setInterval(() => { if(Math.random() > 0.96 && !document.hidden) createShootingStar(); }, 8000);
+    setInterval(() => { if(Math.random() > 0.96 && !document.hidden) { const star = document.createElement('div'); star.className='shooting-star'; star.style.left=Math.random()*innerWidth+'px'; document.body.appendChild(star); let pos=0; const fall=setInterval(()=>{ pos+=8; star.style.top=pos+'px'; star.style.left=(parseFloat(star.style.left)+5)+'px'; if(pos>innerHeight){clearInterval(fall);star.remove();} },30); setTimeout(()=>{if(star)star.remove();},3000); } }, 8000);
     
     // ========== Personagens ==========
     const chars = [

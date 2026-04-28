@@ -46,7 +46,7 @@
         body.light-theme .quiz-card, body.light-theme .inspiration-card, body.light-theme .countdown-box,
         body.light-theme .confirm-item, body.light-theme .mensagem-item, body.light-theme .mural-container,
         body.light-theme .music-player, body.light-theme .floating-cta, body.light-theme .theme-toggle,
-        body.light-theme .welcome-badge {
+        body.light-theme .welcome-badge, body.light-theme .makeup-gallery {
             background: var(--bg-card);
             color: var(--text-primary);
             border-color: var(--border-color);
@@ -153,6 +153,42 @@
         
         .extra-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0 10px; }
         
+        /* Galeria de Maquiagens */
+        .makeup-section { margin-top: 20px; }
+        .makeup-title { text-align: center; font-size: clamp(1.3rem, 5vw, 1.8rem); margin-bottom: 20px; }
+        .makeup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .makeup-card {
+            background: rgba(0,0,0,0.5);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #ff66cc;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .makeup-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 20px rgba(255,68,204,0.4);
+            border-color: #ff88ee;
+        }
+        .makeup-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .makeup-card .makeup-name {
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: #ffa0f0;
+            border-top: 1px solid rgba(255,102,204,0.3);
+        }
+        body.light-theme .makeup-card .makeup-name { color: #cc3399; }
+        
         .rsvp-form { background: rgba(0,0,0,0.6); backdrop-filter: blur(16px); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 2rem; }
         .input-group { margin-bottom: 1.2rem; }
         input, select { width: 100%; padding: 12px 16px; background: rgba(30,15,50,0.9); border: 1px solid #ff77cc; border-radius: 60px; font-size: 1rem; outline: none; transition: all 0.2s; color: inherit; }
@@ -243,7 +279,15 @@
         .toast-msg { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: #ff44dd; color: white; padding: 10px 20px; border-radius: 60px; z-index: 1001; animation: toastFade 0.3s; }
         @keyframes toastFade { from { opacity: 0; bottom: 80px; } to { opacity: 1; bottom: 120px; } }
         
-        @media (max-width: 480px) { section { padding: 40px 12px; } .tab-btn { padding: 6px 12px; font-size: 0.7rem; } .view-counter { bottom: 80px; } .quiz-opt { padding: 10px 14px; font-size: 0.8rem; } .info-card, .extra-card { min-width: 100%; } }
+        @media (max-width: 480px) {
+            section { padding: 40px 12px; }
+            .tab-btn { padding: 6px 12px; font-size: 0.7rem; }
+            .view-counter { bottom: 80px; }
+            .quiz-opt { padding: 10px 14px; font-size: 0.8rem; }
+            .info-card, .extra-card { min-width: 100%; }
+            .makeup-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+            .makeup-card img { height: 180px; }
+        }
         @media (prefers-reduced-motion: reduce) { *, .glass-card, .countdown-box { animation: none !important; transition: none !important; } }
     </style>
 </head>
@@ -350,6 +394,87 @@
             <div>
                 <h4>🏊 PISCINA LIBERADA</h4>
                 <p>Traga sua roupa de banho</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERIA DE MAQUIAGENS INSPIRAÇÃO EUPHORIA -->
+<section id="makeup" class="makeup-section reveal">
+    <div class="glass-card" style="padding: 20px 16px;">
+        <div class="makeup-title">
+            <i class="fas fa-palette"></i> ✨ MAQUIAGENS INSPIRAÇÃO EUPHORIA ✨
+        </div>
+        <div class="makeup-grid" id="makeupGallery">
+            <!-- Cassie -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/cassie.jpg?alt=media&token=a3a2686f-29d7-4220-9ca7-a1ce5a7c50c9" alt="Cassie makeup look" loading="lazy">
+                <div class="makeup-name">💖 CASSIE</div>
+            </div>
+            <!-- Jules 1 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/jules.jpg?alt=media&token=06a5b0ad-6db7-4afa-b838-7157b03982e4" alt="Jules makeup look 1" loading="lazy">
+                <div class="makeup-name">🌈 JULES</div>
+            </div>
+            <!-- Jules 2 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/jules2.jpg?alt=media&token=4c34c441-2683-45f9-ba33-310aaf85ec56" alt="Jules makeup look 2" loading="lazy">
+                <div class="makeup-name">🌈 JULES</div>
+            </div>
+            <!-- Jules 3 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/jules3.jpg?alt=media&token=1afcd659-35ee-4bba-8fc0-ee5db34851c7" alt="Jules makeup look 3" loading="lazy">
+                <div class="makeup-name">🌈 JULES</div>
+            </div>
+            <!-- Kat -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/kat.jpg?alt=media&token=54742185-9b2f-4f0a-bd63-0fb7ecda973c" alt="Kat makeup look" loading="lazy">
+                <div class="makeup-name">🖤 KAT</div>
+            </div>
+            <!-- Maddie 1 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddie..jpg?alt=media&token=48bae31f-a5df-453f-9c63-6a45724bfeda" alt="Maddie makeup look 1" loading="lazy">
+                <div class="makeup-name">💋 MADDIE</div>
+            </div>
+            <!-- Maddie 2 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddie2.jpg?alt=media&token=6cb23cda-df1b-451e-b1ef-13f0c19a0f30" alt="Maddie makeup look 2" loading="lazy">
+                <div class="makeup-name">💋 MADDIE</div>
+            </div>
+            <!-- Maddie 3 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddie3.jpg?alt=media&token=db5a8843-1bbf-48b0-be09-cf231c62a793" alt="Maddie makeup look 3" loading="lazy">
+                <div class="makeup-name">💋 MADDIE</div>
+            </div>
+            <!-- Maddie 4 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddie4.jpg?alt=media&token=fa7b02ad-b2f6-45e1-a43c-42b231bce320" alt="Maddie makeup look 4" loading="lazy">
+                <div class="makeup-name">💋 MADDIE</div>
+            </div>
+            <!-- Maddie 5 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddie5.jpg?alt=media&token=512683b0-ab03-4a0d-9d21-7322917245b5" alt="Maddie makeup look 5" loading="lazy">
+                <div class="makeup-name">💋 MADDIE</div>
+            </div>
+            <!-- Maddie e Cassie juntas -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/maddiecassie.jpg?alt=media&token=3caa09b0-3cf0-47f9-b752-42b382bef886" alt="Maddie and Cassie makeup" loading="lazy">
+                <div class="makeup-name">💋 MADDIE + CASSIE 💖</div>
+            </div>
+            <!-- Nate -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/nate.jpg?alt=media&token=93dcd02a-cd84-414a-bf9e-269290785c37" alt="Nate look" loading="lazy">
+                <div class="makeup-name">🧊 NATE</div>
+            </div>
+            <!-- Rue 1 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/rue.jpg?alt=media&token=f811a2c4-36ac-41ed-8071-7c15eb747ada" alt="Rue makeup look 1" loading="lazy">
+                <div class="makeup-name">💊 RUE</div>
+            </div>
+            <!-- Rue 2 -->
+            <div class="makeup-card">
+                <img src="https://firebasestorage.googleapis.com/v0/b/anivers-60227.firebasestorage.app/o/rue2.jpg?alt=media&token=021be556-a567-4ecb-b261-70f4590d417b" alt="Rue makeup look 2" loading="lazy">
+                <div class="makeup-name">💊 RUE</div>
             </div>
         </div>
     </div>
